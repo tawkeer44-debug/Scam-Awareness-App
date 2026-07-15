@@ -1,3 +1,6 @@
+import streamlit as st
+from openai import OpenAI
+from elevenlabs.client import ElevenLabs
 # Yeh code ensure karega ki app dono keys ko Secrets se utha rahi hai
 openai_client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 eleven_client = ElevenLabs(api_key=st.secrets["ELEVENLABS_API_KEY"])
