@@ -1,54 +1,50 @@
 import streamlit as st
 from openai import OpenAI
+from gtts import gTTS
+import os
 
 # Page Config
-st.set_page_config(page_title="CyberMind AI Pro-Suite", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="CyberMind AI Pro", layout="wide")
 
-# --- SIDEBAR NAVIGATION (Professional Look) ---
+# Sidebar Navigation
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/000000/artificial-intelligence.png", width=80)
-    st.title("CyberMind AI")
-    st.markdown("---")
-    menu = st.sidebar.radio("Navigation", [
-        "🛡️ Scam Analyzer", 
-        "🎨 AI Image Generator", 
-        "🔍 URL Validator", 
-        "🔐 Password Strength", 
-        "📝 Text Summarizer", 
-        "🌐 IP Tracker", 
-        "💻 Code Debugger", 
-        "📊 Data Insights", 
-        "🤖 AI Chatbot", 
-        "🛠️ System Health"
+    st.title("🛡️ CyberMind AI")
+    option = st.radio("Features", [
+        "🎨 Image Generator", 
+        "🗣️ Kashmiri AI Voice", 
+        "🔍 Scam Analyzer", 
+        "💻 Code Debugger"
     ])
-    st.markdown("---")
-    st.success("All Systems Operational")
 
-# --- FEATURES ---
-def scam_analyzer():
-    st.header("🔍 Scam Analyzer")
-    text = st.text_area("Paste message:")
-    if st.button("Scan"):
-        st.write("Checking for phishing patterns...")
+# API Key handling (Streamlit Secrets se)
+def get_client():
+    try:
+        return OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+    except:
+        st.error("Secrets mein API Key set nahi hai!")
+        return None
 
-def image_generator():
+# Features
+if option == "🎨 Image Generator":
     st.header("🎨 AI Image Generator")
     prompt = st.text_input("Describe your image:")
     if st.button("Generate"):
-        # Yahan apni API Key daalein
-        api_key = "SK-YOUR-API-KEY-HERE" 
-        try:
-            client = OpenAI(api_key=api_key)
-            response = client.images.generate(prompt=prompt, n=1, size="1024x1024")
-            st.image(response.data[0].url)
-        except:
-            st.error("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")
+        client = get_client()
+        if client:
+            res = client.images.generate(prompt=prompt, n=1, size="1024x1024")
+            st.image(res.data[0].url)
 
-# --- APP LOGIC ---
-if menu == "🛡️ Scam Analyzer":
-    scam_analyzer()
-elif menu == "🎨 AI Image Generator":
-    image_generator()
-else:
-    st.header(f"You selected: {menu}")
-    st.info("This feature is currently being initialized by the CyberMind Engine.")
+elif option == "🗣️ Kashmiri AI Voice":
+    st.header("🗣️ Kashmiri Text-to-Speech")
+    text = st.text_area("Kashmiri mein likhein (ya English mein):")
+    if st.button("Speak"):
+        # gTTS filhal Kashmiri accent ke liye simple TTS use karta hai
+        tts = gTTS(text=text, lang='en') 
+        tts.save("voice.mp3")
+        st.audio("voice.mp3")
+
+elif option == "🔍 Scam Analyzer":
+    st.header("🔍 Scam Scanner")
+    msg = st.text_area("Paste link or message:")
+    if st.button("Analyze"):
+        st.warning("Scanning for phishing...")
