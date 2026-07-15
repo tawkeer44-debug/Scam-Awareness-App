@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Page setup
-st.set_page_config(CyberMind AI="Scam Awareness Portal", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="Aapka Naya Naam", page_icon="🛡️", layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("🛡️ Portal Menu")
