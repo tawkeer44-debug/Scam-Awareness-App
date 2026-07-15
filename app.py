@@ -1,7 +1,17 @@
 import streamlit as st
 
-# Page ka setup
+# PWA (App Installable) settings ke liye metadata
 st.set_page_config(page_title="Scam Awareness Portal", page_icon="🛡️")
+
+# PWA ko enable karne ke liye ek chhota sa script (JS code)
+st.markdown("""
+<link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+""", unsafe_allow_html=True)
 
 # Title aur Header
 st.title("🛡️ Scam Awareness Portal")
