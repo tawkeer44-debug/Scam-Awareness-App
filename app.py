@@ -19,7 +19,7 @@ if st.button("RUN SCAN ⚡"):
                         {"role": "system", "content": "You are a cyber security expert. Analyze the message for scams, phishing, or fraud. Provide a score from 0-100 and a clear explanation."},
                         {"role": "user", "content": input_data}
                     ],
-                    model="llama3-8b-8192",
+                    llama-3.1-8b-instant",
                 )
                 st.success("Scan Complete!")
                 st.write(chat_completion.choices[0].message.content)
