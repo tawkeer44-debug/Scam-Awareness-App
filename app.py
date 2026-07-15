@@ -1,52 +1,55 @@
 import streamlit as st
+import google.generativeai as genai
 
-# Custom CSS for modern look
+# --- PAGE SETUP ---
+st.set_page_config(page_title="CyberMind AI", page_icon="🛡️", layout="wide")
+
+# --- CUSTOM DESIGN (Khatarnak Look) ---
 st.markdown("""
     <style>
-    .main { background-color: #f5f7f9; }
-    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #007bff; color: white; }
-    .css-1v0mbdj { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .stApp { background-color: #0e1117; color: white; }
+    .stButton>button { width: 100%; border-radius: 20px; background: linear-gradient(90deg, #ff4b2b, #ff416c); color: white; font-weight: bold; }
+    .css-1r6slp0 { background-color: #1c1f26; border-radius: 15px; padding: 20px; }
+    h1, h2 { color: #ff416c; }
+    .footer { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 12px; color: grey; }
     </style>
     """, unsafe_allow_html=True)
 
-# Page Configuration
-st.set_page_config(page_title="CyberMind AI", page_icon="🛡️", layout="centered")
-
-# Sidebar
+# --- SIDEBAR MENU ---
 st.sidebar.title("🛡️ CyberMind AI")
-menu = st.sidebar.radio("Navigation", ["Dashboard", "Report a Scam", "AI Image Generator", "AI Scam Checker"])
+menu = st.sidebar.radio("Navigation", ["Dashboard", "AI Scam Detector", "Image Lab", "Safety Hub"])
 
-# Dashboard Section
+# --- CONTENT LOGIC ---
 if menu == "Dashboard":
-    st.title("Welcome to CyberMind AI 🚀")
-    st.info("Aapka apna smart digital security aur creative assistant.")
-    st.warning("⚠️ Emergency Helpline: 1930")
+    st.title("Welcome to CyberMind AI")
+    st.subheader("Advanced Digital Security Powered by AI")
+    st.image("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800", use_container_width=True)
+    st.info("Your Guardian against digital fraud.")
 
-# Report Section
-elif menu == "Report a Scam":
-    st.header("📢 Report a Scam")
-    with st.form("report_form"):
-        name = st.text_input("Aapka Naam")
-        scam_type = st.selectbox("Scam Type", ["UPI", "Phishing", "Job Scam", "Other"])
-        desc = st.text_area("Description")
-        if st.form_submit_button("Submit Report"):
-            st.success("Report successfully submitted to CyberMind AI!")
-
-# AI Image Generator (New Feature)
-elif menu == "AI Image Generator":
-    st.header("🎨 AI Image Generator")
-    st.write("Abhi ye feature test mode mein hai. Niche prompt likhein:")
-    prompt = st.text_input("Describe the image you want...")
-    if st.button("Generate Image"):
-        if prompt:
-            st.image("https://via.placeholder.com/400x200.png?text=AI+Generating+Image...", caption="Generating your imagination...")
-            st.warning("Feature Connect: Gemini/Stable Diffusion API abhi set-up karna baaki hai.")
+elif menu == "AI Scam Detector":
+    st.header("🤖 AI Scam Detector")
+    user_input = st.text_area("Paste suspicious message or link:")
+    if st.button("Analyze Threat"):
+        if user_input:
+            try:
+                # API Call
+                model = genai.GenerativeModel('gemini-pro')
+                response = model.generate_content(f"Analyze this for scam: {user_input}")
+                st.markdown(f"### 🛡️ Analysis Result:\n{response.text}")
+            except:
+                st.error("API Key configure karein (Secrets settings mein).")
         else:
-            st.error("Kripya kuch likhein!")
+            st.warning("Please enter data to analyze.")
 
-# AI Scam Checker
-elif menu == "AI Scam Checker":
-    st.header("🤖 AI Scam Checker")
-    user_input = st.text_input("Link ya message paste karein:")
-    if st.button("Verify Now"):
-        st.write("CyberMind AI analysis in progress...")
+elif menu == "Image Lab":
+    st.header("🎨 AI Image Lab")
+    st.write("Advanced image generation features coming soon...")
+    # Future integration place
+    st.info("Tawkeer Yusuf is working on this module.")
+
+# --- FOOTER (SIGNATURE) ---
+st.markdown("""
+    <div class="footer">
+    Developed by <b>Tawkeer Yusuf</b> | Secured by CyberMind AI Engine
+    </div>
+    """, unsafe_allow_html=True)
