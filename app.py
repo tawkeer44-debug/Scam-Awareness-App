@@ -1,16 +1,16 @@
 import streamlit as st
 
-# Page setup
+# Page setup - Yahan naam set ho gaya
 st.set_page_config(page_title="CyberMind AI", page_icon="🛡️", layout="wide")
 
-# Sidebar navigation
-st.sidebar.title("🛡️ Portal Menu")
+# Sidebar navigation - Yahan bhi naam change kar diya
+st.sidebar.title("🛡️ CyberMind AI Portal")
 menu = st.sidebar.radio("Navigation", ["Home", "Report a Scam", "Safety Resources", "AI Scam Checker"])
 
 # Home Section
 if menu == "Home":
-    st.title("🛡️ Welcome to Scam Awareness Portal")
-    st.write("Hamara maqsad aapko digital fraud se bachana hai.")
+    st.title("🛡️ Welcome to CyberMind AI")
+    st.write("Hamara maqsad aapko digital fraud se bachana hai AI ki madad se.")
     st.warning("⚠️ Agar fraud hua hai, toh 1930 par call karein ya cybercrime.gov.in par report karein.")
 
 # Report Section
@@ -22,7 +22,7 @@ elif menu == "Report a Scam":
         description = st.text_area("Details (Date/Time)")
         submit = st.form_submit_button("Submit")
         if submit:
-            st.success(f"Shukriya {name}! Report darj ho gayi hai.")
+            st.success(f"Shukriya {name}! Report CyberMind AI par darj ho gayi hai.")
 
 # Resources Section
 elif menu == "Safety Resources":
@@ -36,10 +36,11 @@ elif menu == "Safety Resources":
 # AI Feature Placeholder
 elif menu == "AI Scam Checker":
     st.header("🤖 AI Scam Checker")
+    st.write("CyberMind AI ke sath links aur messages check karein.")
     user_input = st.text_area("Message ya Link paste karein check karne ke liye:")
     if st.button("Check Now"):
         st.info("Feature under development! AI integration jaldi aayega.")
 
 # Footer
 st.sidebar.markdown("---")
-st.sidebar.caption("Developed with ❤️")
+st.sidebar.caption("Powered by CyberMind AI | Dedicated to a safer digital future")
