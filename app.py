@@ -64,7 +64,7 @@ elif choice == "Code Debugger":
         if groq_api_key and code:
             client = get_groq_client(groq_api_key)
             response = client.chat.completions.create(
-                model="llama3-8b-8192",
+                model=" llama-3.3-70b-versatile",
                 messages=[{"role": "user", "content": f"Debug this code and provide the fixed version: {code}"}]
             )
             st.code(response.choices[0].message.content)
