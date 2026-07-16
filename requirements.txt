@@ -1,4 +1,5 @@
 streamlit
 openai
-elevenlabs
-gTTS
+pillow
+opencv-python-headless
+numpy
