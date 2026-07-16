@@ -5,7 +5,7 @@ from openai import OpenAI
 # Page Config
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-# Sidebar - API Key Management
+# Sidebar - Settings
 st.sidebar.title("🔑 Settings")
 api_key = st.sidebar.text_input("Enter OpenAI API Key:", type="password")
 
@@ -24,12 +24,15 @@ elif choice == "Scam Analyzer":
     text = st.text_area("Paste suspicious message here:")
     if st.button("Scan Now"):
         if api_key and text:
-            client = OpenAI(api_key=api_key)
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": f"Analyze this message for scams: {text}"}]
-            )
-            st.markdown(f"**Verdict:** {response.choices[0].message.content}")
+            try:
+                client = OpenAI(api_key=api_key)
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": f"Analyze this message for scams: {text}"}]
+                )
+                st.markdown(f"**Verdict:** {response.choices[0].message.content}")
+            except Exception as e:
+                st.error(f"Error: {e}")
         else:
             st.error("API Key aur Message dono daalna zaroori hai!")
 
@@ -49,14 +52,14 @@ elif choice == "Text Summarizer":
     st.subheader("📝 Text Summarizer")
     long_text = st.text_area("Paste text here:")
     if st.button("Summarize"):
-        st.success("Summary feature active. (API required)")
+        st.write("Feature ready - API key se connect hoga.")
 
 # --- CODE DEBUGGER ---
 elif choice == "Code Debugger":
     st.subheader("💻 Code Debugger")
     code = st.text_area("Paste code here:")
     if st.button("Debug"):
-        st.warning("Debugging engine ready.")
+        st.write("Engine ready for debugging.")
 
 # --- UNIT CONVERTER ---
 elif choice == "Unit Converter":
