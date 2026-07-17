@@ -1,4 +1,4 @@
-rembg
-pillow
 streamlit
+pillow
 groq
+rembg
