@@ -1,5 +1,7 @@
 import streamlit as st
-from PIL import Image, ImageEnhance
+from PIL import Image
+from rembg import remove
+import io
 from groq import Groq
 
 # Page Config
@@ -12,7 +14,7 @@ try:
 except:
     groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
 
-menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Explain Like I'm 5", "Translator", "Hero Photo Studio", "Code Debugger"]
+menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Explain Like I'm 5", "Translator", "Photo Editor", "Code Debugger"]
 choice = st.sidebar.selectbox("Features:", menu)
 
 def get_groq_client(api_key):
@@ -84,13 +86,22 @@ elif choice == "Translator":
         )
         st.write(response.choices[0].message.content)
 
-# --- HERO PHOTO STUDIO ---
-elif choice == "Hero Photo Studio":
-    st.subheader("🕶️ Hero Style Studio")
-    file = st.file_uploader("Upload Image", type=['jpg', 'png'])
+# --- PHOTO EDITOR ---
+elif choice == "Photo Editor":
+    st.subheader("🖼️ AI Background Remover")
+    file = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
     if file:
-        st.image(file, caption="Original", use_container_width=True)
-        st.warning("Filters enabled. (Advanced AI coming soon)")
+        img = Image.open(file)
+        st.image(img, caption="Original", use_container_width=True)
+        if st.button("Remove Background"):
+            with st.spinner("Processing..."):
+                input_data = file.getvalue()
+                output_data = remove(input_data)
+                img_output = Image.open(io.BytesIO(output_data))
+                st.image(img_output, caption="Background Removed", use_container_width=True)
+                buf = io.BytesIO()
+                img_output.save(buf, format="PNG")
+                st.download_button("Download Edited Photo", buf.getvalue(), "edited_photo.png", "image/png")
 
 # --- CODE DEBUGGER ---
 elif choice == "Code Debugger":
