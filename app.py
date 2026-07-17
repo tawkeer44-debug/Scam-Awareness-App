@@ -6,14 +6,13 @@ from groq import Groq
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
 # Sidebar Settings
-st.sidebar.title("🔑 Settings")
+st.sidebar.title("🚀 CyberMind Pro")
 try:
     groq_api_key = st.secrets["GROQ_API_KEY"]
 except:
     groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
 
-st.sidebar.title("🚀 CyberMind Pro")
-menu = ["Home", "Scam Analyzer", "Hero Photo Editor", "Code Debugger"]
+menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Explain Like I'm 5", "Translator", "Hero Photo Studio", "Code Debugger"]
 choice = st.sidebar.selectbox("Features:", menu)
 
 def get_groq_client(api_key):
@@ -22,8 +21,7 @@ def get_groq_client(api_key):
 # --- HOME ---
 if choice == "Home":
     st.title("Welcome Tawkeer Bhai! 🛡️")
-    st.write("CyberMind Pro Workstation active hai.")
-    st.info("Features: Scam Detection, Code Debugging, aur Hero Photo Studio.")
+    st.write("CyberMind Pro Workstation ready hai.")
 
 # --- SCAM ANALYZER ---
 elif choice == "Scam Analyzer":
@@ -34,37 +32,74 @@ elif choice == "Scam Analyzer":
             client = get_groq_client(groq_api_key)
             response = client.chat.completions.create(
                 model="llama-3.3-70b-versatile",
-                messages=[{"role": "user", "content": f"Analyze for scams: {text}"}]
+                messages=[{"role": "user", "content": f"Analyze this message for scams and phishing: {text}"}]
             )
             st.markdown(f"### Verdict:\n{response.choices[0].message.content}")
-        else:
-            st.warning("Key aur Message dono dalen!")
 
-# --- HERO PHOTO EDITOR ---
-elif choice == "Hero Photo Editor":
+# --- URL SCANNER ---
+elif choice == "URL Scanner":
+    st.subheader("🌐 Smart URL Safety Checker")
+    url = st.text_input("Paste URL here:")
+    if st.button("Analyze Link"):
+        client = get_groq_client(groq_api_key)
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Is this URL safe or malicious? {url}"}]
+        )
+        st.info(response.choices[0].message.content)
+
+# --- CONTENT GENERATOR ---
+elif choice == "Content Generator":
+    st.subheader("📝 YouTube/Social Media Script Writer")
+    topic = st.text_input("Topic for your video/post:")
+    if st.button("Generate Script"):
+        client = get_groq_client(groq_api_key)
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Write a professional script/post about: {topic}"}]
+        )
+        st.write(response.choices[0].message.content)
+
+# --- EXPLAIN LIKE I'M 5 ---
+elif choice == "Explain Like I'm 5":
+    st.subheader("🧠 Simplified Tech Explainer")
+    concept = st.text_input("Enter technical concept:")
+    if st.button("Simplify"):
+        client = get_groq_client(groq_api_key)
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Explain {concept} as if I am 5 years old."}]
+        )
+        st.success(response.choices[0].message.content)
+
+# --- TRANSLATOR ---
+elif choice == "Translator":
+    st.subheader("🔠 Scam Message Translator")
+    msg = st.text_area("Paste message in any language:")
+    if st.button("Translate & Detect"):
+        client = get_groq_client(groq_api_key)
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Translate this to English and detect scam risk: {msg}"}]
+        )
+        st.write(response.choices[0].message.content)
+
+# --- HERO PHOTO STUDIO ---
+elif choice == "Hero Photo Studio":
     st.subheader("🕶️ Hero Style Studio")
-    file = st.file_uploader("Upload Profile Image", type=['jpg', 'png'])
+    file = st.file_uploader("Upload Image", type=['jpg', 'png'])
     if file:
-        img = Image.open(file)
-        st.image(img, caption="Original", use_container_width=True)
-        style = st.selectbox("Choose Transformation:", 
-                             ["Professional Look", "Leather Jacket Style", "Add Hero Beard", "Zero Fade Hairstyle"])
-        if st.button("Apply Style"):
-            enhancer = ImageEnhance.Contrast(img)
-            st.image(enhancer.enhance(1.5), caption=f"Applied: {style}")
-            st.warning("Note: Ye abhi basic filter hai. Advanced AI Generation ke liye hum 'Stability AI' API link karenge.")
+        st.image(file, caption="Original", use_container_width=True)
+        st.warning("Filters enabled. (Advanced AI coming soon)")
 
 # --- CODE DEBUGGER ---
 elif choice == "Code Debugger":
     st.subheader("💻 Engineering Code Debugger")
-    code = st.text_area("Paste broken code here:")
+    code = st.text_area("Paste broken code:")
     if st.button("Debug Code"):
-        if groq_api_key and code:
-            client = get_groq_client(groq_api_key)
-            response = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "user", "content": f"Fix this code and explain changes: {code}"}]
-            )
-            st.code(response.choices[0].message.content)
-        else:
-            st.warning("Key aur Code dono dalen!")
+        client = get_groq_client(groq_api_key)
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Fix and explain: {code}"}]
+        )
+        st.code(response.choices[0].message.content)
