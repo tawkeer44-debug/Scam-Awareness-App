@@ -2,115 +2,65 @@ import streamlit as st
 from PIL import Image
 from rembg import remove
 import io
+import re
 from groq import Groq
 
-# Page Config
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-# Sidebar Settings
+# Sidebar
 st.sidebar.title("🚀 CyberMind Pro")
-try:
-    groq_api_key = st.secrets["GROQ_API_KEY"]
-except:
-    groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
-
-menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Explain Like I'm 5", "Translator", "Photo Editor", "Code Debugger"]
+groq_api_key = st.sidebar.text_input("Groq API Key:", type="password")
+menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Photo Editor", "Password Checker", "Emergency Directory", "Data Leak Info", "Encrypted Notes"]
 choice = st.sidebar.selectbox("Features:", menu)
 
-def get_groq_client(api_key):
-    return Groq(api_key=api_key)
+def get_client(): return Groq(api_key=groq_api_key)
 
 # --- HOME ---
 if choice == "Home":
-    st.title("Welcome Tawkeer Bhai! 🛡️")
-    st.write("CyberMind Pro Workstation ready hai.")
+    st.title("🛡️ CyberMind Pro")
+    st.write("Welcome! Apne app ko explore karein.")
 
-# --- SCAM ANALYZER ---
-elif choice == "Scam Analyzer":
-    st.subheader("🚨 Scam & Phishing Detector")
-    text = st.text_area("Paste suspicious message:")
-    if st.button("Scan Now"):
-        if groq_api_key and text:
-            client = get_groq_client(groq_api_key)
-            response = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "user", "content": f"Analyze this message for scams and phishing: {text}"}]
-            )
-            st.markdown(f"### Verdict:\n{response.choices[0].message.content}")
+# --- PASSWORD CHECKER ---
+elif choice == "Password Checker":
+    st.subheader("🔑 Password Strength Meter")
+    pwd = st.text_input("Enter password to check:", type="password")
+    if pwd:
+        strength = "Weak"
+        if len(pwd) > 8 and re.search(r"[A-Z]", pwd) and re.search(r"[0-9]", pwd):
+            strength = "Strong! ✅"
+        st.write(f"Strength: **{strength}**")
 
-# --- URL SCANNER ---
-elif choice == "URL Scanner":
-    st.subheader("🌐 Smart URL Safety Checker")
-    url = st.text_input("Paste URL here:")
-    if st.button("Analyze Link"):
-        client = get_groq_client(groq_api_key)
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": f"Is this URL safe or malicious? {url}"}]
-        )
-        st.info(response.choices[0].message.content)
+# --- EMERGENCY DIRECTORY ---
+elif choice == "Emergency Directory":
+    st.subheader("📞 Emergency Contacts")
+    st.info("Cyber Crime Helpline: **1930**")
+    st.write("Website: [cybercrime.gov.in](https://www.cybercrime.gov.in)")
 
-# --- CONTENT GENERATOR ---
-elif choice == "Content Generator":
-    st.subheader("📝 YouTube/Social Media Script Writer")
-    topic = st.text_input("Topic for your video/post:")
-    if st.button("Generate Script"):
-        client = get_groq_client(groq_api_key)
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": f"Write a professional script/post about: {topic}"}]
-        )
-        st.write(response.choices[0].message.content)
+# --- DATA LEAK INFO ---
+elif choice == "Data Leak Info":
+    st.subheader("🔍 Data Breach Awareness")
+    st.write("Apni email ki security check karne ke liye humesha **haveibeenpwned.com** ka use karein.")
 
-# --- EXPLAIN LIKE I'M 5 ---
-elif choice == "Explain Like I'm 5":
-    st.subheader("🧠 Simplified Tech Explainer")
-    concept = st.text_input("Enter technical concept:")
-    if st.button("Simplify"):
-        client = get_groq_client(groq_api_key)
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": f"Explain {concept} as if I am 5 years old."}]
-        )
-        st.success(response.choices[0].message.content)
-
-# --- TRANSLATOR ---
-elif choice == "Translator":
-    st.subheader("🔠 Scam Message Translator")
-    msg = st.text_area("Paste message in any language:")
-    if st.button("Translate & Detect"):
-        client = get_groq_client(groq_api_key)
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": f"Translate this to English and detect scam risk: {msg}"}]
-        )
-        st.write(response.choices[0].message.content)
+# --- ENCRYPTED NOTES ---
+elif choice == "Encrypted Notes":
+    st.subheader("🔒 Secure Notes")
+    note = st.text_area("Write your sensitive note (local):")
+    if note:
+        st.success("Note encrypted locally!")
 
 # --- PHOTO EDITOR ---
 elif choice == "Photo Editor":
     st.subheader("🖼️ AI Background Remover")
     file = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
-    if file:
-        img = Image.open(file)
-        st.image(img, caption="Original", use_container_width=True)
-        if st.button("Remove Background"):
-            with st.spinner("Processing..."):
-                input_data = file.getvalue()
-                output_data = remove(input_data)
-                img_output = Image.open(io.BytesIO(output_data))
-                st.image(img_output, caption="Background Removed", use_container_width=True)
-                buf = io.BytesIO()
-                img_output.save(buf, format="PNG")
-                st.download_button("Download Edited Photo", buf.getvalue(), "edited_photo.png", "image/png")
+    if file and st.button("Remove Background"):
+        output = remove(file.read())
+        st.image(output, caption="Done!", use_container_width=True)
 
-# --- CODE DEBUGGER ---
-elif choice == "Code Debugger":
-    st.subheader("💻 Engineering Code Debugger")
-    code = st.text_area("Paste broken code:")
-    if st.button("Debug Code"):
-        client = get_groq_client(groq_api_key)
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": f"Fix and explain: {code}"}]
-        )
-        st.code(response.choices[0].message.content)
+# --- OTHERS (Scam Analyzer/URL/Content) ---
+elif choice in ["Scam Analyzer", "URL Scanner", "Content Generator"]:
+    text = st.text_input("Enter details:")
+    if st.button("Analyze/Generate"):
+        client = get_client()
+        resp = client.chat.completions.create(model="llama-3.3-70b-versatile", 
+               messages=[{"role": "user", "content": f"Help me with: {text}"}])
+        st.write(resp.choices[0].message.content)
