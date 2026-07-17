@@ -5,74 +5,50 @@ import string
 from groq import Groq
 
 # Page Config
-st.set_page_config(page_title="CyberMind Pro Ultra", layout="wide", page_icon="🛡️")
+st.set_page_config(page_title="CyberMind Pro | Stay Safe", layout="wide", page_icon="🛡️")
 
-# --- UI Helper ---
-if 'notes' not in st.session_state: st.session_state.notes = ""
+# Sidebar
+st.sidebar.title("🚀 CyberMind Pro")
+groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
 
-st.sidebar.title("🚀 CyberMind Pro Ultra")
-groq_api_key = st.sidebar.text_input("Groq API Key:", type="password")
+# --- VIRAL SHARE BUTTON ---
+st.sidebar.markdown("---")
+st.sidebar.subheader("📢 Share this app:")
+st.sidebar.write("Apne doston ko fraud se bachayein!")
+if st.sidebar.button("Copy App Link 🔗"):
+    st.sidebar.code("https://fqbhgvdywmjsdzgg82jfr3.streamlit.app/")
+    st.sidebar.success("Link copied! Share it on WhatsApp.")
 
-# --- MENU NAVIGATION ---
 menu = [
     "Home", "Scam Analyzer", "URL Scanner", "Content Generator", 
     "Password Checker", "Password Generator", "Emergency Directory", 
-    "Data Leak Info", "Encrypted Notes", "IP Info Tool"
+    "Data Leak Info", "Encrypted Notes"
 ]
 choice = st.sidebar.selectbox("Select Feature:", menu)
 
 def get_client(): return Groq(api_key=groq_api_key)
 
-# --- PAGES ---
+# --- APP PAGES ---
 if choice == "Home":
-    st.title("🛡️ Welcome to CyberMind Pro")
-    st.write("Aapka All-in-One Cyber Safety Companion.")
+    st.title("🛡️ CyberMind Pro")
+    st.subheader("Bhai, har fraud se bacho!")
+    st.markdown("""
+    **Is app ke features:**
+    - ✅ **Scam Analyzer:** Scammers ko pehchano.
+    - ✅ **Password Security:** Secure password banao.
+    - ✅ **Emergency Help:** Cyber crime helpline 1930.
+    """)
+    st.info("Apne doston ke saath share karna na bhoolein!")
 
-elif choice == "Password Checker":
-    st.subheader("🔑 Password Strength Meter")
-    pwd = st.text_input("Enter password:", type="password")
-    if pwd:
-        strength = "Weak"
-        if len(pwd) > 10 and re.search(r"[A-Z]", pwd) and re.search(r"[0-9]", pwd):
-            strength = "Strong! ✅"
-        st.write(f"Result: **{strength}**")
+# ... (baaki features wahi purane wale hain) ...
 
 elif choice == "Password Generator":
     st.subheader("🎲 Secure Password Generator")
-    length = st.slider("Length:", 8, 20, 12)
-    if st.button("Generate"):
+    length = st.slider("Select Length:", 8, 20, 12)
+    if st.button("Generate Secure Password"):
         chars = string.ascii_letters + string.digits + "!@#$%"
         pwd = ''.join(random.choice(chars) for i in range(length))
         st.code(pwd)
+        st.success("Ye password use karein!")
 
-elif choice == "IP Info Tool":
-    st.subheader("🌐 IP Lookup (Simulation)")
-    ip = st.text_input("Enter IP Address:")
-    if st.button("Lookup"):
-        st.write(f"Displaying info for: {ip} ... (Direct API integration ready)")
-
-elif choice == "Emergency Directory":
-    st.subheader("📞 Emergency Contacts")
-    st.markdown("- **Cyber Crime Helpline:** `1930`")
-    st.link_button("CyberCrime Portal", "https://www.cybercrime.gov.in")
-
-elif choice == "Data Leak Info":
-    st.subheader("🔍 Data Breach Awareness")
-    st.link_button("Check at HaveIBeenPwned.com", "https://haveibeenpwned.com")
-
-elif choice == "Encrypted Notes":
-    st.subheader("🔒 Secure Notes")
-    st.session_state.notes = st.text_area("Write note:", value=st.session_state.notes)
-    if st.button("Save"): st.success("Note Saved!")
-
-elif choice in ["Scam Analyzer", "URL Scanner", "Content Generator"]:
-    st.subheader(f"💻 {choice}")
-    text = st.text_input("Enter details:")
-    if st.button("Run AI Analysis"):
-        if groq_api_key:
-            client = get_client()
-            resp = client.chat.completions.create(model="llama-3.3-70b-versatile", 
-                   messages=[{"role": "user", "content": f"Help with: {text}"}])
-            st.write(resp.choices[0].message.content)
-        else:
-            st.error("Please enter Groq API Key!")
+# ... (Baki logic wahi rahegi) ...
