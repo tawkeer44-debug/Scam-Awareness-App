@@ -4,20 +4,25 @@ import io
 import re
 from groq import Groq
 
+# Page Config
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
 # Sidebar
 st.sidebar.title("🚀 CyberMind Pro")
-groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
-menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Password Checker", "Emergency Directory", "Data Leak Info", "Encrypted Notes"]
+groq_api_key = st.sidebar.text_input("Groq API Key:", type="password")
+
+menu = ["Home", "Scam Analyzer", "URL Scanner", "Content Generator", "Password Checker", 
+        "Emergency Directory", "Data Leak Info", "Encrypted Notes", "Code Debugger"]
 choice = st.sidebar.selectbox("Features:", menu)
 
 def get_client(): return Groq(api_key=groq_api_key)
 
+# --- HOME ---
 if choice == "Home":
     st.title("🛡️ CyberMind Pro Workstation")
-    st.write("Welcome Tawkeer Bhai! App is ready and stable.")
+    st.write("Welcome Tawkeer Bhai! Sabhi features wapas active hain.")
 
+# --- FEATURES LOGIC ---
 elif choice == "Password Checker":
     st.subheader("🔑 Password Strength Meter")
     pwd = st.text_input("Enter password:", type="password")
@@ -42,10 +47,14 @@ elif choice == "Encrypted Notes":
     if note:
         st.success("Note stored in session!")
 
-elif choice in ["Scam Analyzer", "URL Scanner", "Content Generator"]:
-    text = st.text_input("Enter details:")
-    if st.button("Analyze/Generate"):
-        client = get_client()
-        resp = client.chat.completions.create(model="llama-3.3-70b-versatile", 
-               messages=[{"role": "user", "content": f"Help me with: {text}"}])
-        st.write(resp.choices[0].message.content)
+elif choice in ["Scam Analyzer", "URL Scanner", "Content Generator", "Code Debugger"]:
+    st.subheader(f"💻 {choice}")
+    text = st.text_input(f"Enter details for {choice}:")
+    if st.button("Submit"):
+        if groq_api_key:
+            client = get_client()
+            resp = client.chat.completions.create(model="llama-3.3-70b-versatile", 
+                   messages=[{"role": "user", "content": f"Help me with this task: {text}"}])
+            st.write(resp.choices[0].message.content)
+        else:
+            st.error("Please enter Groq API Key in sidebar!")
