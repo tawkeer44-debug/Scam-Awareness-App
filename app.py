@@ -3,45 +3,52 @@ import streamlit as st
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
 st.title("🛡️ CyberMind Pro")
-st.sidebar.title("Menu")
 
-# Menu Selection
-menu = st.sidebar.radio("Navigate", ["Home", "Features", "Premium Hub"])
+# --- NAVIGATION ---
+menu = st.sidebar.radio("Menu", ["Home", "Free Features", "Premium Plans"])
 
-# --- HOME ---
 if menu == "Home":
-    st.header("Welcome to CyberMind Pro")
-    st.write("Stay safe, stay secure.")
+    st.header("Digital Security in Your Pocket")
+    st.write("Welcome to CyberMind Pro. Keep yourself safe from online fraud.")
 
-# --- FEATURES (FREE & PRO MIX) ---
-elif menu == "Features":
-    col1, col2 = st.columns(2)
-    
+elif menu == "Free Features":
+    st.header("Free Tools")
+    st.write("Ye features aap abhi use kar sakte hain:")
+    st.checkbox("Basic Link Scanner")
+    st.checkbox("Fraud News Updates")
+    st.checkbox("Safety Tips")
+    if st.button("Use Scanner"):
+        st.info("Scanner is active...")
+
+elif menu == "Premium Plans":
+    st.header("⭐ Upgrade to Pro (Premium)")
+    st.write("Unlock advanced protection & features.")
+
+    # Features list for Pro
+    st.subheader("Pro Features Included:")
+    st.write("✅ Identity Guard | ✅ Fraud Prevention Tracker | ✅ Priority Support | ✅ Real-time Alerts | ✅ Deep Analysis")
+
+    # Pricing Plans
+    col1, col2, col3, col4 = st.columns(4)
+
     with col1:
-        st.subheader("✅ Free Features")
-        st.write("• Basic Link Scanner")
-        st.write("• Scam Alert Notifications")
-        if st.button("Run Link Scanner"):
-            st.info("Scanner is ready! Enter your link below.")
-            link = st.text_input("Enter link")
-            if link:
-                st.success("Scanning complete: Link is safe.")
+        st.subheader("7 Days")
+        st.write("₹300")
+        st.link_button("Buy 7 Days", "https://wa.me/91XXXXXXXXXX?text=I want to buy 7 Days plan")
 
     with col2:
-        st.subheader("⭐ Pro Features")
-        st.write("• Advanced Identity Guard")
-        st.write("• Fraud Prevention Tracker")
-        st.write("• Priority Support")
-        st.error("🔒 Upgrade to Premium to unlock these!")
-        if st.button("Unlock Pro"):
-            st.warning("Go to Premium Hub to get access.")
+        st.subheader("30 Days")
+        st.write("₹800")
+        st.link_button("Buy 30 Days", "https://wa.me/91XXXXXXXXXX?text=I want to buy 30 Days plan")
 
-# --- PREMIUM HUB ---
-elif menu == "Premium Hub":
-    st.header("⭐ Upgrade to Premium")
-    st.write("Get full access to all tools.")
-    
-    # UPI Integration
-    upi_id = "your_upi_id@bankname" 
-    st.link_button("Pay via UPI (Premium)", f"upi://pay?pa={upi_id}&pn=CyberMind&cu=INR")
-    st.link_button("Chat with Developer", "https://wa.me/91XXXXXXXXXX?text=I want to upgrade to Pro!")
+    with col3:
+        st.subheader("1 Year")
+        st.write("₹2500")
+        st.link_button("Buy 1 Year", "https://wa.me/91XXXXXXXXXX?text=I want to buy 1 Year plan")
+
+    with col4:
+        st.subheader("Lifetime")
+        st.write("₹5000")
+        st.link_button("Buy Lifetime", "https://wa.me/91XXXXXXXXXX?text=I want to buy Lifetime plan")
+
+    st.warning("Note: Payment karne ke baad screenshot bhejein!")
