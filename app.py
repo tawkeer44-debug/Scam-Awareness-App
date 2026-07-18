@@ -1,22 +1,32 @@
-# --- PREMIUM PAGE UPDATE ---
 elif choice == "Premium Features":
     st.title("💎 CyberMind Pro Advanced Suite")
-    st.write("Apni digital safety ko professional level par le jayein.")
+    st.write("Apni security ko premium level par le jayein.")
+
+    # Pricing Table Layout
+    col1, col2, col3, col4 = st.columns(4)
     
-    # Premium Benefits Section
-    col1, col2 = st.columns(2)
     with col1:
-        st.subheader("🔓 Advanced Features:")
-        st.markdown("""
-        - 🌐 **Deep URL Scanner:** Real-time link analysis.
-        - 📁 **File & PDF Scanner:** Malicious content detection.
-        - 🗣️ **Multilingual AI:** Peter se Hindi mein baat karein.
-        - 🔔 **Instant Scam Alerts:** Sabse pehle update payein.
-        """)
-    
+        st.markdown("**7 Days**")
+        st.subheader("₹49")
+        if st.button("Buy 7 Days"):
+            st.write("Redirecting to payment...")
+
     with col2:
-        st.subheader("🚀 Upgrade to View/Use:")
-        st.write("Ye advanced tools unlock karne ke liye activate karein.")
-        if st.button("Unlock All Advanced Features Now"):
-            st.warning("Feature activation in progress... (Add your payment/contact link here)")
-            st.balloons()
+        st.markdown("**Monthly**")
+        st.subheader("₹199")
+        if st.button("Buy Monthly"):
+            st.write("Redirecting to payment...")
+
+    with col3:
+        st.markdown("**Yearly**")
+        st.subheader("₹999")
+        if st.button("Buy Yearly"):
+            st.write("Redirecting to payment...")
+
+    with col4:
+        st.markdown("**Lifetime**")
+        st.subheader("₹2499")
+        if st.button("Buy Lifetime"):
+            st.write("Redirecting to payment...")
+
+    st.info("Payment ke liye hum Razorpay ka use karte hain. Sabse safe aur secure.")
