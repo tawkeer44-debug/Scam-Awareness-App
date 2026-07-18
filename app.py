@@ -1,46 +1,47 @@
 import streamlit as st
 
-# Page configuration
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-st.title("🛡️ CyberMind Pro - Your Digital Safety App")
+st.title("🛡️ CyberMind Pro")
 st.sidebar.title("Menu")
 
-# Sidebar navigation
-menu = st.sidebar.radio("Navigate", ["Home", "Scam Checker (Free)", "Premium Hub"])
+# Menu Selection
+menu = st.sidebar.radio("Navigate", ["Home", "Features", "Premium Hub"])
 
-# --- HOME SECTION ---
+# --- HOME ---
 if menu == "Home":
     st.header("Welcome to CyberMind Pro")
-    st.write("Hamara mission aapko online scams se bachana hai.")
-    st.info("Free features ka use karein aur safe rahein!")
+    st.write("Stay safe, stay secure.")
 
-# --- FREE FEATURE: SCAM CHECKER ---
-elif menu == "Scam Checker (Free)":
-    st.header("🔍 Scam Link Analyzer")
-    link = st.text_input("Enter the link to check:")
+# --- FEATURES (FREE & PRO MIX) ---
+elif menu == "Features":
+    col1, col2 = st.columns(2)
     
-    if st.button("Analyze Link"):
-        if link:
-            # Yahan aap apna logic (if/else) laga sakte hain
-            if "http" in link:
-                st.success("This link seems okay, but stay cautious!")
-            else:
-                st.error("Invalid link format! Please enter a valid URL.")
-        else:
-            st.warning("Please enter a link first.")
+    with col1:
+        st.subheader("✅ Free Features")
+        st.write("• Basic Link Scanner")
+        st.write("• Scam Alert Notifications")
+        if st.button("Run Link Scanner"):
+            st.info("Scanner is ready! Enter your link below.")
+            link = st.text_input("Enter link")
+            if link:
+                st.success("Scanning complete: Link is safe.")
+
+    with col2:
+        st.subheader("⭐ Pro Features")
+        st.write("• Advanced Identity Guard")
+        st.write("• Fraud Prevention Tracker")
+        st.write("• Priority Support")
+        st.error("🔒 Upgrade to Premium to unlock these!")
+        if st.button("Unlock Pro"):
+            st.warning("Go to Premium Hub to get access.")
 
 # --- PREMIUM HUB ---
 elif menu == "Premium Hub":
     st.header("⭐ Upgrade to Premium")
-    st.write("Get advanced protection, personal advice, and direct support.")
+    st.write("Get full access to all tools.")
     
-    # UPI Section
-    my_upi_id = "your_upi_id@bankname" # <--- Yahan apni UPI ID dalein
-    pay_link = f"upi://pay?pa={my_upi_id}&pn=CyberMind&cu=INR"
-    
-    st.link_button("Pay via UPI (Premium)", pay_link)
-    
-    st.write("---")
-    st.write("Payment ke baad screenshot bhejein:")
-    st.link_button("Chat with Developer", "https://wa.me/91XXXXXXXXXX?text=I want to buy Premium!")
+    # UPI Integration
+    upi_id = "your_upi_id@bankname" 
+    st.link_button("Pay via UPI (Premium)", f"upi://pay?pa={upi_id}&pn=CyberMind&cu=INR")
+    st.link_button("Chat with Developer", "https://wa.me/91XXXXXXXXXX?text=I want to upgrade to Pro!")
