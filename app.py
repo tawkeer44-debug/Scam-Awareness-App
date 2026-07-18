@@ -5,36 +5,45 @@ st.set_page_config(page_title="CyberMind Pro", layout="wide")
 st.title("🛡️ CyberMind Pro")
 menu = st.sidebar.radio("Select Section", ["Home & Free Tools", "Premium Hub"])
 
+# --- HOME & FREE TOOLS ---
 if menu == "Home & Free Tools":
     st.header("Welcome to CyberMind Pro")
-    st.warning("🔥 SPECIAL OFFER: Agle 24 ghante ke liye, pehle 50 users ko Premium features bilkul FREE milenge!")
+    # Kal tak ke liye special offer
+    st.error("🚀 PROMO: Premium Features are UNLOCKED for the next 24 Hours!")
     
-    selected_tool = st.selectbox("Select Tool:", ["Select a tool...", "Basic Link Scanner", "Password Generator", "Fake App Detector"])
+    st.subheader("Free Tools")
+    selected_tool = st.selectbox("Select Tool:", ["Select...", "Link Scanner", "Password Gen", "Security Tips"])
     
-    if selected_tool == "Basic Link Scanner":
-        user_input = st.text_input("Paste your link here:")
-        if st.button("Analyze Link"):
-            if user_input:
-                st.info(f"Scanning: {user_input}...")
-                st.success("Safe! No malicious activity found.")
-            else:
-                st.error("Please paste a link first!")
+    if selected_tool == "Link Scanner":
+        link = st.text_input("Paste link to scan:")
+        if st.button("Scan"):
+            st.success("Link is safe!")
+    elif selected_tool == "Password Gen":
+        if st.button("Generate"):
+            st.success("Your secure password: Cyber#2026")
 
-    elif selected_tool == "Password Generator":
-        if st.button("Generate Secure Password"):
-            import secrets, string
-            password = ''.join(secrets.choice(string.ascii_letters + string.digits) for i in range(12))
-            st.success(f"Your secure password is: {password}")
-
-    elif selected_tool == "Fake App Detector":
-        app_name = st.text_input("Enter App Name:")
-        if st.button("Check App"):
-            if app_name:
-                st.success(f"{app_name} seems genuine. Stay safe!")
-            else:
-                st.warning("Enter an app name.")
-
+# --- PREMIUM HUB (Updated Pricing) ---
 elif menu == "Premium Hub":
-    # (Wahi Premium section jo pehle tha)
-    st.header("⭐ Premium Membership")
-    st.link_button("Buy 7 Days (₹300)", "https://wa.me/91 6006777536?text=I want to buy 7 Days plan")
+    st.header("⭐ Upgrade to Pro")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.subheader("7 Days")
+        st.write("Price: ₹300")
+        st.link_button("Buy", "https://wa.me/91+6006777536?text=I want 7 Days plan")
+        
+    with col2:
+        st.subheader("1 Month")
+        st.write("Price: ₹1500")
+        st.link_button("Buy", "https://wa.me/91+6006777536?text=I want 1 Month plan")
+        
+    with col3:
+        st.subheader("1 Year")
+        st.write("Price: ₹3000")
+        st.link_button("Buy", "https://wa.me/91+6006777536?text=I want 1 Year plan")
+        
+    with col4:
+        st.subheader("Lifetime")
+        st.write("Price: ₹8000")
+        st.link_button("Buy", "https://wa.me/91+6006777536?text=I want Lifetime plan")
