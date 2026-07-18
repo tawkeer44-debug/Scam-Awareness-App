@@ -1,60 +1,46 @@
 import streamlit as st
-import random
-import string
-from groq import Groq
 
-# Page Config
-st.set_page_config(page_title="CyberMind Pro", layout="wide", page_icon="🛡️")
+# Page configuration
+st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-# Sidebar
-st.sidebar.title("🚀 CyberMind Pro")
-choice = st.sidebar.selectbox("Menu:", ["Home", "Scam Analyzer", "URL Scanner", "Password Generator", "Emergency Directory", "Safety Tips", "💎 Premium Upgrade"])
+st.title("🛡️ CyberMind Pro - Your Digital Safety App")
+st.sidebar.title("Menu")
 
-# --- YAHAN SE HOTA HAI START ---
-# PEHLA OPTION HAMESHA 'if' SE SHURU HOGA
-if choice == "Home":
-    st.title("🛡️ Welcome to CyberMind Pro")
-    st.write("Aapka personal Cyber Safety companion.")
+# Sidebar navigation
+menu = st.sidebar.radio("Navigate", ["Home", "Scam Checker (Free)", "Premium Hub"])
 
-elif choice == "Scam Analyzer":
-    st.subheader("💻 Scam Analyzer (Free)")
+# --- HOME SECTION ---
+if menu == "Home":
+    st.header("Welcome to CyberMind Pro")
+    st.write("Hamara mission aapko online scams se bachana hai.")
+    st.info("Free features ka use karein aur safe rahein!")
 
-elif choice == "URL Scanner":
-    st.subheader("🌐 URL Scanner (Free)")
-
-elif choice == "Password Generator":
-    st.subheader("🎲 Password Generator (Free)")
-
-elif choice == "Emergency Directory":
-    st.subheader("📞 Emergency Directory (Free)")
-
-elif choice == "Safety Tips":
-    st.subheader("💡 Daily Safety Tips (Free)")
-
-# AB AAPKA 'elif' AAYEGA
-elif choice == "💎 Premium Upgrade":
-    st.title("💎 CyberMind Pro | Pro Dashboard")
-    st.write("---")
+# --- FREE FEATURE: SCAM CHECKER ---
+elif menu == "Scam Checker (Free)":
+    st.header("🔍 Scam Link Analyzer")
+    link = st.text_input("Enter the link to check:")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### 🛠️ Pro Security Tools")
-        st.success("📁 Deep File & PDF Analyzer")
-        st.success("🔔 Real-Time Scam Alerts")
-        st.success("🔒 Encrypted Cloud Storage")
-        st.success("🤖 Hindi/Regional AI Peter")
-        
-    with col2:
-        st.markdown("### 🚀 Exclusive Perks")
-        st.success("🚫 Zero Ad Experience")
-        st.success("⚡ Priority Support (24/7)")
-        st.success("🛡️ Advanced Device Tracker")
-        st.success("📊 Monthly Security Reports")
+    if st.button("Analyze Link"):
+        if link:
+            # Yahan aap apna logic (if/else) laga sakte hain
+            if "http" in link:
+                st.success("This link seems okay, but stay cautious!")
+            else:
+                st.error("Invalid link format! Please enter a valid URL.")
+        else:
+            st.warning("Please enter a link first.")
 
+# --- PREMIUM HUB ---
+elif menu == "Premium Hub":
+    st.header("⭐ Upgrade to Premium")
+    st.write("Get advanced protection, personal advice, and direct support.")
+    
+    # UPI Section
+    my_upi_id = "your_upi_id@bankname" # <--- Yahan apni UPI ID dalein
+    pay_link = f"upi://pay?pa={my_upi_id}&pn=CyberMind&cu=INR"
+    
+    st.link_button("Pay via UPI (Premium)", pay_link)
+    
     st.write("---")
-    st.subheader("Select Your Subscription")
-    p1, p2, p3, p4 = st.columns(4)
-    with p1: st.link_button("7 Days - ₹49", "YOUR_LINK")
-    with p2: st.link_button("Monthly - ₹199", "YOUR_LINK")
-    with p3: st.link_button("Yearly - ₹999", "YOUR_LINK")
-    with p4: st.link_button("Lifetime - ₹2499", "YOUR_LINK")
+    st.write("Payment ke baad screenshot bhejein:")
+    st.link_button("Chat with Developer", "https://wa.me/91XXXXXXXXXX?text=I want to buy Premium!")
