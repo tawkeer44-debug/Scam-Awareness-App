@@ -1,15 +1,46 @@
-# Yeh code aapke Premium section mein add karein
-st.subheader("Upgrade to Premium (Manual Payment)")
+import streamlit as st
 
-# Apni UPI ID yahan daalein
-my_upi_id = "aapki_upi_id@bankname" 
-pay_link = f"upi://pay?pa={my_upi_id}&pn=CyberMind&cu=INR"
+# Page configuration
+st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-st.write("Premium access lene ke liye niche button dabayein aur payment complete karein:")
+st.title("🛡️ CyberMind Pro - Your Digital Safety App")
+st.sidebar.title("Menu")
 
-# Button jo seedha UPI app khol dega
-st.link_button("Pay via UPI (GooglePay/PhonePe)", pay_link)
+# Sidebar navigation
+menu = st.sidebar.radio("Navigate", ["Home", "Scam Checker (Free)", "Premium Hub"])
 
-st.write("---")
-st.write("Payment ke baad, is button par click karke mujhe screenshot bhejein:")
-st.link_button("Confirm Payment on WhatsApp", "https://wa.me/91XXXXXXXXXX?text=Maine payment kar diya hai, please mujhe Premium activate karke dein.")
+# --- HOME SECTION ---
+if menu == "Home":
+    st.header("Welcome to CyberMind Pro")
+    st.write("Hamara mission aapko online scams se bachana hai.")
+    st.info("Free features ka use karein aur safe rahein!")
+
+# --- FREE FEATURE: SCAM CHECKER ---
+elif menu == "Scam Checker (Free)":
+    st.header("🔍 Scam Link Analyzer")
+    link = st.text_input("Enter the link to check:")
+    
+    if st.button("Analyze Link"):
+        if link:
+            # Yahan aap apna logic (if/else) laga sakte hain
+            if "http" in link:
+                st.success("This link seems okay, but stay cautious!")
+            else:
+                st.error("Invalid link format! Please enter a valid URL.")
+        else:
+            st.warning("Please enter a link first.")
+
+# --- PREMIUM HUB ---
+elif menu == "Premium Hub":
+    st.header("⭐ Upgrade to Premium")
+    st.write("Get advanced protection, personal advice, and direct support.")
+    
+    # UPI Section
+    my_upi_id = "your_upi_id@bankname" # <--- Yahan apni UPI ID dalein
+    pay_link = f"upi://pay?pa={my_upi_id}&pn=CyberMind&cu=INR"
+    
+    st.link_button("Pay via UPI (Premium)", pay_link)
+    
+    st.write("---")
+    st.write("Payment ke baad screenshot bhejein:")
+    st.link_button("Chat with Developer", "https://wa.me/91XXXXXXXXXX?text=I want to buy Premium!")
