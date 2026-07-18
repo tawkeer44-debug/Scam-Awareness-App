@@ -43,16 +43,16 @@ elif menu == "Premium Plans":
     with col1:
         st.subheader("7 Days")
         st.write("₹300")
-        st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 7 Days")
+        st.link_button("Buy", "https://wa.me/91 6006777536?text=Plan: 7 Days")
     with col2:
         st.subheader("30 Days")
         st.write("₹800")
-        st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 30 Days")
+        st.link_button("Buy", "https://wa.me/91 6006777536 ?text=Plan: 30 Days")
     with col3:
         st.subheader("1 Year")
         st.write("₹2500")
-        st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 1 Year")
+        st.link_button("Buy", "https://wa.me/91 6006777536?text=Plan: 1 Year")
     with col4:
         st.subheader("Lifetime")
         st.write("₹5000")
-        st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: Lifetime")
+        st.link_button("Buy", "https://wa.me/91 6006777536?text=Plan: Lifetime")
