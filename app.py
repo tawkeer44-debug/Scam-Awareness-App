@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
-# App ka Title aur Styling
 st.title("🛡️ CyberMind Pro")
 st.sidebar.title("Navigation")
 
@@ -12,9 +11,12 @@ menu = st.sidebar.radio("Select Section", ["Home & Free Tools", "Premium Hub"])
 # --- HOME & FREE TOOLS SECTION ---
 if menu == "Home & Free Tools":
     st.header("Welcome to CyberMind Pro")
+    
+    # Ye raha woh special offer jo aapne bataya
+    st.warning("🔥 SPECIAL OFFER: Agle 24 ghante ke liye, pehle 50 users ko Premium features bilkul FREE milenge!")
+    
     st.subheader("Select a Free Tool to get started:")
     
-    # 15 Free Features as a selection dropdown/list
     free_tools = [
         "Select a tool...", "Basic Link Scanner", "Password Generator", 
         "Data Leak Checker", "Safety Tips", "Wi-Fi Security Scan",
@@ -27,13 +29,10 @@ if menu == "Home & Free Tools":
     
     if selected_tool != "Select a tool...":
         st.write(f"### You selected: {selected_tool}")
-        st.info(f"Yahan aap {selected_tool} ka feature run kar sakte hain.")
-        
-        # Yahan aap har tool ka apna logic laga sakte hain
         if st.button(f"Run {selected_tool}"):
-            st.success(f"{selected_tool} is now active and working!")
+            st.success(f"{selected_tool} is now active!")
 
-# --- PREMIUM HUB (Touch nahi kiya gaya) ---
+# --- PREMIUM HUB (Bilkul untouched) ---
 elif menu == "Premium Hub":
     st.header("⭐ Premium Membership")
     st.write("Unlock advanced protection and priority support.")
@@ -42,7 +41,7 @@ elif menu == "Premium Hub":
     with col1:
         st.subheader("7 Days")
         st.write("₹300")
-        st.link_button("Buy 7 Days", "https://wa.me/91 6006777536?text=I want to buy 7 Days plan")
+        st.link_button("Buy 7 Days", "https://wa.me/9 6006777536?text=I want to buy 7 Days plan")
     with col2:
         st.subheader("30 Days")
         st.write("₹800")
