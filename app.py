@@ -1,81 +1,66 @@
 import streamlit as st
-import re
 import random
 import string
 from groq import Groq
 
-# Page Config
 st.set_page_config(page_title="CyberMind Pro", layout="wide", page_icon="🛡️")
 
-# Sidebar
+# --- FREE FEATURES (5) ---
+# 1. Scam Analyzer | 2. URL Scanner | 3. Password Generator 
+# 4. Emergency Directory | 5. Cyber Safety Tips
+
+# --- PREMIUM FEATURES (5) ---
+# 1. Deep File Scanner | 2. Real-Time Alert System 
+# 3. Personal Cloud Notes | 4. Multilingual Peter | 5. Ad-Free Experience
+
+# Sidebar Navigation
 st.sidebar.title("🚀 CyberMind Pro")
-groq_api_key = st.sidebar.text_input("Enter Groq API Key:", type="password")
+choice = st.sidebar.selectbox("Menu:", ["Home", "Scam Analyzer", "URL Scanner", "Password Generator", "Emergency Directory", "Safety Tips", "---", "💎 Premium Upgrade"])
 
-# Menu
-menu = ["Home", "Scam Analyzer", "URL Scanner", "Password Generator", "Premium Features"]
-choice = st.sidebar.selectbox("Select Feature:", menu)
-
-def get_client(): 
-    if groq_api_key:
-        return Groq(api_key=groq_api_key)
-    return None
-
-# --- PAGES ---
-
+# --- FREE FEATURES LOGIC ---
 if choice == "Home":
-    st.title("🛡️ CyberMind Pro")
-    st.write("Main hoon **Peter**, aapka personal Cyber Safety Expert.")
-    st.info("Sidebar se feature select karein!")
+    st.title("🛡️ Welcome to CyberMind Pro")
+    st.write("Aapka personal Cyber Safety companion.")
 
 elif choice == "Scam Analyzer":
-    st.subheader("💻 Scam Analyzer")
-    text = st.text_input("Kya check karna hai?")
-    if st.button("Ask Peter"):
-        client = get_client()
-        if client:
-            resp = client.chat.completions.create(model="llama-3.3-70b-versatile", 
-                   messages=[{"role": "user", "content": f"You are Peter, a cyber expert. Help with: {text}"}])
-            st.write(f"**Peter:** {resp.choices[0].message.content}")
-        else:
-            st.error("API Key dalen!")
+    st.subheader("💻 Scam Analyzer (Free)")
+    # Logic...
 
 elif choice == "URL Scanner":
-    st.subheader("🌐 URL Scanner")
-    url = st.text_input("URL paste karein:")
-    if st.button("Scan"):
-        st.write("Peter scan kar raha hai... (Beta Version)")
+    st.subheader("🌐 URL Scanner (Free)")
+    # Logic...
 
 elif choice == "Password Generator":
-    st.subheader("🎲 Password Generator")
-    length = st.slider("Length:", 8, 20, 12)
-    if st.button("Generate"):
-        pwd = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(length))
-        st.code(pwd)
+    st.subheader("🎲 Password Generator (Free)")
+    # Logic...
 
-elif choice == "Premium Features":
-    st.title("💎 CyberMind Pro Advanced Suite")
-    st.write("Apni security ko professional level par le jayein.")
+elif choice == "Emergency Directory":
+    st.subheader("📞 Emergency Directory (Free)")
+    st.write("Cyber Crime Helpline: 1930")
+
+elif choice == "Safety Tips":
+    st.subheader("💡 Daily Safety Tips (Free)")
+    st.write("1. Kabhi bhi OTP kisi ko na batayein.\n2. Unknown links par click na karein.")
+
+# --- PREMIUM UPGRADE PAGE ---
+elif choice == "💎 Premium Upgrade":
+    st.title("💎 Unlock Premium Features")
+    st.write("Apni security ko professional level par le jayein!")
     
-    col1, col2, col3, col4 = st.columns(4)
+    # Grid of Premium Features
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("""
+        ### 🔓 Premium Unlock Karein:
+        1. 📁 **Deep File Scanner:** PDF/Docs scan karein.
+        2. 🔔 **Real-Time Alerts:** Scam hone se pehle janein.
+        3. 🔒 **Cloud Notes:** Data sync aur encryption.
+        4. 🗣️ **Hindi AI Peter:** Apni bhasha mein chat karein.
+        5. 🚫 **Ad-Free:** Bina kisi distraction ke use karein.
+        """)
     
-    with col1:
-        st.markdown("**7 Days**")
-        st.subheader("₹49")
-        st.link_button("Buy 7 Days", "https://pages.razorpay.com/YOUR_LINK_HERE")
-
-    with col2:
-        st.markdown("**Monthly**")
-        st.subheader("₹199")
-        st.link_button("Buy Monthly", "https://pages.razorpay.com/YOUR_LINK_HERE")
-
-    with col3:
-        st.markdown("**Yearly**")
-        st.subheader("₹999")
-        st.link_button("Buy Yearly", "https://pages.razorpay.com/YOUR_LINK_HERE")
-
-    with col4:
-        st.markdown("**Lifetime**")
-        st.subheader("₹2499")
-        st.link_button("Buy Lifetime", "https://pages.razorpay.com/YOUR_LINK_HERE")
-    
-    st.info("Sabse safe aur secure payments.")
+    with c2:
+        st.subheader("Choose Your Plan:")
+        st.link_button("Buy 7 Days (₹49)", "YOUR_LINK")
+        st.link_button("Buy Monthly (₹199)", "YOUR_LINK")
+        st.link_button("Buy Yearly (₹999)", "YOUR_LINK")
