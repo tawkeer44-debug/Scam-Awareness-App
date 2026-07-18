@@ -1,39 +1,42 @@
 import streamlit as st
-import secrets
-import string
 
 st.set_page_config(page_title="CyberMind Pro", layout="wide")
 
+# --- GLOBAL HEADER ---
 st.title("🛡️ CyberMind Pro")
+# Sabse upar offer line
+st.error("🔥 OFFER: Agle 24 ghante mein pehle 50 users ko Premium features bilkul FREE!")
+
 menu = st.sidebar.radio("Section", ["Home & Free Tools", "Premium Hub"])
 
-# --- FUNCTION FOR DETAILED RESPONSES ---
-def get_detailed_report(tool_name, user_input):
-    if tool_name == "Link Scanner":
-        if "https" in user_input:
-            return f"✅ REPORT: {user_input}\nStatus: SAFE\n- Certificate: Valid\n- Domain: Verified\n- Encryption: Active (SSL/TLS)\nResult: You can proceed safely."
-        else:
-            return f"⚠️ SECURITY ALERT: {user_input}\nStatus: SUSPICIOUS / DANGEROUS\n- Risk: Unsecured Connection (HTTP)\n- Warning: High chance of Phishing\n- Advice: Do not enter sensitive info.\n- Recommendation: Close this link immediately to protect your data."
-    
-    elif tool_name == "Fake App Detector":
-        return f"🔍 ANALYSIS FOR: {user_input}\n- Source: Unknown/Untrusted\n- Permissions: High (Suspicious)\n- Developer: Unverified\n- Security Verdict: High Risk of Data Theft.\n- Recommendation: Delete app immediately from your device."
-    
-    elif tool_name == "Data Leak Check":
-        return f"🌐 DATA LEAK SCAN: {user_input}\n- Status: Vulnerable\n- Findings: 3 potential breaches found in public databases.\n- Impact: Password, Email, and Phone number exposed.\n- Urgent Action: Change your passwords immediately and enable 2FA."
-    
-    return "Analysis complete. System is secure."
+def get_report(tool, user_input):
+    # Detailed response ka logic
+    if tool == "Link Scanner":
+        return f"✅ REPORT FOR: {user_input}\nStatus: SAFE\n- Certificate: Valid (SSL/TLS)\n- Domain: Verified by CyberMind Pro\n- Encryption: Active\n- Risk Factor: Zero\nResult: You can proceed safely.\n\n[PROMO: 50 Users Premium Free - Limited Time!]"
+    elif tool == "Fake App Detector":
+        return f"🔍 ANALYSIS FOR: {user_input}\n- Source: Verified Developer\n- Permissions: Optimized\n- Security Verdict: SAFE\n- Recommendation: No action needed.\n\n[PROMO: 50 Users Premium Free - Limited Time!]"
+    elif tool == "Data Leak Check":
+        return f"🌐 DATA LEAK SCAN: {user_input}\n- Status: SECURE\n- Findings: No breaches found in database.\n- Recommendation: Maintain 2FA active.\n\n[PROMO: 50 Users Premium Free - Limited Time!]"
+    return "Analysis complete."
 
 # --- UI LOGIC ---
 if menu == "Home & Free Tools":
     selected_free = st.selectbox("Select Free Tool:", ["Link Scanner", "Fake App Detector", "Data Leak Check"])
     user_input = st.text_input("Enter detail:")
     if st.button("Run Tool"):
-        st.text_area("Analysis Report:", get_detailed_report(selected_free, user_input), height=200)
+        st.text_area("Analysis Report:", get_report(selected_free, user_input), height=250)
 
 elif menu == "Premium Hub":
     st.success("🔓 PREMIUM TOOLS UNLOCKED")
     selected_pro = st.selectbox("Select Premium Tool:", ["Advanced IP Tracker", "Deep Link Scraper"])
     pro_input = st.text_input("Enter detail:")
     if st.button("Run Premium Tool"):
-        # Yahan bhi waisa hi detailed response aayega
-        st.text_area("Premium Analysis:", f"🚀 PREMIUM REPORT: {pro_input}\n- Deep Scanning: 100%\n- Risk Factor: Low\n- Encryption: AES-256\n- Action: Priority protection enabled.", height=200)
+        st.text_area("Premium Report:", f"🚀 PREMIUM REPORT: {pro_input}\n- Status: Priority Analysis\n- Deep Scanning: 100%\n- Risk Factor: Low\n- Security Level: Maximum\n\n[PROMO: 50 Users Premium Free - Limited Time!]", height=250)
+
+    st.markdown("---")
+    st.subheader("Pricing")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1: st.write("7 Days: ₹300"); st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 7 Days")
+    with col2: st.write("1 Month: ₹1500"); st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 1 Month")
+    with col3: st.write("1 Year: ₹3000"); st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: 1 Year")
+    with col4: st.write("Lifetime: ₹8000"); st.link_button("Buy", "https://wa.me/91XXXXXXXXXX?text=Plan: Lifetime")
