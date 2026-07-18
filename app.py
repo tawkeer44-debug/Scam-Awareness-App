@@ -1,10 +1,42 @@
+import streamlit as st
+import random
+import string
+from groq import Groq
+
+# Page Config
+st.set_page_config(page_title="CyberMind Pro", layout="wide", page_icon="🛡️")
+
+# Sidebar
+st.sidebar.title("🚀 CyberMind Pro")
+choice = st.sidebar.selectbox("Menu:", ["Home", "Scam Analyzer", "URL Scanner", "Password Generator", "Emergency Directory", "Safety Tips", "💎 Premium Upgrade"])
+
+# --- YAHAN SE HOTA HAI START ---
+# PEHLA OPTION HAMESHA 'if' SE SHURU HOGA
+if choice == "Home":
+    st.title("🛡️ Welcome to CyberMind Pro")
+    st.write("Aapka personal Cyber Safety companion.")
+
+elif choice == "Scam Analyzer":
+    st.subheader("💻 Scam Analyzer (Free)")
+
+elif choice == "URL Scanner":
+    st.subheader("🌐 URL Scanner (Free)")
+
+elif choice == "Password Generator":
+    st.subheader("🎲 Password Generator (Free)")
+
+elif choice == "Emergency Directory":
+    st.subheader("📞 Emergency Directory (Free)")
+
+elif choice == "Safety Tips":
+    st.subheader("💡 Daily Safety Tips (Free)")
+
+# AB AAPKA 'elif' AAYEGA
 elif choice == "💎 Premium Upgrade":
     st.title("💎 CyberMind Pro | Pro Dashboard")
     st.write("---")
     
-    # 8 Premium Features in a Clean Grid
     col1, col2 = st.columns(2)
-    
     with col1:
         st.markdown("### 🛠️ Pro Security Tools")
         st.success("📁 Deep File & PDF Analyzer")
@@ -21,12 +53,8 @@ elif choice == "💎 Premium Upgrade":
 
     st.write("---")
     st.subheader("Select Your Subscription")
-    
-    # Pricing Layout
     p1, p2, p3, p4 = st.columns(4)
     with p1: st.link_button("7 Days - ₹49", "YOUR_LINK")
     with p2: st.link_button("Monthly - ₹199", "YOUR_LINK")
     with p3: st.link_button("Yearly - ₹999", "YOUR_LINK")
     with p4: st.link_button("Lifetime - ₹2499", "YOUR_LINK")
-    
-    st.info("Payment ke baad, apni Transaction ID humein email karein: support@cybermind.com")
