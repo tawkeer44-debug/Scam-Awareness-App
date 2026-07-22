@@ -1,300 +1,48 @@
 import streamlit as st
-
-# -------------------------
-# APP CONFIGURATION
-# -------------------------
-
-st.set_page_config(
-    page_title="Cyber Mind Pro",
-    layout="wide"
-)
-
-# -------------------------
-# SIDEBAR
-# -------------------------
-
-st.sidebar.title("CYBER MIND PRO")
-
-menu = st.sidebar.radio(
-    "Select Feature",
-    [
-        "New Chat",
-        "Search Chats",
-        "Recent Chats",
-
-        "Premium Hub",
-
-        "AI Chatbot",
-        "Image Generation",
-        "Video Generation",
-        "Voice Generator",
-        "Music Generator",
-
-        "Cyber Security Tools",
-
-        "AI Face Swap",
-        "AI Wallpaper Generator",
-        "AI Story Generator",
-        "AI Meme Generator",
-        "AI Logo Generator",
-        "AI Website Builder",
-
-        "Trending AI Prompts",
-        "Daily Rewards",
-        "Leaderboard",
-
-        "Settings"
-    ]
-)
-
-# -------------------------
-# NEW CHAT
-# -------------------------
-
-if menu == "New Chat":
-    st.title("New Chat")
-    st.write("Start chatting with AI.")
-
-
-# -------------------------
-# SEARCH CHATS
-# -------------------------
-
-elif menu == "Search Chats":
-    st.title("Search Chats")
-    st.text_input("Search...")
-
-
-# -------------------------
-# RECENT CHATS
-# -------------------------
-
-elif menu == "Recent Chats":
-    st.title("Recent Chats")
-    st.write("Your recent chats will appear here.")
-
-
-# -------------------------
-# PREMIUM HUB
-# -------------------------
-
-elif menu == "Premium Hub":
-    st.title("Premium Hub")
-
-    st.write("""
-    Premium Features:
-
-    - Unlimited AI Chat
-    - Unlimited Images
-    - Unlimited Videos
-    - Voice Generation
-    - Face Swap
-    - AI Music Generator
-    - Faster Responses
-    - No Ads
-    """)
-
-
-# -------------------------
-# AI CHATBOT
-# -------------------------
-
-elif menu == "AI Chatbot":
-
-    st.title("AI Chatbot")
-
-    prompt = st.text_input("Ask anything")
-
-    if st.button("Send"):
-        st.success("Connect your AI API here.")
-
-
-# -------------------------
-# IMAGE GENERATION
-# -------------------------
-
-elif menu == "Image Generation":
-
-    st.title("AI Image Generator")
-
-    prompt = st.text_input("Describe your image")
-
-    if st.button("Generate Image"):
-        st.success("Connect your Image Generation API.")
-
-
-# -------------------------
-# VIDEO GENERATION
-# -------------------------
-
-elif menu == "Video Generation":
-
-    st.title("AI Video Generator")
-
-    prompt = st.text_input("Describe your video")
-
-    if st.button("Generate Video"):
-        st.success("Connect your Video API.")
-
-
-# -------------------------
-# VOICE GENERATION
-# -------------------------
-
-elif menu == "Voice Generator":
-
-    st.title("Voice Generator")
-
-    st.write("Generate AI Voice Here.")
-
-
-# -------------------------
-# MUSIC GENERATION
-# -------------------------
-
-elif menu == "Music Generator":
-
-    st.title("AI Music Generator")
-
-    st.write("Generate Music Here.")
-
-
-# -------------------------
-# CYBER TOOLS
-# -------------------------
-
-elif menu == "Cyber Security Tools":
-
-    st.title("Cyber Security Tools")
-
-    tool = st.selectbox(
-
-        "Choose Tool",
-
-        [
-            "Password Checker",
-            "Scam Detector",
-            "QR Scanner",
-            "Email Breach Checker",
-            "Cyber Score",
-            "Privacy Checker"
-        ]
-
-    )
-
-    st.write(tool)
-
-
-# -------------------------
-# FACE SWAP
-# -------------------------
-
-elif menu == "AI Face Swap":
-
-    st.title("AI Face Swap")
-    st.write("Upload Image Here.")
-
-
-# -------------------------
-# WALLPAPER GENERATOR
-# -------------------------
-
-elif menu == "AI Wallpaper Generator":
-
-    st.title("Wallpaper Generator")
-
-
-# -------------------------
-# STORY GENERATOR
-# -------------------------
-
-elif menu == "AI Story Generator":
-
-    st.title("AI Story Generator")
-
-
-# -------------------------
-# MEME GENERATOR
-# -------------------------
-
-elif menu == "AI Meme Generator":
-
-    st.title("AI Meme Generator")
-
-
-# -------------------------
-# LOGO GENERATOR
-# -------------------------
-
-elif menu == "AI Logo Generator":
-
-    st.title("AI Logo Generator")
-
-
-# -------------------------
-# WEBSITE BUILDER
-# -------------------------
-
-elif menu == "AI Website Builder":
-
-    st.title("AI Website Builder")
-
-
-# -------------------------
-# TRENDING PROMPTS
-# -------------------------
-
-elif menu == "Trending AI Prompts":
-
-    st.title("Trending Prompts")
-
-    st.write("""
-    - Cinematic Photo Prompt
-    - Viral Reel Prompt
-    - AI Logo Prompt
-    - Thumbnail Prompt
-    - Anime Prompt
-    - YouTube Prompt
-    """)
-
-
-# -------------------------
-# DAILY REWARDS
-# -------------------------
-
-elif menu == "Daily Rewards":
-
-    st.title("Daily Rewards")
-
-    st.success("50 Coins Added!")
-
-
-# -------------------------
-# LEADERBOARD
-# -------------------------
-
-elif menu == "Leaderboard":
-
-    st.title("Top Users")
-
-    st.write("""
-    1. CyberKing
-    2. AI Master
-    3. Cyber Legend
-    """)
-
-
-# -------------------------
-# SETTINGS
-# -------------------------
-
-elif menu == "Settings":
-
-    st.title("Settings")
-
-    st.write("""
-    - Dark Mode
-    - Language
-    - Notification Settings
-    - Account Settings
-    """)
+import time
+
+st.set_page_config(page_title="CyberMind X", layout="wide")
+
+# Matrix Green Theme
+st.markdown("""<style>
+    .stApp { background-color: #000000; color: #00ff41; }
+    .stButton>button { border: 2px solid #00ff41; background: #000; color: #00ff41; font-weight: bold; }
+</style>""", unsafe_allow_html=True)
+
+st.title("⚡ CYBERMIND X - ULTIMATE")
+st.sidebar.header("CORE SYSTEMS")
+
+# Menu Selection
+menu = st.sidebar.radio("CHOOSE MODULE", ["SECURE SCAN", "AI ENGINE", "CREATIVE LAB", "PREMIUM HUB"])
+
+# SMART SIMULATED ENGINE
+def simulate_task(name):
+    with st.spinner(f"INITIALIZING {name}..."):
+        time.sleep(2.5)
+    return f"{name} COMPLETED SUCCESSFULLY."
+
+if menu == "SECURE SCAN":
+    st.header("🛡️ THREAT DEFENSE")
+    target = st.text_input("Enter Link/IP:")
+    if st.button("RUN DEEP SCAN"):
+        st.code(simulate_task("PACKET ANALYSIS"))
+        st.success("NO THREAT DETECTED.")
+
+elif menu == "AI ENGINE":
+    st.header("🧠 NEURAL CHATBOT")
+    query = st.text_area("Question:")
+    if st.button("PROCESS"):
+        st.write("CyberMind AI: Main aapke security concerns par kaam kar raha hoon. 2FA enable karna na bhulein!")
+
+elif menu == "CREATIVE LAB":
+    st.header("🎨 CREATIVE SUITE")
+    choice = st.selectbox("Tool", ["Photo Generator", "Video Generator", "Face Swap"])
+    prompt = st.text_input("Describe your prompt:")
+    if st.button("EXECUTE"):
+        st.info(f"Generating {choice} for: {prompt}")
+        st.image("https://images.unsplash.com/photo-1639762681485-07442f689f2a?w=400", caption="Result")
+
+elif menu == "PREMIUM HUB":
+    st.header("👑 PREMIUM ACCESS")
+    st.write("Unlock all systems for lifetime.")
+    st.button("ACTIVATE PREMIUM")
