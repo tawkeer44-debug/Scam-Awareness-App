@@ -5,84 +5,94 @@ import random
 # 1. Page Config
 st.set_page_config(page_title="CyberMind X", layout="wide", page_icon="💀")
 
-# 2. Khatarnak Background & Styling
+# 2. Dark Hacker Styling
 st.markdown("""
     <style>
-    .stApp { 
-        background: radial-gradient(circle, #0a0a0a 0%, #000000 100%); 
-        color: #00ff41; 
-        font-family: 'Courier New', monospace;
-    }
-    .stButton>button { 
-        background-color: #000; 
-        color: #ff0000; 
-        border: 2px solid #ff0000; 
-        font-weight: bold; 
-        width: 100%; 
-    }
-    .stButton>button:hover { background-color: #ff0000; color: #fff; }
-    h1, h2, h3 { color: #00ff41 !important; text-shadow: 0 0 10px #00ff41; }
+    .stApp { background: #000000; color: #00ff41; font-family: 'Courier New', monospace; }
+    .stButton>button { background: #000; color: #ff0000; border: 2px solid #ff0000; font-weight: bold; width: 100%; }
+    .stTextInput>div>div>input { background: #111; color: #00ff41; border: 1px solid #00ff41; }
+    code { color: #ff0000 !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar - 10 Powerful Features
+# 3. Helper Function for 5-10 line output
+def show_hack_log(target, tool_name):
+    logs = [
+        f"[+] Initializing {tool_name}...",
+        f"[+] Target Identified: {target}",
+        "[+] Bypassing Firewall Layer 1...",
+        "[+] Packet Injection Successful...",
+        "[+] Analyzing Protocol Handshake...",
+        "[+] Decrypting Secure Headers...",
+        "[+] Accessing Root Directory...",
+        "[+] Connection Stability: 98%...",
+        "[+] Extraction Complete.",
+        "[+] Operation Finished."
+    ]
+    st.code("\n".join(logs), language='bash')
+
+# 4. Sidebar Modules
 st.sidebar.title("💀 COMMAND CENTER")
-menu = st.sidebar.selectbox("SELECT OPERATION", [
-    "HOME", "THREAT SCANNER", "SYSTEM BREACH", "IP TRACER", "PASSWORD VAULT", 
-    "DEEPFAKE SCAN", "PHISHING DETECTOR", "WIFI SNIFFER", "ENCRYPTION TOOL", "PREMIUM HUB"
+menu = st.sidebar.selectbox("SELECT MODULE", [
+    "THREAT SCANNER", "SYSTEM BREACH", "IP TRACER", "PASSWORD CRACKER", 
+    "PHISHING DETECTOR", "WIFI SNIFFER", "ENCRYPTION ENGINE", "DEEPFAKE ANALYZER",
+    "NETWORK SNIFFER", "PREMIUM HUB"
 ])
 
-st.title("⚡ CYBERMIND X - DARK OPS")
+st.title(f"⚡ CYBERMIND X: {menu}")
 
-# 4. Feature Logic
-if menu == "HOME":
-    st.header("READY FOR ACTION?")
-    st.write("Welcome to the Dark Ops Interface. Choose your weapon from the sidebar.")
-
-elif menu == "THREAT SCANNER":
-    st.header("🛡️ THREAT SCANNER")
+# 5. Logic
+if menu == "THREAT SCANNER":
+    target = st.text_input("Enter File Path/Link:")
     if st.button("RUN SCAN"):
-        with st.spinner("Scanning System..."):
+        with st.spinner("Processing..."):
             time.sleep(2)
-            st.error("THREAT FOUND: Malicious Trojan in Background Process!")
+            show_hack_log(target, "Threat-Scanner-v2")
 
 elif menu == "SYSTEM BREACH":
-    st.header("💀 SYSTEM BREACH")
+    target = st.text_input("Enter Target System ID:")
     if st.button("EXECUTE BREACH"):
-        st.code("[!!!] BYPASSING KERNEL...\n[!!!] ACCESSING ROOT...\n[!!!] SYSTEM COMPROMISED!", language='bash')
+        show_hack_log(target, "Kernel-Breach-Protocol")
 
 elif menu == "IP TRACER":
-    st.header("📍 IP TRACER")
-    st.text_input("Enter Target IP:")
-    if st.button("TRACE"): st.info("LOCATION: REDACTED - Encrypted connection found.")
+    target = st.text_input("Enter Target IP Address:")
+    if st.button("TRACE IP"):
+        show_hack_log(target, "Geo-IP-Locator")
 
-elif menu == "PASSWORD VAULT":
-    st.header("🔐 PASSWORD VAULT")
-    if st.button("GENERATE SECURE KEY"): st.success(f"KEY: {random.randint(100000, 999999)}-X-CYBER")
-
-elif menu == "DEEPFAKE SCAN":
-    st.header("👁️ DEEPFAKE SCANNER")
-    st.file_uploader("Upload Image/Video to verify:")
-    if st.button("ANALYZE"): st.warning("ANALYSIS: AI Patterns Detected.")
+elif menu == "PASSWORD CRACKER":
+    target = st.text_input("Enter Encrypted Hash:")
+    if st.button("CRACK PASSWORD"):
+        show_hack_log(target, "Hash-Brute-Force")
 
 elif menu == "PHISHING DETECTOR":
-    st.header("🎣 PHISHING DETECTOR")
-    st.text_input("Enter suspicious link:")
-    if st.button("VERIFY LINK"): st.error("LINK IS MALICIOUS!")
+    target = st.text_input("Enter Suspicious URL:")
+    if st.button("DETECT"):
+        show_hack_log(target, "Phish-Scan-Alpha")
 
 elif menu == "WIFI SNIFFER":
-    st.header("📶 WIFI SNIFFER")
-    if st.button("SCAN NETWORKS"): st.success("6 Networks Found. All encrypted.")
+    target = st.text_input("Enter WiFi SSID:")
+    if st.button("SNIFF"):
+        show_hack_log(target, "WPA2-Sniffer")
 
-elif menu == "ENCRYPTION TOOL":
-    st.header("🔒 ENCRYPTION ENGINE")
-    text = st.text_input("Message to encrypt:")
-    if st.button("ENCRYPT"): st.success("Encoded: QF#23@90-AX-99")
+elif menu == "ENCRYPTION ENGINE":
+    target = st.text_input("Enter Message:")
+    if st.button("ENCRYPT"):
+        show_hack_log(target, "AES-256-Encryptor")
+
+elif menu == "DEEPFAKE ANALYZER":
+    target = st.text_input("Enter Media Link:")
+    if st.button("ANALYZE"):
+        show_hack_log(target, "AI-Pattern-Analyzer")
+
+elif menu == "NETWORK SNIFFER":
+    target = st.text_input("Enter Server IP:")
+    if st.button("SNIFF PACKETS"):
+        show_hack_log(target, "Packet-Interceptor")
 
 elif menu == "PREMIUM HUB":
     st.header("👑 UPGRADE TO PRO")
-    col1, col2 = st.columns(2)
-    with col1: st.markdown("✅ **Unlimited Scans**\n✅ **Root Access**\n✅ **Priority Support**")
-    with col2: st.markdown("✅ **Zero Ads**\n✅ **4K Export**\n✅ **Dark Mode Pro**")
-    plan = st.radio("SELECT PLAN", ["7 Days - $4.99", "6 Months - $29.99", "1 Year - $49.99", "Lifetime - $99.99"])
-    if st.button("ACTIVATE PREMIUM"): st.balloons()
+    st.write("Unlock 10+ Advanced Modules & 8K Exports.")
+    plan = st.radio("CHOOSE PLAN", ["7 Days ($4.99)", "6 Months ($29.99)", "1 Year ($49.99)", "Lifetime ($99.99)"])
+    if st.button("ACTIVATE PREMIUM"):
+        st.balloons()
+        st.success("Redirecting to secure gateway...")
