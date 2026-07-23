@@ -1,82 +1,76 @@
 import streamlit as st
 import time
 import random
-from groq import Groq
+import os
 
-# 1. UI Configuration
+# Install libraries first: pip install streamlit groq
+try:
+    from groq import Groq
+except ImportError:
+    st.error("Please install groq: 'pip install groq'")
+
+# 1. Page Config
 st.set_page_config(page_title="CyberMind X", layout="wide", page_icon="⚡")
 
-# 2. Modern Cyber Styling
+# 2. Modern Styling
 st.markdown("""
     <style>
-    .stApp { background-color: #050505; color: #00ff41; font-family: 'Courier New', Courier, monospace; }
-    .stButton>button { border: 2px solid #00ff41; background: #000; color: #00ff41; width: 100%; font-weight: bold; }
+    .stApp { background-color: #050505; color: #00ff41; font-family: 'Courier New'; }
+    .stButton>button { border: 2px solid #00ff41; background: #000; color: #00ff41; font-weight: bold; width: 100%; }
     .stTextInput>div>div>input { background: #111; color: #00ff41; border: 1px solid #00ff41; }
-    .css-1544g2n { background: #000; }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Backend Logic
-def get_groq_response(prompt):
+# 3. API Connection Logic
+def get_ai_response(prompt):
     try:
-        client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+        api_key = st.secrets["GROQ_API_KEY"]
+        client = Groq(api_key=api_key)
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
             model="llama3-8b-8192",
         )
         return response.choices[0].message.content
-    except Exception:
-        return "System Busy: API Connection Error. Please verify your Security Key."
+    except Exception as e:
+        return "System Notice: API Key missing or connection failed. Check 'Secrets' in Streamlit settings."
 
-# 4. Interface Modules
-st.title("⚡ CYBERMIND X - THE ULTIMATE DEFENSE")
-menu = st.sidebar.selectbox("COMMAND CENTER", ["HOME", "THREAT SCAN", "NEURAL CHAT", "SYSTEM BREACH", "CREATIVE LAB"])
+# 4. App Modules
+menu = st.sidebar.selectbox("COMMAND CENTER", ["THREAT SCAN", "NEURAL CHAT", "SYSTEM BREACH", "CREATIVE LAB", "PREMIUM HUB"])
 
-# --- PAGES ---
-if menu == "HOME":
-    st.header("Welcome, Commander.")
-    st.write("CyberMind X is a high-level digital security and creative simulation engine.")
-    st.info("Select a module from the sidebar to begin operation.")
+st.title("⚡ CYBERMIND X - ULTIMATE")
 
-elif menu == "THREAT SCAN":
+if menu == "THREAT SCAN":
     st.header("🛡️ THREAT DEFENSE SYSTEM")
-    target = st.text_input("Enter Link/IP/Device ID:")
-    if st.button("RUN DEEP SCAN"):
-        with st.spinner("Analyzing network packets..."):
-            time.sleep(2)
-            result = random.choice(["SAFE", "HIGH RISK DETECTED", "PHISHING ATTEMPT"])
-            if result == "SAFE": st.success("SCAN RESULT: SAFE - System clean.")
-            else: st.error(f"SCAN RESULT: {result} - IMMEDIATE ACTION REQUIRED!")
+    if st.text_input("Enter Link/IP/Device ID:"):
+        if st.button("RUN DEEP SCAN"):
+            with st.spinner("Analyzing packets..."):
+                time.sleep(2)
+                res = random.choice(["SAFE", "HIGH RISK DETECTED", "PHISHING ATTEMPT"])
+                st.success(f"SCAN RESULT: {res}")
 
 elif menu == "NEURAL CHAT":
     st.header("🧠 NEURAL CHATBOT")
     query = st.text_input("Ask CyberMind AI:")
-    if st.button("PROCESS QUERY"):
-        with st.spinner("Processing neural data..."):
-            st.write(get_groq_response(query))
+    if st.button("SEND QUERY"):
+        with st.spinner("Processing..."):
+            st.write(get_ai_response(query))
 
 elif menu == "SYSTEM BREACH":
     st.header("💀 SYSTEM BREACH SIMULATOR")
-    st.write("Simulate a high-level breach for testing purposes.")
     if st.button("INITIATE BREACH"):
-        with st.spinner("Injecting code..."):
-            time.sleep(1)
-            st.code("[!] ACCESS GRANTED\n[!] Bypassing Firewall...\n[!] Root Access Achieved!", language='bash')
-            st.warning("SYSTEM BREACHED! Copy this status and share on WhatsApp to warn others.")
-            st.text_area("Share this:", value="My phone just got breached by CyberMind X! How safe is yours? Check here: [YOUR_APP_LINK]")
+        st.code("[!] BYPASSING FIREWALL...\n[!] ACCESS GRANTED!\n[!] ROOT ACCESS ACHIEVED!", language='bash')
+        st.info("Status copied! Share it now.")
 
 elif menu == "CREATIVE LAB":
     st.header("🎨 CREATIVE STUDIO")
-    tool = st.selectbox("Generator", ["Image AI", "Video AI", "Voice Swap"])
-    prompt = st.text_input("Describe your vision:")
+    tool = st.selectbox("Engine", ["Image Gen", "Video Gen"])
     if st.button("GENERATE"):
         with st.spinner("Rendering..."):
             time.sleep(3)
-            st.success(f"Successfully generated {tool} for: {prompt}")
-            st.info("Pro Tip: Upgrade to Premium for 8K resolution.")
+            st.success(f"Successfully generated {tool} asset.")
 
-# 5. Persistent Footer
-st.sidebar.divider()
-st.sidebar.write("👑 **PREMIUM STATUS:** INACTIVE")
-if st.sidebar.button("ACTIVATE PRO"):
-    st.sidebar.balloons()
+elif menu == "PREMIUM HUB":
+    st.header("👑 UPGRADE TO PRO")
+    st.radio("Select Plan:", ["7 Days - ₹99", "Lifetime - ₹2499"])
+    if st.button("ACTIVATE"):
+        st.balloons()
