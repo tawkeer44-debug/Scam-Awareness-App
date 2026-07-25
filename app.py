@@ -1,66 +1,73 @@
 import streamlit as st
-import time
 
-# --- CONFIG ---
+# --- CONFIGURATION ---
 st.set_page_config(page_title="CyberMind X Pro", layout="wide")
 
-# --- INITIALIZE STATE ---
-if 'coins' not in st.session_state: st.session_state.coins = 100
-if 'is_pro' not in st.session_state: st.session_state.is_pro = False
-if 'output' not in st.session_state: st.session_state.output = "" # Output save karne ke liye
+# --- SESSION STATE ---
+if 'is_pro' not in st.session_state: 
+    st.session_state.is_pro = False
 
-# --- STYLING ---
-st.markdown("<style>.stApp { background-color: #000; color: #00ff41; font-family: 'Courier New'; }</style>", unsafe_allow_html=True)
+# --- HACKER STYLING ---
+st.markdown("""
+    <style>
+    .stApp { background-color: #000; color: #00ff41; font-family: 'Courier New', monospace; }
+    .stButton>button { border: 1px solid #00ff41; background: #000; color: #00ff41; font-weight: bold; width: 100%; }
+    .stTextInput>div>div>input { background-color: #111; color: #00ff41; border: 1px solid #00ff41; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- DETAILED ENGINE (NO DELAY) ---
+def get_hacker_response(tool, cmd):
+    return f"""
+    [SYSTEM]: Protocol Initiated for {tool}
+    [COMMAND]: {cmd}
+    --------------------------------------------------------
+    [1] Establishing encrypted socket connection...
+    [2] Bypassing target perimeter defenses (v9.4)...
+    [3] Scanning memory registers for overflow vulnerabilities...
+    [4] Detected active firewall; deploying stealth evasion patch...
+    [5] Hash identification successful: SHA-256 (SALTED)...
+    [6] Root privilege elevation complete (UID: 0)...
+    [7] Injecting diagnostic payload for deep system analysis...
+    [8] Data extraction stream stabilized at 1.2 GB/s...
+    [9] Tokenized session capture successfully retrieved...
+    [10] FINAL STATUS: Target Compromised & Data Downloaded.
+    """
 
 # --- SIDEBAR ---
 st.sidebar.title("💀 COMMAND CENTER")
-menu = st.sidebar.selectbox("MENU", ["DASHBOARD", "SECURITY LAB", "PRO SUITE", "PREMIUM HUB", "REFERRAL"])
+menu = st.sidebar.selectbox("COMMANDS", ["SECURITY LAB", "PRO HACKER SUITE", "PREMIUM HUB"])
 
-# --- DASHBOARD ---
-if menu == "DASHBOARD":
-    st.title("⚡ DASHBOARD")
-    if 'claimed' not in st.session_state: st.session_state.claimed = False
+# --- SECURITY LAB ---
+if menu == "SECURITY LAB":
+    st.header("🛡️ SECURITY LAB")
+    tools = ["Phishing Detector", "IP Trace", "WiFi Audit", "Firewall Check", "SSL Scanner", "Malware Scan"]
+    choice = st.selectbox("Select Tool:", tools)
+    cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --execute --v1")
     
-    if not st.session_state.claimed:
-        if st.button("CLAIM DAILY 100"):
-            st.session_state.coins += 100
-            st.session_state.claimed = True
+    if st.button("SUBMIT COMMAND"):
+        st.code(get_hacker_response(choice, cmd))
+
+# --- PRO HACKER SUITE ---
+elif menu == "PRO HACKER SUITE":
+    st.header("💀 PRO HACKER SUITE")
+    if not st.session_state.is_pro:
+        st.warning("⚠️ PRO FEATURES LOCKED.")
+        if st.button("UNLOCK PRO ACCESS"):
+            st.session_state.is_pro = True
             st.rerun()
     else:
-        st.write("✅ Daily reward already claimed.")
+        st.success("✅ PRO ACCESS GRANTED")
+        pro_tools = ["Kernel Breach", "WiFi Bypass", "DB Dump", "Brute Force", "Traffic Spoof", "System Override"]
+        choice = st.selectbox("Select Pro Tool:", pro_tools)
+        cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --root --force --debug")
+        
+        if st.button("SUBMIT COMMAND"):
+            st.code(get_hacker_response(choice, cmd))
 
-# --- SECURITY LAB (Output Fix) ---
-elif menu == "SECURITY LAB":
-    st.header("🛡️ SECURITY LAB")
-    cmd = st.text_input("Enter Command:", "scan --phishing")
-    if st.button("SUBMIT"):
-        st.session_state.output = f"[+] Running {cmd}...\n[+] Analyzing...\n[+] Result: System Secure.\n[+] Credits Added."
-        st.session_state.coins += 10
-    st.code(st.session_state.output)
-
-# --- PREMIUM HUB (Subscription Model) ---
+# --- PREMIUM HUB ---
 elif menu == "PREMIUM HUB":
-    st.header("💎 PREMIUM PLANS")
-    plans = {
-        "7 Days": "$5", "1 Month": "$15", "30 Days": "$15", 
-        "6 Months": "$60", "1 Year": "$100", "Lifetime": "$200"
-    }
-    for plan, price in plans.items():
-        if st.button(f"Buy {plan} for {price}"):
-            st.success(f"Redirecting to payment for {plan}...")
-
-# --- REFERRAL LOGIC (Real Join) ---
-elif menu == "REFERRAL":
-    st.header("🔗 REFERRAL HUB")
-    st.write("Get 100 coins only when 15 friends JOIN the app!")
-    st.write(f"Friends Joined: {st.session_state.get('joined', 0)}/15")
-    
-    # Simulate real join
-    if st.button("Simulate Friend Joining"):
-        joined = st.session_state.get('joined', 0) + 1
-        st.session_state.joined = joined
-        if joined == 15:
-            st.session_state.coins += 100
-            st.success("Milestone Reached! 100 Coins Added.")
-            st.session_state.joined = 0 # Reset
-        st.rerun()
+    st.header("💎 PREMIUM HUB")
+    st.write("To get premium access and advanced tools, reach out directly.")
+    st.link_button("Contact on Instagram", "https://www.instagram.com/your-username")
+    st.write("DM me with 'Premium Access' to proceed.")
