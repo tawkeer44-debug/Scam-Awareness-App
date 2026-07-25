@@ -1,72 +1,75 @@
 import streamlit as st
-import time
 import random
+import time
 
-# --- PAGE CONFIG ---
-st.set_page_config(page_title="CyberMind X", layout="wide")
-
-# --- INITIALIZING ECONOMY ---
+# --- CONFIG & ECONOMY ---
+st.set_page_config(page_title="CyberMind X Pro", layout="wide")
 if 'coins' not in st.session_state: st.session_state.coins = 100
-if 'reward_claimed' not in st.session_state: st.session_state.reward_claimed = False
+if 'last_reward' not in st.session_state: st.session_state.last_reward = None
 
-# --- UI STYLING ---
+# --- UI STYLING (HACKER THEME) ---
 st.markdown("""
     <style>
-    .stApp { background-color: #000; color: #00ff41; font-family: 'Courier New', monospace; }
-    .stButton>button { border: 1px solid #00ff41; background: #000; color: #00ff41; width: 100%; }
+    .stApp { background-color: #000; color: #00ff41; font-family: 'Courier New'; }
+    .stButton>button { border: 2px solid #00ff41; background: #000; color: #00ff41; font-weight: bold; }
+    .stButton>button:hover { background: #00ff41; color: #000; }
     </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR: ECONOMY DASHBOARD ---
-st.sidebar.title("💰 CYBER-WALLET")
-st.sidebar.metric("Balance", f"{st.session_state.coins} 🪙")
-if st.sidebar.button("🎁 Daily 50 Coins"):
-    if not st.session_state.reward_claimed:
-        st.session_state.coins += 50
-        st.session_state.reward_claimed = True
-        st.sidebar.success("Reward Claimed!")
-    else: st.sidebar.warning("Already claimed!")
+# --- DAILY REWARD LOGIC ---
+st.sidebar.title("💎 CYBER-WALLET")
+st.sidebar.metric("Coins", f"{st.session_state.coins} 🪙")
+if st.sidebar.button("🎁 CLAIM DAILY 100 COINS"):
+    st.session_state.coins += 100
+    st.sidebar.success("100 Coins Added!")
 
-# --- MAIN MENU ---
+# --- MASTER MENU ---
 menu = st.sidebar.selectbox("COMMAND CENTER", [
-    "HOME", "THREAT SCANNER", "SYSTEM BREACH", "WIFI PASSWORD SIMULATOR", "REFERRAL HUB"
+    "SECURITY SUITE", "HACKER TOOLS", "SOCIAL SHARING", "PREMIUM UPGRADE"
 ])
 
-st.title("⚡ CYBERMIND X - DARK OPS")
+# --- SECURITY SUITE ---
+if menu == "SECURITY SUITE":
+    st.header("🛡️ SECURITY SUITE")
+    tools = ["Phishing Detector", "System Scanner", "IP Tracker", "Deepfake Scanner"]
+    choice = st.selectbox("Select Tool:", tools)
+    if st.button("RUN ANALYSIS"):
+        st.session_state.coins += 5
+        st.code(f"[+] ANALYZING {choice.upper()}...\n[+] STATUS: SECURE (Coins +5)")
 
-# --- LOGIC FOR ALL FEATURES ---
-if menu == "HOME":
-    st.write("Welcome to the most advanced security tool. Scan, Breach, and Earn!")
-
-elif menu == "THREAT SCANNER":
-    st.header("🛡️ THREAT SCANNER")
-    target = st.text_input("Enter Link:")
-    if st.button("RUN SCAN"):
-        st.session_state.coins += 5 # User ko scan karne ke coins milenge
-        st.code("[+] SCANNING: " + target + "\n[+] RESULT: SAFE")
-
-elif menu == "SYSTEM BREACH":
-    st.header("💀 SYSTEM BREACH")
-    target = st.text_input("Target ID:")
-    if st.button("EXECUTE"):
-        st.session_state.coins += 10
-        st.code("[+] BREACH SUCCESSFUL\n[+] COINS EARNED: 10")
-
-elif menu == "WIFI PASSWORD SIMULATOR":
-    st.header("💀 WIFI SIMULATOR")
-    wifi = st.text_input("Enter SSID:")
-    if st.button("EXTRACT"):
+# --- HACKER TOOLS ---
+elif menu == "HACKER TOOLS":
+    st.header("💀 HACKER TOOLS")
+    target = st.text_input("Enter Target Name/IP:")
+    if st.button("WIFI SIMULATOR"):
         st.session_state.coins += 20
-        password = f"X-{random.randint(1000,9999)}-{wifi[:3].upper()}"
-        st.code(f"[+] PASSWORD: {password}\n[+] COINS EARNED: 20")
+        password = f"X-{random.randint(1000,9999)}"
+        st.code(f"[+] TARGET: {target}\n[+] PASS: {password}\n[+] COINS EARNED: 20")
 
-elif menu == "REFERRAL HUB":
-    st.header("🔗 REFERRAL SYSTEM")
-    ref = st.text_input("Enter Referral Code:")
-    if st.button("REDEEM"):
-        if ref == "PRO2026":
-            st.session_state.coins += 100
-            st.success("Referral Applied! +100 Coins")
-        else: st.error("Invalid Code")
+# --- SOCIAL SHARING (REFERRAL HUB) ---
+elif menu == "SOCIAL SHARING":
+    st.header("🔗 INVITE & EARN")
+    st.write("Share CyberMind X with friends to earn 500 coins!")
+    
+    # Sharing URLs
+    share_text = "Check out this insane CyberMind X Security App! Download here: https://your-app-link.com"
+    wa_url = f"https://wa.me/?text={share_text}"
+    tg_url = f"https://t.me/share/url?url=https://your-app-link.com&text={share_text}"
+    ig_url = "https://www.instagram.com/" # Instagram requires direct app interaction
+    
+    col1, col2, col3 = st.columns(3)
+    with col1: st.link_button("WhatsApp", wa_url)
+    with col2: st.link_button("Telegram", tg_url)
+    with col3: st.link_button("Instagram", ig_url)
 
-st.sidebar.info("Tip: Use tools to earn more coins!")
+# --- PREMIUM UPGRADE ---
+elif menu == "PREMIUM UPGRADE":
+    st.header("👑 UPGRADE TO PRO")
+    st.write("Unlock secret hacker modes and unlimited scans.")
+    if st.button("BUY PRO (5000 COINS)"):
+        if st.session_state.coins >= 5000:
+            st.session_state.coins -= 5000
+            st.balloons()
+            st.success("Welcome to Pro Mode!")
+        else:
+            st.error("Not enough coins!")
