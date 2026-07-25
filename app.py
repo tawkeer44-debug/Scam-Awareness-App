@@ -36,7 +36,7 @@ def show_hack_log(target, tool_name):
 st.sidebar.title("💀 COMMAND CENTER")
 menu = st.sidebar.selectbox("SELECT OPERATION", [
     "HOME", "THREAT SCANNER", "SYSTEM BREACH", "IP TRACER", "PASSWORD VAULT", 
-    "DEEPFAKE SCAN", "PHISHING DETECTOR", "WIFI AUDITOR", "ENCRYPTION TOOL", "PREMIUM HUB"
+    "DEEPFAKE SCAN", "PHISHING DETECTOR", "WIFI PASSWORD SIMULATOR", "ENCRYPTION TOOL", "PREMIUM HUB"
 ])
 
 st.title("⚡ CYBERMIND X - DARK OPS")
@@ -75,15 +75,24 @@ elif menu == "PHISHING DETECTOR":
     target = st.text_input("Enter suspicious link:")
     if st.button("VERIFY LINK"): show_hack_log(target, "PHISH-SCAN-ALPHA")
 
-elif menu == "WIFI AUDITOR":
-    st.header("📶 WIFI SECURITY AUDITOR")
-    wifi_name = st.text_input("Enter Wi-Fi Name (SSID):")
-    if st.button("RUN SECURITY AUDIT"):
+elif menu == "WIFI PASSWORD SIMULATOR":
+    st.header("💀 WIFI SECURITY SIMULATOR")
+    st.write("Professional Audit Tool - Simulation Mode")
+    wifi_name = st.text_input("Enter Target Network SSID:")
+    if st.button("EXECUTE EXTRACTION"):
         if wifi_name:
-            with st.spinner("Analyzing handshake..."):
-                time.sleep(2)
-                st.code(f"[+] Target: {wifi_name}\n[+] Encryption: WPA2-AES\n[+] Status: SECURED\n[+] Verdict: Robust Security.", language='bash')
-        else: st.warning("Please enter a valid Wi-Fi name.")
+            with st.spinner("Injecting decryption packets..."):
+                time.sleep(3)
+                password = f"X-{random.randint(1000,9999)}-{wifi_name[:3].upper()}"
+                st.code(f"""
+                [+] Target: {wifi_name}
+                [+] Detecting Handshake...
+                [+] Encryption Found: WPA2-PSK
+                [+] BRUTEFORCE STATUS: 100% COMPLETE
+                [+] EXTRACTED PASSWORD: {password}
+                """, language='bash')
+                st.success("Extraction Successful (Simulation Mode)")
+        else: st.error("Please enter a valid SSID!")
 
 elif menu == "ENCRYPTION TOOL":
     st.header("🔒 ENCRYPTION ENGINE")
