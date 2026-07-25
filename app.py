@@ -1,5 +1,4 @@
 import streamlit as st
-import random
 
 # --- 1. CONFIG & SESSION ---
 st.set_page_config(page_title="CyberMind X Pro", layout="wide", page_icon="💀")
@@ -25,12 +24,15 @@ menu = st.sidebar.selectbox("SELECT OPERATION", [
     "DASHBOARD", "BASIC TOOLS", "PRO HACKER TOOLS", "REFERRAL HUB"
 ])
 
-# --- 4. LOGIC ---
+# --- 4. CORE LOGIC ---
 def process_invite():
     st.session_state.invite_count += 1
+    # Sirf 15 ke set par hi 100 coins
     if st.session_state.invite_count % 15 == 0:
         st.session_state.coins += 100
-        st.success("Milestone Hit! +100 Coins.")
+        st.success(f"🎊 Milestone Hit! 15 friends invited. +100 Coins added!")
+    else:
+        st.info(f"Progress: {st.session_state.invite_count % 15}/15 friends invited.")
 
 # --- 5. INTERFACE ---
 if menu == "DASHBOARD":
@@ -38,7 +40,7 @@ if menu == "DASHBOARD":
     st.write("Welcome to the most dangerous tool on the web.")
     if st.button("🎁 CLAIM DAILY 100 COINS"):
         st.session_state.coins += 100
-        st.experimental_rerun()
+        st.rerun()
 
 elif menu == "BASIC TOOLS":
     st.header("🛡️ BASIC SECURITY")
@@ -53,24 +55,28 @@ elif menu == "PRO HACKER TOOLS":
     st.header("💀 PRO HACKER SUITE")
     if not st.session_state.is_pro:
         st.warning("⚠️ PRO FEATURES LOCKED! Upgrade to access.")
-        if st.button("UNLOCK PRO (Cost: 500 Coins)"):
-            if st.session_state.coins >= 500:
-                st.session_state.coins -= 500
+        if st.button("UNLOCK PRO (Cost: 5000 Coins)"):
+            if st.session_state.coins >= 5000:
+                st.session_state.coins -= 5000
                 st.session_state.is_pro = True
                 st.success("PRO MODE UNLOCKED!")
-                st.experimental_rerun()
+                st.rerun()
+            else:
+                st.error("Not enough coins! Need 5000.")
     else:
-        # YEH FEATURES SIRF PRO KO DIKHENGE
-        st.success("PRO FEATURES ACTIVATED!")
-        if st.button("💀 ROOT KERNEL BREACH"):
-            st.code("[+] BREAKING ENCRYPTION...\n[+] ROOT ACCESS GRANTED!")
-        if st.button("💀 GLOBAL WIFI BYPASS"):
-            st.code("[+] BYPASSING WPA3...\n[+] GATEWAY ACCESSED!")
-        if st.button("💀 DATABASE DUMP"):
-            st.code("[+] DUMPING DATA...\n[+] 500MB EXTRACTED!")
+        # PRO FEATURES
+        st.success("✅ PRO FEATURES ACTIVATED!")
+        st.button("💀 ROOT KERNEL BREACH")
+        st.button("💀 GLOBAL WIFI BYPASS")
+        st.button("💀 DATABASE DUMP")
+        st.button("💀 FIREWALL DISABLER")
+        st.button("💀 SYSTEM OVERRIDE")
 
 elif menu == "REFERRAL HUB":
     st.header("🔗 REFERRAL SYSTEM")
-    st.write(f"Total Invites: {st.session_state.invite_count}")
+    st.write("Share with 15 friends to get 100 coins!")
+    st.write(f"Your Shares: {st.session_state.invite_count}")
+    
     if st.button("📢 Share on WhatsApp"): process_invite()
-    if st.button("✈️ Share on Telegram"): process_invite()
+    if st.button("✈️ Telegram Share"): process_invite()
+    if st.button("📸 Instagram Share"): process_invite()
