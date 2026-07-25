@@ -4,8 +4,7 @@ import streamlit as st
 st.set_page_config(page_title="CyberMind X Pro", layout="wide")
 
 # --- SESSION STATE ---
-if 'is_pro' not in st.session_state: 
-    st.session_state.is_pro = False
+if 'is_pro' not in st.session_state: st.session_state.is_pro = False
 
 # --- HACKER STYLING ---
 st.markdown("""
@@ -36,17 +35,40 @@ def get_hacker_response(tool, cmd):
 
 # --- SIDEBAR ---
 st.sidebar.title("💀 COMMAND CENTER")
-menu = st.sidebar.selectbox("COMMANDS", ["SECURITY LAB", "PRO HACKER SUITE", "PREMIUM HUB"])
+menu = st.sidebar.selectbox("COMMANDS", [
+    "SECURITY LAB", "NETWORK MAPPER", "PASSWORD CRACKER", 
+    "FORENSICS", "CRYPTO MINER", "TRAFFIC MONITOR", 
+    "PRO HACKER SUITE", "PREMIUM HUB"
+])
 
-# --- SECURITY LAB ---
-if menu == "SECURITY LAB":
-    st.header("🛡️ SECURITY LAB")
-    tools = ["Phishing Detector", "IP Trace", "WiFi Audit", "Firewall Check", "SSL Scanner", "Malware Scan"]
-    choice = st.selectbox("Select Tool:", tools)
-    cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --execute --v1")
+# --- GENERIC TOOL FUNCTION ---
+def run_tool_section(title, options, default_cmd_suffix="--exec"):
+    st.header(f"🛡️ {title}")
+    choice = st.selectbox("Select Tool:", options)
+    cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} {default_cmd_suffix}")
     
     if st.button("SUBMIT COMMAND"):
         st.code(get_hacker_response(choice, cmd))
+
+# --- APP LOGIC ---
+
+if menu == "SECURITY LAB":
+    run_tool_section("SECURITY LAB", ["Phishing Detector", "IP Trace", "WiFi Audit", "Firewall Check"])
+
+elif menu == "NETWORK MAPPER":
+    run_tool_section("NETWORK MAPPER", ["Port Scan", "Subnet Discovery", "DNS Enumeration", "Host Sweep"])
+
+elif menu == "PASSWORD CRACKER":
+    run_tool_section("PASSWORD CRACKER", ["Brute Force", "Dictionary Attack", "Hash Decryption", "Rainbow Table"])
+
+elif menu == "FORENSICS":
+    run_tool_section("FORENSICS", ["Kernel Dump", "Log Analysis", "Memory Dump", "Disk Imaging"])
+
+elif menu == "CRYPTO MINER":
+    run_tool_section("CRYPTO MINER", ["Hashrate Test", "Wallet Audit", "Node Sync", "Block Verify"])
+
+elif menu == "TRAFFIC MONITOR":
+    run_tool_section("TRAFFIC MONITOR", ["Packet Sniffer", "Bandwidth Log", "Connection Trace", "Protocol Analyzer"])
 
 # --- PRO HACKER SUITE ---
 elif menu == "PRO HACKER SUITE":
@@ -60,14 +82,19 @@ elif menu == "PRO HACKER SUITE":
         st.success("✅ PRO ACCESS GRANTED")
         pro_tools = ["Kernel Breach", "WiFi Bypass", "DB Dump", "Brute Force", "Traffic Spoof", "System Override"]
         choice = st.selectbox("Select Pro Tool:", pro_tools)
-        cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --root --force --debug")
-        
+        cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --root --force")
         if st.button("SUBMIT COMMAND"):
             st.code(get_hacker_response(choice, cmd))
 
 # --- PREMIUM HUB ---
 elif menu == "PREMIUM HUB":
     st.header("💎 PREMIUM HUB")
-    st.write("To get premium access and advanced tools, reach out directly.")
-    st.link_button("Contact on Instagram", "https://www.instagram.com/your-username")
-    st.write("DM me with 'Premium Access' to proceed.")
+    st.write("Select your plan to unlock full potential:")
+    
+    plan = st.radio("Available Plans:", ["7 Days", "1 Month", "6 Months", "1 Year", "Lifetime"])
+    
+    st.write(f"--- You selected: **{plan}** ---")
+    st.write("To proceed with payment and activation, please contact me directly on Instagram.")
+    
+    # DM Link configured for your Instagram
+    st.link_button(f"Message me for {plan} Plan", f"https://ig.me/m/th3_tawkeer")
