@@ -4,11 +4,6 @@ import google.generativeai as genai
 # --- CONFIGURATION ---
 st.set_page_config(page_title="CyberMind X Pro", layout="wide")
 
-# --- AI SETUP (Aapki API Key yahan dalni hogi) ---
-# Tawkeer bhai, yahan apni key dalen: genai.configure(api_key="YOUR_API_KEY_HERE")
-genai.configure(api_key="PASTE_YOUR_API_KEY_HERE")
-model = genai.GenerativeModel('gemini-pro')
-
 # --- HACKER STYLING ---
 st.markdown("""
     <style>
@@ -18,30 +13,34 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- AI ENGINE ---
+# --- AI SETUP (Safe - using Secrets) ---
+try:
+    api_key = st.secrets["GOOGLE_API_KEY"]
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-pro')
+except Exception:
+    st.error("API Key set nahi hai! Streamlit Secrets mein 'GOOGLE_API_KEY' add karo.")
+
 def get_ai_answer(prompt):
     try:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return "Error: API Key set nahi hai ya connection issue hai."
+        return f"Error: {str(e)}"
 
 # --- SIDEBAR ---
 st.sidebar.title("💀 COMMAND CENTER")
-menu = st.sidebar.selectbox("COMMANDS", [
-    "SECURITY LAB", "NETWORK MAPPER", "PASSWORD CRACKER", 
-    "PRO HACKER SUITE", "PREMIUM HUB"
-])
+menu = st.sidebar.selectbox("COMMANDS", ["SECURITY LAB", "PRO HACKER SUITE", "PREMIUM HUB"])
 
-# --- DYNAMIC TOOL FUNCTION ---
+# --- AI TOOL ENGINE ---
 def run_ai_tool(title):
     st.header(f"🛡️ {title}")
     st.write("---")
-    user_input = st.text_input("Enter your question or command:", placeholder="e.g., How many components in water?")
+    user_input = st.text_input("Enter your command or question:", placeholder="e.g., How many components in water?")
     
     if st.button("SUBMIT"):
         if user_input:
-            with st.spinner("Thinking..."):
+            with st.spinner("Analyzing..."):
                 answer = get_ai_answer(user_input)
                 st.markdown(f"**ANSWER:**\n\n{answer}")
         else:
@@ -50,25 +49,31 @@ def run_ai_tool(title):
 # --- APP LOGIC ---
 
 if menu == "SECURITY LAB":
-    run_ai_tool("SECURITY LAB (AI Assistant)")
+    run_ai_tool("SECURITY LAB")
 
-elif menu == "NETWORK MAPPER":
-    run_ai_tool("NETWORK MAPPER (AI Assistant)")
-
-elif menu == "PASSWORD CRACKER":
-    run_ai_tool("PASSWORD CRACKER (AI Assistant)")
-
-# --- PRO HACKER SUITE ---
 elif menu == "PRO HACKER SUITE":
     st.header("💀 PRO HACKER SUITE")
-    st.write("AI powered advanced exploits.")
-    user_input = st.text_input("Enter exploit command:")
-    if st.button("EXECUTE"):
-        answer = get_ai_answer(user_input)
-        st.markdown(f"**RESULT:**\n\n{answer}")
+    if 'is_pro' not in st.session_state: st.session_state.is_pro = False
+    
+    if not st.session_state.is_pro:
+        st.warning("⚠️ PRO FEATURES LOCKED.")
+        if st.button("UNLOCK PRO ACCESS"):
+            st.session_state.is_pro = True
+            st.rerun()
+    else:
+        user_input = st.text_input("Enter pro command:", placeholder="e.g., Explain kernel security...")
+        if st.button("EXECUTE"):
+            answer = get_ai_answer(user_input)
+            st.markdown(f"**RESULT:**\n\n{answer}")
 
-# --- PREMIUM HUB ---
 elif menu == "PREMIUM HUB":
     st.header("💎 PREMIUM HUB")
-    st.write("Direct contact for premium plans.")
-    st.link_button("Contact on Instagram", "https://ig.me/m/th3_tawkeer")
+    st.write("Select your plan to unlock full potential:")
+    
+    plan = st.radio("Available Plans:", ["7 Days", "1 Month", "6 Months", "1 Year", "Lifetime"])
+    
+    st.write(f"--- You selected: **{plan}** ---")
+    st.write("To proceed with payment and activation, please contact me directly on Instagram.")
+    
+    # Instagram DM Link
+    st.link_button(f"Message me for {plan} Plan", "https://ig.me/m/th3_tawkeer")
