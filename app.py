@@ -1,10 +1,13 @@
 import streamlit as st
+import google.generativeai as genai
 
 # --- CONFIGURATION ---
 st.set_page_config(page_title="CyberMind X Pro", layout="wide")
 
-# --- SESSION STATE ---
-if 'is_pro' not in st.session_state: st.session_state.is_pro = False
+# --- AI SETUP (Aapki API Key yahan dalni hogi) ---
+# Tawkeer bhai, yahan apni key dalen: genai.configure(api_key="YOUR_API_KEY_HERE")
+genai.configure(api_key="PASTE_YOUR_API_KEY_HERE")
+model = genai.GenerativeModel('gemini-pro')
 
 # --- HACKER STYLING ---
 st.markdown("""
@@ -15,86 +18,57 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- DETAILED ENGINE (NO DELAY) ---
-def get_hacker_response(tool, cmd):
-    return f"""
-    [SYSTEM]: Protocol Initiated for {tool}
-    [COMMAND]: {cmd}
-    --------------------------------------------------------
-    [1] Establishing encrypted socket connection...
-    [2] Bypassing target perimeter defenses (v9.4)...
-    [3] Scanning memory registers for overflow vulnerabilities...
-    [4] Detected active firewall; deploying stealth evasion patch...
-    [5] Hash identification successful: SHA-256 (SALTED)...
-    [6] Root privilege elevation complete (UID: 0)...
-    [7] Injecting diagnostic payload for deep system analysis...
-    [8] Data extraction stream stabilized at 1.2 GB/s...
-    [9] Tokenized session capture successfully retrieved...
-    [10] FINAL STATUS: Target Compromised & Data Downloaded.
-    """
+# --- AI ENGINE ---
+def get_ai_answer(prompt):
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return "Error: API Key set nahi hai ya connection issue hai."
 
 # --- SIDEBAR ---
 st.sidebar.title("💀 COMMAND CENTER")
 menu = st.sidebar.selectbox("COMMANDS", [
     "SECURITY LAB", "NETWORK MAPPER", "PASSWORD CRACKER", 
-    "FORENSICS", "CRYPTO MINER", "TRAFFIC MONITOR", 
     "PRO HACKER SUITE", "PREMIUM HUB"
 ])
 
-# --- GENERIC TOOL FUNCTION ---
-def run_tool_section(title, options, default_cmd_suffix="--exec"):
+# --- DYNAMIC TOOL FUNCTION ---
+def run_ai_tool(title):
     st.header(f"🛡️ {title}")
-    choice = st.selectbox("Select Tool:", options)
-    cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} {default_cmd_suffix}")
+    st.write("---")
+    user_input = st.text_input("Enter your question or command:", placeholder="e.g., How many components in water?")
     
-    if st.button("SUBMIT COMMAND"):
-        st.code(get_hacker_response(choice, cmd))
+    if st.button("SUBMIT"):
+        if user_input:
+            with st.spinner("Thinking..."):
+                answer = get_ai_answer(user_input)
+                st.markdown(f"**ANSWER:**\n\n{answer}")
+        else:
+            st.warning("Pehle kuch likho toh!")
 
 # --- APP LOGIC ---
 
 if menu == "SECURITY LAB":
-    run_tool_section("SECURITY LAB", ["Phishing Detector", "IP Trace", "WiFi Audit", "Firewall Check"])
+    run_ai_tool("SECURITY LAB (AI Assistant)")
 
 elif menu == "NETWORK MAPPER":
-    run_tool_section("NETWORK MAPPER", ["Port Scan", "Subnet Discovery", "DNS Enumeration", "Host Sweep"])
+    run_ai_tool("NETWORK MAPPER (AI Assistant)")
 
 elif menu == "PASSWORD CRACKER":
-    run_tool_section("PASSWORD CRACKER", ["Brute Force", "Dictionary Attack", "Hash Decryption", "Rainbow Table"])
-
-elif menu == "FORENSICS":
-    run_tool_section("FORENSICS", ["Kernel Dump", "Log Analysis", "Memory Dump", "Disk Imaging"])
-
-elif menu == "CRYPTO MINER":
-    run_tool_section("CRYPTO MINER", ["Hashrate Test", "Wallet Audit", "Node Sync", "Block Verify"])
-
-elif menu == "TRAFFIC MONITOR":
-    run_tool_section("TRAFFIC MONITOR", ["Packet Sniffer", "Bandwidth Log", "Connection Trace", "Protocol Analyzer"])
+    run_ai_tool("PASSWORD CRACKER (AI Assistant)")
 
 # --- PRO HACKER SUITE ---
 elif menu == "PRO HACKER SUITE":
     st.header("💀 PRO HACKER SUITE")
-    if not st.session_state.is_pro:
-        st.warning("⚠️ PRO FEATURES LOCKED.")
-        if st.button("UNLOCK PRO ACCESS"):
-            st.session_state.is_pro = True
-            st.rerun()
-    else:
-        st.success("✅ PRO ACCESS GRANTED")
-        pro_tools = ["Kernel Breach", "WiFi Bypass", "DB Dump", "Brute Force", "Traffic Spoof", "System Override"]
-        choice = st.selectbox("Select Pro Tool:", pro_tools)
-        cmd = st.text_input("Enter Command:", value=f"{choice.lower().replace(' ', '_')} --root --force")
-        if st.button("SUBMIT COMMAND"):
-            st.code(get_hacker_response(choice, cmd))
+    st.write("AI powered advanced exploits.")
+    user_input = st.text_input("Enter exploit command:")
+    if st.button("EXECUTE"):
+        answer = get_ai_answer(user_input)
+        st.markdown(f"**RESULT:**\n\n{answer}")
 
 # --- PREMIUM HUB ---
 elif menu == "PREMIUM HUB":
     st.header("💎 PREMIUM HUB")
-    st.write("Select your plan to unlock full potential:")
-    
-    plan = st.radio("Available Plans:", ["7 Days", "1 Month", "6 Months", "1 Year", "Lifetime"])
-    
-    st.write(f"--- You selected: **{plan}** ---")
-    st.write("To proceed with payment and activation, please contact me directly on Instagram.")
-    
-    # DM Link configured for your Instagram
-    st.link_button(f"Message me for {plan} Plan", f"https://ig.me/m/th3_tawkeer")
+    st.write("Direct contact for premium plans.")
+    st.link_button("Contact on Instagram", "https://ig.me/m/th3_tawkeer")
