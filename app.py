@@ -1,71 +1,72 @@
 import streamlit as st
+import time
 import random
 
-# --- ECONOMY LOGIC ---
-def init_session():
-    defaults = {
-        'coins': 100,
-        'level': 'Beginner',
-        'sub_status': 'Free',
-        'ref_bonus': False
-    }
-    for key, val in defaults.items():
-        if key not in st.session_state: st.session_state[key] = val
+# --- PAGE CONFIG ---
+st.set_page_config(page_title="CyberMind X", layout="wide")
 
-init_session()
+# --- INITIALIZING ECONOMY ---
+if 'coins' not in st.session_state: st.session_state.coins = 100
+if 'reward_claimed' not in st.session_state: st.session_state.reward_claimed = False
 
-# --- SIDEBAR MONETIZATION ---
-st.sidebar.title("💎 PRO ECONOMY")
+# --- UI STYLING ---
+st.markdown("""
+    <style>
+    .stApp { background-color: #000; color: #00ff41; font-family: 'Courier New', monospace; }
+    .stButton>button { border: 1px solid #00ff41; background: #000; color: #00ff41; width: 100%; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- SIDEBAR: ECONOMY DASHBOARD ---
+st.sidebar.title("💰 CYBER-WALLET")
 st.sidebar.metric("Balance", f"{st.session_state.coins} 🪙")
-
-menu = st.sidebar.radio("Economy Menu", ["Dashboard", "Earn Coins", "Subscription", "Creator Shop"])
-
-# --- DASHBOARD ---
-if menu == "Dashboard":
-    st.title("📊 User Dashboard")
-    st.write(f"Current Rank: **{st.session_state.level}**")
-    st.write(f"Status: **{st.session_state.sub_status}**")
-    
-    if st.button("Daily Reward 🎁"):
+if st.sidebar.button("🎁 Daily 50 Coins"):
+    if not st.session_state.reward_claimed:
         st.session_state.coins += 50
-        st.success("Collected 50 Daily Coins!")
+        st.session_state.reward_claimed = True
+        st.sidebar.success("Reward Claimed!")
+    else: st.sidebar.warning("Already claimed!")
 
-# --- EARN COINS (Referral & Ads) ---
-elif menu == "Earn Coins":
-    st.title("💸 Earn & Affiliate")
-    ref = st.text_input("Enter Referral Code")
-    if st.button("Apply Referral"):
-        if ref == "CYBER2026":
-            st.session_state.coins += 200
-            st.success("Referral Applied!")
-        else:
-            st.error("Invalid Code")
-            
-    st.info("Watch Ad for 10 Coins (Simulated)")
-    if st.button("Watch Video Ad"):
+# --- MAIN MENU ---
+menu = st.sidebar.selectbox("COMMAND CENTER", [
+    "HOME", "THREAT SCANNER", "SYSTEM BREACH", "WIFI PASSWORD SIMULATOR", "REFERRAL HUB"
+])
+
+st.title("⚡ CYBERMIND X - DARK OPS")
+
+# --- LOGIC FOR ALL FEATURES ---
+if menu == "HOME":
+    st.write("Welcome to the most advanced security tool. Scan, Breach, and Earn!")
+
+elif menu == "THREAT SCANNER":
+    st.header("🛡️ THREAT SCANNER")
+    target = st.text_input("Enter Link:")
+    if st.button("RUN SCAN"):
+        st.session_state.coins += 5 # User ko scan karne ke coins milenge
+        st.code("[+] SCANNING: " + target + "\n[+] RESULT: SAFE")
+
+elif menu == "SYSTEM BREACH":
+    st.header("💀 SYSTEM BREACH")
+    target = st.text_input("Target ID:")
+    if st.button("EXECUTE"):
         st.session_state.coins += 10
-        st.balloons()
+        st.code("[+] BREACH SUCCESSFUL\n[+] COINS EARNED: 10")
 
-# --- SUBSCRIPTION & PAID CONTENT ---
-elif menu == "Subscription":
-    st.title("👑 Premium Plans")
-    plans = {"Basic (1 Month)": 500, "Pro (Lifetime)": 2000}
-    
-    for plan, cost in plans.items():
-        if st.button(f"Buy {plan} for {cost} Coins"):
-            if st.session_state.coins >= cost:
-                st.session_state.coins -= cost
-                st.session_state.sub_status = plan
-                st.success(f"Purchased {plan}!")
-            else:
-                st.error("Insufficient Coins!")
+elif menu == "WIFI PASSWORD SIMULATOR":
+    st.header("💀 WIFI SIMULATOR")
+    wifi = st.text_input("Enter SSID:")
+    if st.button("EXTRACT"):
+        st.session_state.coins += 20
+        password = f"X-{random.randint(1000,9999)}-{wifi[:3].upper()}"
+        st.code(f"[+] PASSWORD: {password}\n[+] COINS EARNED: 20")
 
-# --- CREATOR SHOP (Monetization) ---
-elif menu == "Creator Shop":
-    st.title("🛒 Creator Assets")
-    st.write("Buy Premium Scripts & Plugins")
-    items = {"Hacker Theme Pack": 300, "Advanced Scanner Script": 800}
-    
-    for item, price in items.items():
-        if st.button(f"Unlock {item} ({price} Coins)"):
-            st.warning(f"Feature: {item} unlocked for your account.")
+elif menu == "REFERRAL HUB":
+    st.header("🔗 REFERRAL SYSTEM")
+    ref = st.text_input("Enter Referral Code:")
+    if st.button("REDEEM"):
+        if ref == "PRO2026":
+            st.session_state.coins += 100
+            st.success("Referral Applied! +100 Coins")
+        else: st.error("Invalid Code")
+
+st.sidebar.info("Tip: Use tools to earn more coins!")
