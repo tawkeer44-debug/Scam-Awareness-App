@@ -16,7 +16,7 @@ st.markdown("""
 
 # --- AI SETUP (GROQ) ---
 try:
-    # Key secrets se le rahe hain
+    # Secrets se key fetch karna
     api_key = st.secrets["GROQ_API_KEY"]
     client = Groq(api_key=api_key)
 except Exception:
@@ -25,13 +25,14 @@ except Exception:
 def get_groq_answer(prompt):
     if client:
         try:
+            # Yahan model update kar diya hai
             chat_completion = client.chat.completions.create(
                 messages=[{"role": "user", "content": prompt}],
-                model="llama3-8b-8192",
+                model="llama-3.3-70b-versatile", 
             )
             return chat_completion.choices[0].message.content
         except Exception as e:
-            return f"Groq Error: {str(e)}"
+            return f"Groq API Error: {str(e)}"
     return "API Key configure nahi hai. Secrets check karein."
 
 # --- SIDEBAR COMMANDS ---
@@ -52,7 +53,7 @@ if menu != "PREMIUM HUB":
         if client is None:
             st.error("API Key missing! Secrets mein 'GROQ_API_KEY' set karein.")
         elif user_input:
-            with st.spinner("Executing..."):
+            with st.spinner("Analyzing..."):
                 result = get_groq_answer(user_input)
                 st.markdown("---")
                 st.markdown(result)
