@@ -1,110 +1,62 @@
 import streamlit as st
-import time
 import random
+import datetime
 
-# 1. Page Configuration
-st.set_page_config(page_title="CyberMind X", layout="wide", page_icon="💀")
+# Economy Manager Class
+class AppEconomy:
+    def __init__(self):
+        if 'coins' not in st.session_state: st.session_state.coins = 100
+        if 'subscription' not in st.session_state: st.session_state.subscription = "Free"
+        if 'reward_claimed' not in st.session_state: st.session_state.reward_claimed = False
 
-# 2. Dark Hacker Terminal Styling
-st.markdown("""
-    <style>
-    .stApp { background-color: #000000; color: #00ff41; font-family: 'Courier New', monospace; }
-    .stButton>button { background-color: #000; color: #ff0000; border: 2px solid #ff0000; font-weight: bold; width: 100%; border-radius: 0px; }
-    .stButton>button:hover { background-color: #ff0000; color: #fff; }
-    h1, h2, h3 { color: #00ff41 !important; text-shadow: 0 0 5px #00ff41; }
-    .stCodeBlock { border: 1px solid #00ff41; background-color: #0a0a0a; }
-    </style>
-""", unsafe_allow_html=True)
+    def add_coins(self, amount):
+        st.session_state.coins += amount
+        st.success(f"Added {amount} Coins! Total: {st.session_state.coins}")
 
-# 3. Log Function
-def show_hack_log(target, tool_name):
-    logs = [
-        f"[+] INITIALIZING {tool_name}...",
-        f"[+] TARGET IDENTIFIED: {target}",
-        "[+] BYPASSING FIREWALL LAYER 1...",
-        "[+] PACKET INJECTION SUCCESSFUL...",
-        "[+] ANALYZING PROTOCOL HANDSHAKE...",
-        "[+] DECRYPTING SECURE HEADERS...",
-        "[+] ACCESSING ROOT DIRECTORY...",
-        "[+] CONNECTION STABILITY: 98%...",
-        "[+] EXTRACTION COMPLETE.",
-        "[+] OPERATION FINISHED."
-    ]
-    st.code("\n".join(logs), language='bash')
+    def claim_daily(self):
+        if not st.session_state.reward_claimed:
+            self.add_coins(50)
+            st.session_state.reward_claimed = True
+        else:
+            st.warning("Daily reward already claimed today!")
 
-# 4. Sidebar - Command Center
-st.sidebar.title("💀 COMMAND CENTER")
-menu = st.sidebar.selectbox("SELECT OPERATION", [
-    "HOME", "THREAT SCANNER", "SYSTEM BREACH", "IP TRACER", "PASSWORD VAULT", 
-    "DEEPFAKE SCAN", "PHISHING DETECTOR", "WIFI PASSWORD SIMULATOR", "ENCRYPTION TOOL", "PREMIUM HUB"
-])
+    def upgrade_plan(self, plan_name, cost):
+        if st.session_state.coins >= cost:
+            st.session_state.coins -= cost
+            st.session_state.subscription = plan_name
+            st.success(f"Upgraded to {plan_name} successfully!")
+        else:
+            st.error("Not enough coins!")
 
-st.title("⚡ CYBERMIND X - DARK OPS")
+# UI Implementation
+st.title("💰 CyberMind Economy Hub")
+eco = AppEconomy()
 
-# 5. Logic for Features
-if menu == "HOME":
-    st.header("READY FOR ACTION, COMMANDER?")
-    st.write("Welcome to the Dark Ops Interface. Choose your weapon from the sidebar.")
+# Display Balance
+st.metric("Your Balance", f"{st.session_state.coins} Coins")
 
-elif menu == "THREAT SCANNER":
-    st.header("🛡️ THREAT SCANNER")
-    target = st.text_input("Enter Link/File:")
-    if st.button("RUN SCAN"): show_hack_log(target, "THREAT-SCANNER-V2")
+col1, col2, col3 = st.columns(3)
 
-elif menu == "SYSTEM BREACH":
-    st.header("💀 SYSTEM BREACH")
-    target = st.text_input("Enter Target System ID:")
-    if st.button("EXECUTE BREACH"): show_hack_log(target, "KERNEL-BREACH-PROTOCOL")
+with col1:
+    if st.button("🎁 Claim Daily Reward"):
+        eco.claim_daily()
 
-elif menu == "IP TRACER":
-    st.header("📍 IP TRACER")
-    target = st.text_input("Enter Target IP:")
-    if st.button("TRACE"): show_hack_log(target, "GEO-IP-LOCATOR")
+with col2:
+    st.write(f"Current Plan: **{st.session_state.subscription}**")
 
-elif menu == "PASSWORD VAULT":
-    st.header("🔐 PASSWORD VAULT")
-    if st.button("GENERATE SECURE KEY"): st.success(f"KEY: {random.randint(100000, 999999)}-X-CYBER")
+with col3:
+    if st.button("🚀 Upgrade to Pro (Cost: 500)"):
+        eco.upgrade_plan("Pro Member", 500)
 
-elif menu == "DEEPFAKE SCAN":
-    st.header("👁️ DEEPFAKE SCANNER")
-    st.file_uploader("Upload Image/Video:")
-    if st.button("ANALYZE"): st.warning("ANALYSIS: AI Patterns Detected. Caution advised.")
+# Referral Logic
+st.subheader("🔗 Referral System")
+st.write("Share your code: `CYBER_X_100`")
+ref_code = st.text_input("Enter Friend's Referral Code:")
+if st.button("Redeem Referral"):
+    if ref_code == "CYBER_X_100":
+        eco.add_coins(100)
+    else:
+        st.error("Invalid Code!")
 
-elif menu == "PHISHING DETECTOR":
-    st.header("🎣 PHISHING DETECTOR")
-    target = st.text_input("Enter suspicious link:")
-    if st.button("VERIFY LINK"): show_hack_log(target, "PHISH-SCAN-ALPHA")
-
-elif menu == "WIFI PASSWORD SIMULATOR":
-    st.header("💀 WIFI SECURITY SIMULATOR")
-    st.write("Professional Audit Tool - Simulation Mode")
-    wifi_name = st.text_input("Enter Target Network SSID:")
-    if st.button("EXECUTE EXTRACTION"):
-        if wifi_name:
-            with st.spinner("Injecting decryption packets..."):
-                time.sleep(3)
-                password = f"X-{random.randint(1000,9999)}-{wifi_name[:3].upper()}"
-                st.code(f"""
-                [+] Target: {wifi_name}
-                [+] Detecting Handshake...
-                [+] Encryption Found: WPA2-PSK
-                [+] BRUTEFORCE STATUS: 100% COMPLETE
-                [+] EXTRACTED PASSWORD: {password}
-                """, language='bash')
-                st.success("Extraction Successful (Simulation Mode)")
-        else: st.error("Please enter a valid SSID!")
-
-elif menu == "ENCRYPTION TOOL":
-    st.header("🔒 ENCRYPTION ENGINE")
-    text = st.text_input("Message to encrypt:")
-    if st.button("ENCRYPT"): st.success("Encoded: QF#23@90-AX-99")
-
-elif menu == "PREMIUM HUB":
-    st.header("👑 UPGRADE TO PRO")
-    col1, col2 = st.columns(2)
-    with col1: st.markdown("✅ **Unlimited Scans**\n✅ **Root Access**\n✅ **Priority Support**")
-    with col2: st.markdown("✅ **Zero Ads**\n✅ **4K Export**\n✅ **Dark Mode Pro**")
-    plan = st.radio("SELECT PLAN", ["7 Days - $4.99", "6 Months - $29.99", "1 Year - $49.99", "Lifetime - $99.99"])
-    if st.button("ACTIVATE PREMIUM NOW"): 
-        st.balloons()
-        st.info("Redirecting to secure payment gateway...")
+# Monetization Info
+st.info("💡 Tip: To implement real payments (Stripe/Razorpay) and Creator Monetization, you will need a backend database (Firebase or Supabase) to store user data permanently.")
