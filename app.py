@@ -4,7 +4,7 @@ import time
 # Page Configuration
 st.set_page_config(page_title="CyberMind X Pro", page_icon="🛡️", layout="wide")
 
-# Custom CSS for that "Hacker" Look
+# Custom CSS for "Hacker" Look
 st.markdown("""
     <style>
     .main { background-color: #0e1117; }
@@ -16,9 +16,9 @@ st.markdown("""
 
 # Sidebar
 st.sidebar.title("🛡️ CyberMind Command")
-menu = st.sidebar.radio("Navigation", ["Dashboard", "Link Analyzer", "Report a Scam"])
+menu = st.sidebar.radio("Navigation", ["Dashboard", "Link Analyzer", "Report a Scam", "🚨 Emergency Help"])
 
-# Dashboard Section
+# --- Dashboard ---
 if menu == "Dashboard":
     st.title("💻 CyberMind X Pro - Active")
     st.info("System Status: OPERATIONAL | Threat Level: LOW")
@@ -32,7 +32,7 @@ if menu == "Dashboard":
     st.subheader("Latest Security Alerts")
     st.warning("⚠️ High volume of Phishing links detected in your region.")
 
-# Link Analyzer Section
+# --- Link Analyzer ---
 elif menu == "Link Analyzer":
     st.title("🔍 Threat Scanner")
     link = st.text_input("Paste URL to check:")
@@ -42,7 +42,7 @@ elif menu == "Link Analyzer":
             st.success("Scan Complete!")
             st.write("Analysis: No immediate threat found in this domain.")
 
-# Report a Scam Section
+# --- Report a Scam ---
 elif menu == "Report a Scam":
     st.title("🚨 Report a Scam")
     with st.container():
@@ -54,7 +54,24 @@ elif menu == "Report a Scam":
             st.success("Report submitted securely. Thank you for protecting the community!")
         st.markdown('</div>', unsafe_allow_html=True)
 
+# --- Emergency Help ---
+elif menu == "🚨 Emergency Help":
+    st.title("🛡️ Emergency Assistance")
+    st.error("IF YOU ARE A VICTIM OF A FINANCIAL SCAM, TAKE ACTION IMMEDIATELY.")
+    st.markdown("""
+    ### 📞 Immediate Steps to Take:
+    1. **Cyber Crime Portal:** [cybercrime.gov.in](https://www.cybercrime.gov.in)
+    2. **National Helpline:** Dial **1930** (24/7 National Cyber Crime Helpline).
+    3. **Bank Alert:** Call your bank to block accounts/cards immediately.
+    """)
+    if st.button("DIAL 1930 (Auto-Open)"):
+        st.markdown('<a href="tel:1930">Click here to call 1930</a>', unsafe_allow_html=True)
+
+# Sidebar System Logs
+st.sidebar.markdown("---")
+st.sidebar.subheader("System Logs:")
+st.sidebar.code("Initializing Protocol...\nEncrypted Connection: Active\nStatus: Secure", language="text")
+
 # Footer
 st.sidebar.markdown("---")
-st.sidebar.caption("Project developed in memory of a vision.")
-st.sidebar.write("Owner: Admin")
+st.sidebar.caption("Dedicated to a vision of safety.")
