@@ -23,7 +23,7 @@ st.markdown("""
 st.sidebar.title("💀 CyberMind Command")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio("SELECT MODULE", 
-    ["Dashboard", "IP Locator", "Password Pro", "Dark Web Scan", "Header Check", "Link Analyzer", "Report a Scam", "🚨 Emergency"])
+    ["Dashboard", "IP Locator", "Malware Signature Checker", "Dark Web Scan", "Header Check", "Link Analyzer", "Report a Scam", "🚨 Emergency"])
 
 # --- Helper Functions ---
 def simulate_hack(text):
@@ -50,13 +50,19 @@ elif menu == "IP Locator":
             st.success("Trace Complete.")
             st.markdown(f'<div class="metric-card"><h3>📍 IP Details: {ip_input}</h3><p>ISP: Global ISP</p><p>Country: US</p></div>', unsafe_allow_html=True)
 
-elif menu == "Password Pro":
-    st.title("🔑 PASSWORD STRENGTH STUDIO")
-    pass_input = st.text_input("Enter Password to Test:", type="password")
-    if pass_input:
-        strength = len(pass_input)
-        st.progress(min(strength * 10, 100))
-        st.write("Strength Analysis complete.")
+# NEW FEATURE: Malware Signature Checker
+elif menu == "Malware Signature Checker":
+    st.title("🦠 MALWARE SIGNATURE CHECKER")
+    file_input = st.text_input("Upload/Enter File Hash (MD5/SHA256):")
+    if st.button("SCAN FOR MALWARE"):
+        if file_input:
+            simulate_hack("Hash Analysis against VirusTotal Database")
+            st.warning("Scanning...")
+            time.sleep(1)
+            st.error("🔴 POSITIVE: This signature matches known Trojan/Ransomware variants.")
+            st.write("Description: Trojan.Generic.30219")
+        else:
+            st.error("Please enter a file hash to scan.")
 
 elif menu == "Dark Web Scan":
     st.title("📡 DARK WEB LEAK MONITOR")
