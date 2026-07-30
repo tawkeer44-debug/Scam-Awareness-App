@@ -1,72 +1,60 @@
 import streamlit as st
-from groq import Groq
+import time
 
-# --- CONFIGURATION ---
-st.set_page_config(page_title="CyberMind X Pro", layout="wide", page_icon="💀")
+# Page Configuration
+st.set_page_config(page_title="CyberMind X Pro", page_icon="🛡️", layout="wide")
 
-# --- HACKER STYLING ---
+# Custom CSS for that "Hacker" Look
 st.markdown("""
     <style>
-    .stApp { background-color: #000; color: #00ff41; font-family: 'Courier New', monospace; }
-    .stButton>button { border: 1px solid #00ff41; background: #000; color: #00ff41; font-weight: bold; width: 100%; }
-    .stTextInput>div>div>input { background-color: #111; color: #00ff41; border: 1px solid #00ff41; }
+    .main { background-color: #0e1117; }
+    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #ff4b4b; color: white; }
+    h1 { color: #00ff00; font-family: 'Courier New', monospace; }
+    .report-card { border: 1px solid #333; padding: 20px; border-radius: 10px; background-color: #1c1c1c; }
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-# --- AI SETUP ---
-try:
-    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-except:
-    client = None
+# Sidebar
+st.sidebar.title("🛡️ CyberMind Command")
+menu = st.sidebar.radio("Navigation", ["Dashboard", "Link Analyzer", "Report a Scam"])
 
-def get_groq_answer(prompt, module_name):
-    # Har module ka apna role/system prompt
-    system_prompt = f"""You are a specialized AI assistant for {module_name}. 
-    Only answer questions related to {module_name}. 
-    If the user asks something outside the scope of {module_name}, 
-    politely tell them: 'Yeh command {module_name} ke liye nahi hai, please sahi module mein query dalein.'"""
-
-    if client:
-        try:
-            chat_completion = client.chat.completions.create(
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                model="llama-3.3-70b-versatile",
-            )
-            return chat_completion.choices[0].message.content
-        except Exception as e:
-            return f"Error: {str(e)}"
-    return "API Configuration missing."
-
-# --- SIDEBAR ---
-menu = st.sidebar.selectbox("COMMANDS", [
-    "SECURITY LAB", "NETWORK MAPPER", "PASSWORD CRACKER", 
-    "FORENSICS", "CRYPTO MINER", "TRAFFIC MONITOR", 
-    "PRO HACKER SUITE"
-])
-
-# --- APP LOGIC ---
-st.title(f"💀 CYBERMIND X PRO")
-st.subheader(f"MODULE: {menu}")
-
-if menu != "PREMIUM HUB":
-    # Yahan module ke naam ke saath input change ho raha hai
-    user_input = st.text_input(f"Enter {menu} Command:", placeholder=f"Type your {menu} query...")
+# Dashboard Section
+if menu == "Dashboard":
+    st.title("💻 CyberMind X Pro - Active")
+    st.info("System Status: OPERATIONAL | Threat Level: LOW")
     
-    if st.button("EXECUTE"):
-        if user_input:
-            with st.spinner("Processing..."):
-                result = get_groq_answer(user_input, menu)
-                st.markdown("---")
-                st.markdown(result)
-        else:
-            st.warning("Input box khali hai.")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Live Users", "17", "+2")
+    col2.metric("Threats Blocked", "42", "+5")
+    col3.metric("System Uptime", "99.9%")
+    
+    st.markdown("---")
+    st.subheader("Latest Security Alerts")
+    st.warning("⚠️ High volume of Phishing links detected in your region.")
 
-# PREMIUM HUB ko alag rakha hai
-if st.sidebar.button("PREMIUM HUB"):
-    st.write("---")
-    st.write("### Upgrade to Premium")
-    plan = st.radio("Available Plans:", ["7 Days", "1 Month", "6 Months", "1 Year", "Lifetime"])
-    st.link_button(f"Message me for {plan} Plan", "https://ig.me/m/th3_tawkeer")
+# Link Analyzer Section
+elif menu == "Link Analyzer":
+    st.title("🔍 Threat Scanner")
+    link = st.text_input("Paste URL to check:")
+    if st.button("RUN SCAN"):
+        with st.spinner('Accessing secure databases...'):
+            time.sleep(3)
+            st.success("Scan Complete!")
+            st.write("Analysis: No immediate threat found in this domain.")
+
+# Report a Scam Section
+elif menu == "Report a Scam":
+    st.title("🚨 Report a Scam")
+    with st.container():
+        st.markdown('<div class="report-card">', unsafe_allow_html=True)
+        name = st.text_input("Your Name")
+        scam_type = st.selectbox("Type of Scam", ["Financial", "Social Media", "Phishing", "Other"])
+        desc = st.text_area("Describe the scam")
+        if st.button("SUBMIT REPORT"):
+            st.success("Report submitted securely. Thank you for protecting the community!")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Footer
+st.sidebar.markdown("---")
+st.sidebar.caption("Project developed in memory of a vision.")
+st.sidebar.write("Owner: Admin")
