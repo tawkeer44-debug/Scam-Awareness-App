@@ -115,7 +115,7 @@ elif menu == "Premium Plans":
     st.write("### 📩 Want to Upgrade?")
     st.write("DM me on Instagram to unlock Premium:")
     # Yahan apne Instagram ka asli link daal dein
-    st.link_button("DM Admin on Instagram", "https://www.instagram.com/your_username_here/") 
+    st.link_button("DM Admin on Instagram", "https://www.instagram.com/your_th3_tawkeer_here/") 
     st.markdown('</div>', unsafe_allow_html=True)
 
 elif menu == "🚨 Emergency":
