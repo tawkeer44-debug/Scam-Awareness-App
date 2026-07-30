@@ -4,7 +4,7 @@ import random
 import re
 
 # --- Page Configuration ---
-st.set_page_config(page_title="CyberMind X Pro | ULTIMATE", page_icon="💀", layout="wide")
+st.set_page_config(page_title="CyberMind X Pro | V4.0", page_icon="🛡️", layout="wide")
 
 # --- Custom CSS ---
 st.markdown("""
@@ -12,38 +12,46 @@ st.markdown("""
     .main { background-color: #000000; color: #00FF00; font-family: 'Courier New', Courier, monospace; }
     .stSidebar { background-color: #111111; border-right: 2px solid #00FF00; }
     .news-box { border: 1px solid #FF0000; padding: 10px; background-color: #1a0000; color: #ffcccc; margin-bottom: 10px; }
-    .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; }
+    .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; text-align: center; }
+    .metric-box { border: 1px solid #00FF00; padding: 10px; text-align: center; background-color: #050505; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
 st.sidebar.title("💀 CyberMind Command")
 menu = st.sidebar.radio("MODULES", 
-    ["Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Plans", "🚨 Emergency"])
+    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Hub", "🚨 Emergency"])
 
 # --- Helper Functions ---
 def simulate(text):
     with st.spinner(f"Running {text}..."):
-        time.sleep(1.5)
+        time.sleep(1.2)
 
 # --- Modules ---
 
-# 1. LIVE SCAM NEWS FEED
-if menu == "Live Scam News":
+if menu == "Dashboard":
+    st.title("💻 THREAT INTELLIGENCE CENTER")
+    # Live User Count Feature
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.markdown('<div class="metric-box"><h3>LIVE USERS</h3><h2 style="color:white;">8,142</h2></div>', unsafe_allow_html=True)
+    
+    st.subheader("System Status: OPERATIONAL")
+    st.info("CyberMind X Pro is actively protecting the network.")
+
+elif menu == "Live Scam News":
     st.title("📰 LIVE SCAM ALERTS")
     news_items = [
         "⚠️ Alert: New 'Task-based' scam active on Telegram.",
         "⚠️ Warning: Fake electricity bill payment links being circulated.",
-        "⚠️ Alert: Deepfake audio scam targeting family members reported in NCR.",
+        "⚠️ Alert: Deepfake audio scam targeting family members.",
         "⚠️ Warning: Fraudulent investment apps found on Play Store."
     ]
     for item in news_items:
         st.markdown(f'<div class="news-box">{item}</div>', unsafe_allow_html=True)
-    if st.button("Refresh Feed"): st.rerun()
 
-# 2. UPI/TRANSACTION CHECKER
 elif menu == "UPI/Transaction Checker":
-    st.title("📸 UPI Transaction Verifier")
+    st.title("📸 UPI/Transaction Verifier")
     tid = st.text_input("Enter 12-Digit Transaction ID:")
     if st.button("VERIFY"):
         if len(tid) == 12 and tid.isdigit():
@@ -52,7 +60,6 @@ elif menu == "UPI/Transaction Checker":
         else:
             st.warning("⚠️ INVALID ID: Please enter exactly 12 digits.")
 
-# 3. SPOT THE SCAM QUIZ
 elif menu == "Spot the Scam Quiz":
     st.title("🧠 Spot the Scam Quiz")
     option = st.radio("Is this a scam: 'You won a lottery! Click here to claim 50 Lakhs'?", 
@@ -63,7 +70,6 @@ elif menu == "Spot the Scam Quiz":
         else:
             st.error("Wrong! That's a classic phishing scam.")
 
-# OTHER MODULES
 elif menu == "Link Analyzer":
     st.title("🔍 URL Analyzer")
     url = st.text_input("Paste URL:")
@@ -74,11 +80,21 @@ elif menu == "Link Analyzer":
         else:
             st.warning("⚠️ Enter a valid URL.")
 
-elif menu == "Premium Plans":
-    st.title("💎 GO PREMIUM")
+elif menu == "Premium Hub":
+    st.title("💎 PREMIUM HUB")
     st.markdown('<div class="premium-box">', unsafe_allow_html=True)
-    st.write("Unlock: Advanced IP Tracking, Deep Web Crawl, 24/7 Support.")
-    st.link_button("DM Admin on Instagram", "https://www.instagram.com/tawkeer_official_07/")
+    st.subheader("Unlock Professional Tools")
+    st.write("---")
+    st.write("### 🚀 Premium Features Included:")
+    st.write("• Real-time Deep Web Monitoring\n• Advanced IP Traceback\n• Priority Malware Database\n• Ad-Free Dashboard\n• 24/7 Security Expert Access")
+    st.write("---")
+    st.write("### 💰 Plans:")
+    plans = {"7 Days": "₹99", "1 Month": "₹299", "1 Year": "₹2499", "Lifetime": "₹4999"}
+    for plan, price in plans.items():
+        st.write(f"**{plan}**: {price}")
+    st.markdown("---")
+    st.write("### 📩 Contact Admin:")
+    st.link_button("DM Admin on Instagram", "https://www.instagram.com/th3_tawkeer/")
     st.markdown('</div>', unsafe_allow_html=True)
 
 elif menu == "🚨 Emergency":
