@@ -13,13 +13,14 @@ st.markdown("""
     .news-box { border: 1px solid #FF0000; padding: 10px; background-color: #1a0000; color: #ffcccc; margin-bottom: 10px; }
     .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; text-align: center; }
     .metric-box { border: 1px solid #00FF00; padding: 10px; text-align: center; background-color: #050505; }
+    .helpline-box { border: 1px solid #00FF00; padding: 15px; background-color: #001a00; border-radius: 5px; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
 st.sidebar.title("💀 Scam Awareness Command")
 menu = st.sidebar.radio("MODULES", 
-    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Features", "🚨 Emergency"])
+    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Risk Calculator", "Link Analyzer", "Cyber Helpline Directory", "Premium Features"])
 
 # --- Modules ---
 if menu == "Dashboard":
@@ -52,15 +53,22 @@ elif menu == "UPI/Transaction Checker":
         else:
             st.warning("⚠️ INVALID ID: Please enter exactly 12 digits.")
 
-elif menu == "Spot the Scam Quiz":
-    st.title("🧠 Spot the Scam Quiz")
-    option = st.radio("Is this a scam: 'You won a lottery! Click here to claim 50 Lakhs'?", 
-                      ("Select option", "Yes, it is a scam", "No, it's a real gift"))
-    if st.button("CHECK ANSWER"):
-        if option == "Yes, it is a scam":
-            st.success("Correct! Never click unknown links.")
+elif menu == "Scam Risk Calculator":
+    st.title("📊 Scam Risk Calculator")
+    st.write("Analyze the situation to check your fraud exposure level.")
+    
+    q1 = st.checkbox("Did someone ask for your OTP, UPI PIN, or Password?")
+    q2 = st.checkbox("Did you receive an offer promising 'Easy Money' or 'Guaranteed Returns'?")
+    q3 = st.checkbox("Is the sender rushing you or threatening account block?")
+    
+    if st.button("CALCULATE RISK"):
+        score = sum([q1, q2, q3])
+        if score >= 2:
+            st.error("🔴 HIGH RISK: This is definitely a scam! Do not proceed.")
+        elif score == 1:
+            st.warning("⚠️ MODERATE RISK: Exercise high caution. Verify independently.")
         else:
-            st.error("Wrong! That's a classic phishing scam.")
+            st.success("🟢 LOW RISK: Looks relatively safe, but always stay vigilant.")
 
 elif menu == "Link Analyzer":
     st.title("🔍 URL Analyzer")
@@ -72,6 +80,13 @@ elif menu == "Link Analyzer":
             st.error("🔴 MALICIOUS LINK DETECTED.")
         else:
             st.warning("⚠️ Enter a valid URL.")
+
+elif menu == "Cyber Helpline Directory":
+    st.title("📞 Cyber Helpline Directory")
+    st.write("Quick access numbers and official portals to report financial cyber frauds immediately.")
+    
+    st.markdown('<div class="helpline-box"><h3>🚨 National Cyber Crime Helpline</h3><p style="font-size: 20px; color: #ff3333;"><b>Dial: 1930</b> (Available 24x7)</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="helpline-box"><h3>🌐 Official Reporting Portal</h3><p>Report online cyber frauds securely at:</p><a href="https://www.cybercrime.gov.in" target="_blank">https://www.cybercrime.gov.in</a></div>', unsafe_allow_html=True)
 
 elif menu == "Premium Features":
     st.title("💎 PREMIUM HUB")
@@ -89,10 +104,6 @@ elif menu == "Premium Features":
     st.write("### 📩 Contact Admin:")
     st.link_button("DM Admin on Instagram", "https://www.instagram.com/tawkeer_official_07/")
     st.markdown('</div>', unsafe_allow_html=True)
-
-elif menu == "🚨 Emergency":
-    st.title("🛡️ EMERGENCY")
-    st.error("DIAL 1930 IMMEDIATELY!")
 
 # --- Footer ---
 st.sidebar.markdown("---")
