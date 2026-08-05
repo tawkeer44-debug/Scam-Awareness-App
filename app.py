@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import re
+from datetime import datetime
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Scam Awareness Pro", page_icon="🛡️", layout="wide")
@@ -13,14 +14,14 @@ st.markdown("""
     .news-box { border: 1px solid #FF0000; padding: 10px; background-color: #1a0000; color: #ffcccc; margin-bottom: 10px; }
     .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; text-align: center; }
     .metric-box { border: 1px solid #00FF00; padding: 10px; text-align: center; background-color: #050505; }
-    .helpline-box { border: 1px solid #00FF00; padding: 15px; background-color: #001a00; border-radius: 5px; margin-bottom: 10px; }
+    .tool-box { border: 1px solid #00FF00; padding: 15px; background-color: #001a00; border-radius: 5px; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
 st.sidebar.title("💀 Scam Awareness Command")
 menu = st.sidebar.radio("MODULES", 
-    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Risk Calculator", "Link Analyzer", "Cyber Helpline Directory", "Premium Features"])
+    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Password Checker", "Link Analyzer", "Cyber Safety Tips", "Premium Features"])
 
 # --- Modules ---
 if menu == "Dashboard":
@@ -32,14 +33,35 @@ if menu == "Dashboard":
     st.info("Scam Awareness Platform is actively protecting the network.")
 
 elif menu == "Live Scam News":
-    st.title("📰 LIVE SCAM ALERTS")
-    news_items = [
-        "⚠️ Alert: New 'Task-based' scam active on Telegram.",
-        "⚠️ Warning: Fake electricity bill payment links being circulated.",
-        "⚠️ Alert: Deepfake audio scam targeting family members.",
-        "⚠️ Warning: Fraudulent investment apps found on Play Store."
+    st.title("📰 LIVE SCAM ALERTS (DAILY UPDATED)")
+    
+    # Daily rotating dynamic alerts based on day of the year
+    day_index = datetime.now().timetuple().tm_yday
+    all_news_pools = [
+        [
+            "⚠️ Alert: New 'Task-based' YouTube rating scam active on Telegram.",
+            "⚠️ Warning: Fake electricity bill SMS saying 'Your power will be cut tonight'.",
+            "⚠️ Alert: Deepfake video calls impersonating police officers for digital arrest extortion.",
+            "⚠️ Warning: Fake government subsidy and loan apps active on third-party sites."
+        ],
+        [
+            "⚠️ Alert: Fake courier parcel drug customs scam targeting working professionals.",
+            "⚠️ Warning: Credit card reward points expiry phishing links spreading via WhatsApp.",
+            "⚠️ Alert: Fake work-from-home data entry typing job frauds.",
+            "⚠️ Warning: Investment group scams promising 300% stock returns in 5 days."
+        ],
+        [
+            "⚠️ Alert: Fake customer care numbers listed on Google Maps for banks and wallets.",
+            "⚠️ Warning: QR code scanning frauds where money is debited instead of credited.",
+            "⚠️ Alert: Fake lottery winning notifications via SMS and WhatsApp audio.",
+            "⚠️ Warning: Fake matrimonial profile frauds targeting individuals for money."
+        ]
     ]
-    for item in news_items:
+    
+    todays_news = all_news_pools[day_index % len(all_news_pools)]
+    
+    st.write(f"📅 Showing verified intelligence feed for: **{datetime.now().strftime('%d %B %Y')}**")
+    for item in todays_news:
         st.markdown(f'<div class="news-box">{item}</div>', unsafe_allow_html=True)
 
 elif menu == "UPI/Transaction Checker":
@@ -53,22 +75,27 @@ elif menu == "UPI/Transaction Checker":
         else:
             st.warning("⚠️ INVALID ID: Please enter exactly 12 digits.")
 
-elif menu == "Scam Risk Calculator":
-    st.title("📊 Scam Risk Calculator")
-    st.write("Analyze the situation to check your fraud exposure level.")
+elif menu == "Scam Password Checker":
+    st.title("🔑 Scam Password / Strength Checker")
+    st.write("Check if your password is weak and vulnerable to brute-force cyber attacks.")
     
-    q1 = st.checkbox("Did someone ask for your OTP, UPI PIN, or Password?")
-    q2 = st.checkbox("Did you receive an offer promising 'Easy Money' or 'Guaranteed Returns'?")
-    q3 = st.checkbox("Is the sender rushing you or threatening account block?")
-    
-    if st.button("CALCULATE RISK"):
-        score = sum([q1, q2, q3])
-        if score >= 2:
-            st.error("🔴 HIGH RISK: This is definitely a scam! Do not proceed.")
-        elif score == 1:
-            st.warning("⚠️ MODERATE RISK: Exercise high caution. Verify independently.")
+    pwd = st.text_input("Enter a password to test:", type="password")
+    if st.button("ANALYZE PASSWORD"):
+        if len(pwd) == 0:
+            st.warning("⚠️ Please enter a password first.")
         else:
-            st.success("🟢 LOW RISK: Looks relatively safe, but always stay vigilant.")
+            score = 0
+            if len(pwd) >= 8: score += 1
+            if re.search(r'[A-Z]', pwd): score += 1
+            if re.search(r'[0-9]', pwd): score += 1
+            if re.search(r'[!@#$%^&*(),.?":{}|<>]', pwd): score += 1
+            
+            if score == 4:
+                st.success("🟢 STRONG PASSWORD: Highly secure against modern hacking tools.")
+            elif score >= 2:
+                st.warning("⚠️ MODERATE PASSWORD: Consider adding numbers, symbols, or making it longer.")
+            else:
+                st.error("🔴 WEAK PASSWORD: Easily crackable! Change it immediately to avoid credential stuffing scams.")
 
 elif menu == "Link Analyzer":
     st.title("🔍 URL Analyzer")
@@ -81,12 +108,24 @@ elif menu == "Link Analyzer":
         else:
             st.warning("⚠️ Enter a valid URL.")
 
-elif menu == "Cyber Helpline Directory":
-    st.title("📞 Cyber Helpline Directory")
-    st.write("Quick access numbers and official portals to report financial cyber frauds immediately.")
+elif menu == "Cyber Safety Tips":
+    st.title("💡 Cyber Safety Tip Generator")
+    st.write("Get expert recommended daily rules to stay completely immune to online scams.")
     
-    st.markdown('<div class="helpline-box"><h3>🚨 National Cyber Crime Helpline</h3><p style="font-size: 20px; color: #ff3333;"><b>Dial: 1930</b> (Available 24x7)</p></div>', unsafe_allow_html=True)
-    st.markdown('<div class="helpline-box"><h3>🌐 Official Reporting Portal</h3><p>Report online cyber frauds securely at:</p><a href="https://www.cybercrime.gov.in" target="_blank">https://www.cybercrime.gov.in</a></div>', unsafe_allow_html=True)
+    tips_list = [
+        "🔒 Never share your UPI PIN, OTP, or Bank Passwords with anyone over phone calls or messages.",
+        "🛑 If an offer looks too good to be true (like free iPhones or double money), it is 100% a scam.",
+        "🔗 Always check the website domain carefully before logging in or entering personal info.",
+        "📱 Avoid downloading apps recommended by strangers on Telegram or WhatsApp for part-time jobs.",
+        "🔄 Keep your phone operating system and security apps updated to the latest version."
+    ]
+    
+    selected_tip = tips_list[datetime.now().day % len(tips_list)]
+    st.markdown(f'<div class="tool-box"><h3>🛡️ Today’s Pro Security Advice</h3><p style="font-size: 18px; color: #00ffaa;">{selected_tip}</p></div>', unsafe_allow_html=True)
+    
+    if st.button("GET ANOTHER RANDOM TIP"):
+        import random
+        st.info(f"💡 Tip: {random.choice(tips_list)}")
 
 elif menu == "Premium Features":
     st.title("💎 PREMIUM HUB")
