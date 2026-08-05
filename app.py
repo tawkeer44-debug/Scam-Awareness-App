@@ -3,7 +3,7 @@ import time
 import re
 
 # --- Page Configuration ---
-st.set_page_config(page_title="CyberMind X Pro", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="Scam Awareness Pro", page_icon="🛡️", layout="wide")
 
 # --- Custom CSS ---
 st.markdown("""
@@ -17,9 +17,9 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
-st.sidebar.title("💀 CyberMind Command")
+st.sidebar.title("💀 Scam Awareness Command")
 menu = st.sidebar.radio("MODULES", 
-    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Hub", "🚨 Emergency"])
+    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Features", "🚨 Emergency"])
 
 # --- Modules ---
 if menu == "Dashboard":
@@ -28,7 +28,7 @@ if menu == "Dashboard":
     with col1:
         st.markdown('<div class="metric-box"><h3>LIVE USERS</h3><h2 style="color:white;">8,142</h2></div>', unsafe_allow_html=True)
     st.subheader("System Status: OPERATIONAL")
-    st.info("CyberMind X Pro is actively protecting the network.")
+    st.info("Scam Awareness Platform is actively protecting the network.")
 
 elif menu == "Live Scam News":
     st.title("📰 LIVE SCAM ALERTS")
@@ -73,7 +73,7 @@ elif menu == "Link Analyzer":
         else:
             st.warning("⚠️ Enter a valid URL.")
 
-elif menu == "Premium Hub":
+elif menu == "Premium Features":
     st.title("💎 PREMIUM HUB")
     st.markdown('<div class="premium-box">', unsafe_allow_html=True)
     st.subheader("Unlock Professional Tools")
