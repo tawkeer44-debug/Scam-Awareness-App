@@ -1,10 +1,9 @@
 import streamlit as st
 import time
-import random
 import re
 
 # --- Page Configuration ---
-st.set_page_config(page_title="CyberMind X Pro | V4.0", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="CyberMind X Pro", page_icon="🛡️", layout="wide")
 
 # --- Custom CSS ---
 st.markdown("""
@@ -22,20 +21,12 @@ st.sidebar.title("💀 CyberMind Command")
 menu = st.sidebar.radio("MODULES", 
     ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Spot the Scam Quiz", "Link Analyzer", "Premium Hub", "🚨 Emergency"])
 
-# --- Helper Functions ---
-def simulate(text):
-    with st.spinner(f"Running {text}..."):
-        time.sleep(1.2)
-
 # --- Modules ---
-
 if menu == "Dashboard":
     st.title("💻 THREAT INTELLIGENCE CENTER")
-    # Live User Count Feature
     col1, col2 = st.columns([1, 3])
     with col1:
         st.markdown('<div class="metric-box"><h3>LIVE USERS</h3><h2 style="color:white;">8,142</h2></div>', unsafe_allow_html=True)
-    
     st.subheader("System Status: OPERATIONAL")
     st.info("CyberMind X Pro is actively protecting the network.")
 
@@ -55,7 +46,8 @@ elif menu == "UPI/Transaction Checker":
     tid = st.text_input("Enter 12-Digit Transaction ID:")
     if st.button("VERIFY"):
         if len(tid) == 12 and tid.isdigit():
-            simulate("Verification")
+            with st.spinner("Verifying transaction..."):
+                time.sleep(1)
             st.success("✅ Analysis: Genuine Transaction ID detected.")
         else:
             st.warning("⚠️ INVALID ID: Please enter exactly 12 digits.")
@@ -75,7 +67,8 @@ elif menu == "Link Analyzer":
     url = st.text_input("Paste URL:")
     if st.button("SCAN"):
         if re.match(r'https?://', url):
-            simulate("Link Analysis")
+            with st.spinner("Analyzing link..."):
+                time.sleep(1)
             st.error("🔴 MALICIOUS LINK DETECTED.")
         else:
             st.warning("⚠️ Enter a valid URL.")
