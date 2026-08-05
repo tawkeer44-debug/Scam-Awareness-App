@@ -94,7 +94,7 @@ elif menu == "Premium Hub":
         st.write(f"**{plan}**: {price}")
     st.markdown("---")
     st.write("### 📩 Contact Admin:")
-    st.link_button("DM Admin on Instagram", "https://www.instagram.com/th3_tawkeer/")
+    st.link_button("DM Admin on Instagram", "https://www.instagram.com/tawkeer_official_07/")
     st.markdown('</div>', unsafe_allow_html=True)
 
 elif menu == "🚨 Emergency":
