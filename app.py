@@ -66,7 +66,7 @@ elif menu == "Link Analyzer":
     st.title("🔍 URL Analyzer")
     url = st.text_input("Paste URL:")
     if st.button("SCAN"):
-        if re.match(r'https?://', url):
+        if url and re.match(r'https?://', url):
             with st.spinner("Analyzing link..."):
                 time.sleep(1)
             st.error("🔴 MALICIOUS LINK DETECTED.")
