@@ -2,6 +2,7 @@ import streamlit as st
 import time
 import re
 from datetime import datetime
+import urllib.parse
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Scam Awareness Pro", page_icon="🛡️", layout="wide")
@@ -15,13 +16,14 @@ st.markdown("""
     .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; text-align: center; }
     .metric-box { border: 1px solid #00FF00; padding: 10px; text-align: center; background-color: #050505; }
     .tool-box { border: 1px solid #00FF00; padding: 15px; background-color: #001a00; border-radius: 5px; margin-bottom: 10px; }
+    .share-box { border: 2px dashed #00FF00; padding: 20px; text-align: background-color: #001100; border-radius: 10px; text-align: center; margin-top: 20px; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- Sidebar ---
 st.sidebar.title("💀 Scam Awareness Command")
 menu = st.sidebar.radio("MODULES", 
-    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Password Checker", "Link Analyzer", "Cyber Safety Tips", "Premium Features"])
+    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Password Checker", "Link Analyzer", "Cyber Safety Tips", "Share & Boost Traffic", "Premium Features"])
 
 # --- Modules ---
 if menu == "Dashboard":
@@ -35,7 +37,6 @@ if menu == "Dashboard":
 elif menu == "Live Scam News":
     st.title("📰 LIVE SCAM ALERTS (DAILY UPDATED)")
     
-    # Daily rotating dynamic alerts based on day of the year
     day_index = datetime.now().timetuple().tm_yday
     all_news_pools = [
         [
@@ -126,6 +127,27 @@ elif menu == "Cyber Safety Tips":
     if st.button("GET ANOTHER RANDOM TIP"):
         import random
         st.info(f"💡 Tip: {random.choice(tips_list)}")
+
+elif menu == "Share & Boost Traffic":
+    st.title("🚀 Viral Share & Traffic Booster")
+    st.write("Help expand the network! Share this scam checker app with your friends, family, and groups to keep everyone safe.")
+    
+    app_url = "https://fqbhgvdywmjsdzgg82jfr3.streamlit.app"
+    share_text = f"🚨 *Alert!* Check any fake links, UPI IDs, or passwords instantly on this live Cyber Scam Awareness tool before getting cheated: {app_url}"
+    encoded_text = urllib.parse.quote(share_text)
+    
+    whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_text}"
+    telegram_url = f"https://t.me/share/url?url={app_url}&text={urllib.parse.quote('Check out this Cyber Scam Awareness Tool!')}"
+    
+    st.markdown(f"""
+        <div class="share-box">
+            <h3>📢 Spread Awareness & Grow Traffic</h3>
+            <p>Click below to instantly share this app on WhatsApp and Telegram groups:</p>
+            <br>
+            <a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px; margin-right: 10px;">💬 Share on WhatsApp</a>
+            <a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px;">✈️ Share on Telegram</a>
+        </div>
+    """, unsafe_allow_html=True)
 
 elif menu == "Premium Features":
     st.title("💎 PREMIUM HUB")
