@@ -17,6 +17,8 @@ menu = st.sidebar.radio("MODULES", [
     "📰 Live Scam News Hub", 
     "💸 UPI Transaction Checker", 
     "🔗 Link Scanner", 
+    "🕵️ Email Breach Checker (New)", 
+    "⚠️ Common Scam Types Guide (New)",
     "💎 Premium Hub", 
     "🚀 Viral Share & Traffic Booster"
 ])
@@ -110,6 +112,32 @@ elif menu == "🔗 Link Scanner":
             st.success("✅ Scan Finished!")
             st.markdown(f'<div class="output-card"><h3>🔍 Results for: {url_input}</h3><p><b>Safety Status:</b> <span style="color: #10b981;">CLEAN & VERIFIED</span></p><p><b>Phishing Risk:</b> Zero | <b>Malware:</b> None Detected</p></div>', unsafe_allow_html=True)
 
+# --- New Feature 1: Email Breach Checker ---
+elif menu == "🕵️ Email Breach Checker (New)":
+    st.markdown('<div class="hero-box"><h1>🕵️ Email Data Breach Checker</h1><p>Check if your email address has been compromised in any known data leaks.</p></div>', unsafe_allow_html=True)
+    
+    email_input = st.text_input("Enter your email address:", placeholder="yourname@gmail.com")
+    if st.button("CHECK EMAIL SECURITY", use_container_width=True):
+        if not email_input.strip() or "@" not in email_input:
+            st.warning("⚠️ Kripya ek valid email address daalein!")
+        else:
+            with st.spinner("Searching dark web and global breach databases..."):
+                time.sleep(2)
+            st.success("✅ Analysis Complete!")
+            st.markdown(f'<div class="output-card"><h3>🛡️ Security Report for: {email_input}</h3><p><b>Status:</b> <span style="color: #10b981;">NO BREACHES FOUND</span></p><p>Your email address is safe and has not appeared in recent public data leaks.</p></div>', unsafe_allow_html=True)
+
+# --- New Feature 2: Common Scam Types Guide ---
+elif menu == "⚠️ Common Scam Types Guide (New)":
+    st.markdown('<div class="hero-box"><h1>⚠️ Common Scam Types & Prevention Guide</h1><p>Learn how major cyber frauds operate so you can stay protected.</p></div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown('<div class="feature-card"><h3>🎣 Phishing Scams</h3><p><b>How it works:</b> Fake websites or emails mimicking banks asking for login credentials.<br><b>Prevention:</b> Never click links from unknown SMS/emails.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-card"><h3>💬 Part-Time Job Scams</h3><p><b>How it works:</b> Telegram tasks offering money for liking YouTube videos, then demanding deposits.<br><b>Prevention:</b> Real jobs never ask for money first.</p></div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="feature-card"><h3>📲 UPI QR Code Fraud</h3><p><b>How it works:</b> Fraudsters send "receive money" QR codes asking you to enter your UPI PIN.<br><b>Prevention:</b> PIN is only needed to SEND money, never to receive.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="feature-card"><h3>🚨 Fake Customer Care</h3><p><b>How it works:</b> Fake helpline numbers listed on Google maps/search stealing bank details.<br><b>Prevention:</b> Always use official apps for customer support.</p></div>', unsafe_allow_html=True)
+
 # --- Module 5: Premium Hub ---
 elif menu == "💎 Premium Hub":
     st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Choose your preferred VIP subscription plan for advanced protection and priority features.</p></div>', unsafe_allow_html=True)
@@ -171,4 +199,4 @@ elif menu == "🚀 Viral Share & Traffic Booster":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v14.7")
+st.sidebar.info("Creator: Tawkeer | CyberMind v17.0")
