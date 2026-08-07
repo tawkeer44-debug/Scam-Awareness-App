@@ -23,17 +23,24 @@ st.markdown("""
 # --- Sidebar Navigation ---
 st.sidebar.title("🛡️ CyberMind Control")
 menu = st.sidebar.radio("MODULES", [
-    "📊 Dashboard & Live Threat Intelligence", 
+    "📊 Dashboard & Threat Intelligence", 
     "📰 Live Scam News Hub", 
     "💸 UPI Transaction Checker", 
     "🔗 Link Scanner", 
-    "💬 CyberMind AI Chatbot", 
     "💎 Premium Hub", 
     "🚀 Viral Share & Traffic Booster"
 ])
 
-# --- Module 1: Dashboard & Live Threat Intelligence ---
-if menu == "📊 Dashboard & Live Threat Intelligence":
+# --- Module 1: Dashboard, Welcome Screen & Threat Intelligence ---
+if menu == "📊 Dashboard & Threat Intelligence":
+    # Welcome Screen Inside Dashboard
+    st.markdown("""
+        <div class="hero-box" style="margin-bottom: 20px; border-color: #10b981; background: linear-gradient(135deg, #064e3b, #0f172a);">
+            <h1 style="color: #34d399;">👋 Welcome to CyberMind Hub!</h1>
+            <p style="color: #d1fae5; font-size: 16px;">Aapka swagat hai hamare advanced security aur intelligence platform par. Yahan aapko live threats, scam news, UPI safety checkers aur premium tools milenge.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
     st.markdown('<div class="hero-box"><h1>CyberMind Live Threat Intelligence Dashboard</h1><p>Real-time monitoring of global cyber threats and active system users.</p></div>', unsafe_allow_html=True)
     
     st.write("")
@@ -162,86 +169,7 @@ elif menu == "🔗 Link Scanner":
                 </div>
             """, unsafe_allow_html=True)
 
-# --- Module 5: CyberMind AI Chatbot with Mic & Live Time ---
-elif menu == "💬 CyberMind AI Chatbot":
-    st.markdown('<div class="hero-box"><h1>CyberMind AI Assistant</h1><p>Ask anything, check live time, or use voice input!</p></div>', unsafe_allow_html=True)
-    
-    # HTML5 Speech Recognition Mic & Chat Input Box Interface
-    st.markdown("""
-        <div style="background-color: #1e1b4b; border: 1px solid #3b82f6; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <p style="margin: 0; color: #00ffff; font-weight: bold;">🎙️ Voice Input Control (Mic):</p>
-            <p style="margin: 5px 0 10px 0; font-size: 13px; color: #d1fae5;">Click the mic button to speak your question into text:</p>
-            <button onclick="startDictation()" style="background-color: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;">🎙️ Click to Speak (Mic)</button>
-            <span id="mic-status" style="margin-left: 15px; color: #fcd34d; font-size: 14px;"></span>
-        </div>
-        <script>
-            function startDictation() {
-                if (window.hasOwnProperty('webkitSpeechRecognition')) {
-                    var recognition = new webkitSpeechRecognition();
-                    recognition.continuous = false;
-                    recognition.interimResults = false;
-                    recognition.lang = "en-IN";
-                    recognition.start();
-                    document.getElementById("mic-status").innerText = "Listening... Speak now!";
-                    recognition.onresult = function(e) {
-                        var text = e.results[0][0].transcript;
-                        document.getElementById("mic-status").innerText = "Recognized: " + text;
-                        // Send text to streamlit via URL parameter or user action
-                        window.location.search = "?voice_query=" + encodeURIComponent(text);
-                    };
-                    recognition.onerror = function(e) {
-                        recognition.stop();
-                        document.getElementById("mic-status").innerText = "Mic error, try again.";
-                    }
-                } else {
-                    alert("Speech Recognition is not supported in this browser. Please use Chrome.");
-                }
-            }
-        </script>
-    """, unsafe_allow_html=True)
-
-    # Handle voice query passed from URL if spoken via mic
-    query_params = st.query_params
-    voice_input_text = query_params.get("voice_query", "")
-
-    if "messages" not in st.session_state:
-        st.session_state.messages = [{"role": "assistant", "content": "Hello! Main CyberMind AI hoon. Aap mujhse waqt (time) ya koi bhi sawal pooch sakte hain!"}]
-        
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-            
-    # Combine normal chat input or voice input trigger
-    prompt = st.chat_input("Type your message here (e.g., time kitna hua, hi, upi fraud)...")
-    
-    if voice_input_text and not prompt:
-        prompt = voice_input_text
-        # Clear query param to avoid loop
-        st.query_params.clear()
-
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-            
-        with st.chat_message("assistant"):
-            query_lower = prompt.lower()
-            current_time_str = datetime.now().strftime("%I:%M %p") # e.g. 03:32 PM
-            current_date_str = datetime.now().strftime("%d-%m-%Y")
-            
-            if "time" in query_lower or "samay" in query_lower or "waqt" in query_lower or "kitna hua" in query_lower:
-                response = f"⏰ Is waqt exact time ho raha hai: **{current_time_str}** (Date: {current_date_str}). Aur bataiye main aapki kya sahayata karoon?"
-            elif "hi" in query_lower or "hello" in query_lower or "hey" in query_lower:
-                response = f"Hello Tawkeer bhai! Abhi waqt **{current_time_str}** ho raha hai. Sabhi features ekdam badhiya chal rahe hain!"
-            elif "upi" in query_lower or "payment" in query_lower:
-                response = "UPI fraud se bachne ke liye anjaan QR code scan na karein. Aap hamara 'UPI Transaction Checker' module use kar sakte hain!"
-            else:
-                response = f"Aapne pucha: '{prompt}'. (Current Time: {current_time_str}). CyberMind AI iska jawab dene ke liye taiyar hai! App ke baaki modules bhi check karein."
-            
-            st.markdown(response)
-            st.session_state.messages.append({"role": "assistant", "content": response})
-
-# --- Module 6: Premium Hub ---
+# --- Module 5: Premium Hub (Aapke Bataye Gaye Saare Plans) ---
 elif menu == "💎 Premium Hub":
     st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Choose your preferred VIP subscription plan for advanced protection and priority features.</p></div>', unsafe_allow_html=True)
     
@@ -340,7 +268,7 @@ elif menu == "💎 Premium Hub":
     if st.button("BUY LIFETIME VIP PASS", use_container_width=True):
         st.info("🔗 Secure payment gateway connected. Lifetime VIP unlocking active!")
 
-# --- Module 7: Viral Share & Traffic Booster ---
+# --- Module 6: Viral Share & Traffic Booster ---
 elif menu == "🚀 Viral Share & Traffic Booster":
     st.title("🚀 Viral Share & Traffic Booster")
     st.write("Is app ko apne doston aur groups mein share karke views aur traffic badhayein!")
@@ -367,4 +295,4 @@ elif menu == "🚀 Viral Share & Traffic Booster":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v12.1")
+st.sidebar.info("Creator: Tawkeer | CyberMind v13.0")
