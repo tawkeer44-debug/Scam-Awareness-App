@@ -18,9 +18,9 @@ st.markdown("""
 
 # --- Sidebar Navigation ---
 st.sidebar.title("🎬 AI Studio Control")
-menu = st.sidebar.radio("MODULES", ["🎬 Custom Face Animation Studio", "💬 AI Chatbot", "🚀 Share & Boost Traffic"])
+menu = st.sidebar.radio("MODULES", ["🎬 Custom Face Animation Studio", "🚀 Share & Boost Traffic"])
 
-# --- Module 1: Custom Face Animation Studio (Aapka Exact Purana Feature) ---
+# --- Module 1: Custom Face Animation Studio ---
 if menu == "🎬 Custom Face Animation Studio":
     st.markdown('<div class="hero-box"><h1>AI Custom Face & Motion Video Generator</h1><p>Upload your photo & your friend\'s photo, enter your custom scene prompt (e.g., hugging from behind), and generate your personalized AI video!</p></div>', unsafe_allow_html=True)
     
@@ -89,18 +89,7 @@ if menu == "🎬 Custom Face Animation Studio":
                 unsafe_allow_html=True
             )
 
-# --- Module 2: AI Chatbot (Naya Add Kiya Gaya Feature) ---
-elif menu == "💬 AI Chatbot":
-    st.title("💬 CyberMind AI Assistant")
-    st.write("Aap yahan app se jude koi bhi sawal puch sakte hain!")
-    
-    user_query = st.text_input("Apna sawal yahan type karein:", placeholder="e.g., Video kaise banayein?")
-    if st.button("Poocho AI Se", use_container_width=True):
-        if user_query.strip():
-            st.success("🤖 AI Assistant Response:")
-            st.info(f"Aapne pucha: '{user_query}'. Iske liye bas 'Custom Face Animation Studio' module mein apni aur apne dost ki photo upload karke prompt likhein aur video generate karein!")
-
-# --- Module 3: Share & Boost Traffic (Aapka Exact Purana Feature) ---
+# --- Module 2: Share & Boost Traffic ---
 elif menu == "🚀 Share & Boost Traffic":
     st.title("🚀 Viral Share & Traffic Booster")
     st.write("Is incredible AI Face Video app ko apne doston ke sath share karein!")
@@ -127,4 +116,4 @@ elif menu == "🚀 Share & Boost Traffic":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | AI Studio v7.1")
+st.sidebar.info("Creator: Tawkeer | AI Studio v7.0")
