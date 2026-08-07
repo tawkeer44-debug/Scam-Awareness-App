@@ -18,7 +18,7 @@ st.markdown("""
 
 # --- Sidebar Navigation ---
 st.sidebar.title("🎬 AI Studio Control")
-menu = st.sidebar.radio("MODULES", ["🎬 Custom Face Animation Studio", "🚀 Share & Boost Traffic"])
+menu = st.sidebar.radio("MODULES", ["🎬 Custom Face Animation Studio", "💬 AI Chatbot", "🚀 Share & Boost Traffic"])
 
 # --- Module 1: Custom Face Animation Studio ---
 if menu == "🎬 Custom Face Animation Studio":
@@ -89,7 +89,18 @@ if menu == "🎬 Custom Face Animation Studio":
                 unsafe_allow_html=True
             )
 
-# --- Module 2: Share & Boost Traffic ---
+# --- Module 2: AI Chatbot ---
+elif menu == "💬 AI Chatbot":
+    st.title("💬 CyberMind AI Assistant")
+    st.write("Aap yahan app se jude koi bhi sawal puch sakte hain!")
+    
+    user_query = st.text_input("Apna sawal yahan type karein:", placeholder="e.g., Video kaise banayein?")
+    if st.button("Poocho AI Se", use_container_width=True):
+        if user_query.strip():
+            st.success("🤖 AI Assistant Response:")
+            st.info(f"Aapne pucha: '{user_query}'. Iske liye bas 'Custom Face Animation Studio' module mein apni aur apne dost ki photo upload karke prompt likhein aur video generate karein!")
+
+# --- Module 3: Share & Boost Traffic ---
 elif menu == "🚀 Share & Boost Traffic":
     st.title("🚀 Viral Share & Traffic Booster")
     st.write("Is incredible AI Face Video app ko apne doston ke sath share karein!")
