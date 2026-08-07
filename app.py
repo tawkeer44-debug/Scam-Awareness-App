@@ -232,21 +232,4 @@ elif menu == "💎 Premium Hub":
             <div class="feature-card">
                 <h3>🌟 1 Year Pass</h3>
                 <p><b>Price:</b> ₹1,499</p>
-                <p>• Complete Annual Protection<br>• Zero Ads & Fast Scans</p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("BUY 1 YEAR PLAN"):
-            st.info("🔗 Redirecting to secure payment for 1 Year Plan...")
-
-        st.markdown("""
-            <div class="feature-card">
-                <h3>🚀 2 Years Pass</h3>
-                <p><b>Price:</b> ₹2,499</p>
-                <p>• 2 Years Extended Access<br>• Premium Customer Support</p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("BUY 2 YEARS PLAN"):
-            st.info("🔗 Redirecting to secure payment for 2 Years Plan...")
-
-        st.markdown("""
-            <div class="feature-
+                <p
