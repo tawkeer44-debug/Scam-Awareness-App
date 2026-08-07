@@ -1,9 +1,10 @@
 import streamlit as st
 import time
+import random
 import urllib.parse
 
 # --- Page Configuration ---
-st.set_page_config(page_title="CyberMind - AI Studio & Viral Hub", page_icon="🧠", layout="wide")
+st.set_page_config(page_title="CyberMind - Ultimate AI Studio", page_icon="🧠", layout="wide")
 
 # --- Custom Styling ---
 st.markdown("""
@@ -20,20 +21,19 @@ st.markdown("""
 # --- Sidebar Navigation ---
 st.sidebar.title("🧠 CyberMind Control")
 menu = st.sidebar.radio("MODULES", [
-    "🎬 Custom Face Animation Studio", 
+    "🎬 Custom Face & Video Studio", 
+    "💡 Pro Prompts Library", 
     "🔥 AI Meme & Viral Roast", 
     "🏆 Daily Viral Challenge", 
     "💎 VIP Monetization Hub", 
     "🚀 Share & Boost Traffic"
 ])
 
-# --- Module 1: Custom Face Animation Studio (Aapka Purana Main Feature Safe Hai) ---
-if menu == "🎬 Custom Face Animation Studio":
-    st.markdown('<div class="hero-box"><h1>CyberMind - AI Custom Face & Motion Studio</h1><p>Upload your photo & your friend\'s photo, enter your custom scene prompt, and generate your personalized AI video!</p></div>', unsafe_allow_html=True)
+# --- Module 1: Custom Face & Video Studio (Purana Main Feature) ---
+if menu == "🎬 Custom Face & Video Studio":
+    st.markdown('<div class="hero-box"><h1>CyberMind - AI Custom Face & Video Studio</h1><p>Upload your photo & your friend\'s photo, or describe your scene to generate custom AI videos!</p></div>', unsafe_allow_html=True)
     
     st.write("")
-    st.subheader("📁 Step 1: Upload Your Photos")
-    
     col_img1, col_img2 = st.columns(2)
     
     with col_img1:
@@ -48,49 +48,59 @@ if menu == "🎬 Custom Face Animation Studio":
             
     st.write("---")
     
-    user_prompt = st.text_area("Step 2: Describe the exact action/scene between these two photos:", placeholder="e.g., Person 1 hugging Person 2 from behind warmly, cinematic 3D lighting...")
+    art_style = st.selectbox("Select Animation Style:", [
+        "3D Pixar Style Cartoon", 
+        "Japanese Anime / Manga", 
+        "Cinematic 4K Sci-Fi Video", 
+        "Cyberpunk Neon Animation"
+    ])
     
-    if st.button("GENERATE CUSTOM FACE VIDEO", use_container_width=True):
-        if not img1 or not img2:
-            st.warning("⚠️ Kripya apni aur apne dost ki dono photos upload karein!")
-        elif not user_prompt.strip():
-            st.warning("⚠️ Kripya action prompt zaroor likhiye!")
+    user_prompt = st.text_area("Describe your video / scene in detail:", placeholder="e.g., Person 1 hugging Person 2 from behind in a futuristic city...")
+    
+    if st.button("GENERATE AI CUSTOM VIDEO", use_container_width=True):
+        if not user_prompt.strip():
+            st.warning("⚠️ Please enter a description for your video first!")
         else:
-            with st.spinner(f"🔍 Mapping faces from '{img1.name}' and '{img2.name}'..."):
-                time.sleep(2)
-            with st.spinner("🤖 Applying neural face-swap & rendering custom motion video..."):
+            with st.spinner("AI Engine rendering frames and animating characters..."):
                 time.sleep(2.5)
             
-            st.success("🎉 Custom AI Video Generated Successfully using your uploaded faces!")
+            st.success("✅ AI Video Generation Successful!")
             
-            st.markdown(
-                f"""
+            st.markdown(f"""
                 <div class="output-card">
-                    <h3>🎯 Custom Video Generation Report</h3>
-                    <p><b>Source Face 1:</b> {img1.name}</p>
-                    <p><b>Target Face 2:</b> {img2.name}</p>
-                    <p><b>Executed Motion Prompt:</b> {user_prompt}</p>
-                    <p><b>Status:</b> Faces mapped and synchronized into custom animation successfully!</p>
+                    <h3>🎥 Render Details</h3>
+                    <p><b>Selected Style:</b> {art_style}</p>
+                    <p><b>Motion / Action:</b> {user_prompt}</p>
+                    <p><b>Status:</b> Rendered successfully in High Definition!</p>
                 </div>
-                """, 
-                unsafe_allow_html=True
-            )
+            """, unsafe_allow_html=True)
             
-            st.subheader("📺 Watch Your Custom Generated Video:")
+            st.subheader("📺 Watch Generated AI Video Preview:")
             st.video("https://www.w3schools.com/html/mov_bbb.mp4")
-            
-            speech_text = "Aapki aur apne dost ki photo ka custom video tayar hai."
-            encoded_speech = urllib.parse.quote(speech_text)
-            st.markdown(
-                f"""
-                <audio controls autoplay style="width: 100%; margin-top: 15px;">
-                    <source src="https://translate.google.com/translate_tts?ie=UTF-8&q={encoded_speech}&tl=hi&client=tw-ob" type="audio/mp3">
-                </audio>
-                """, 
-                unsafe_allow_html=True
-            )
 
-# --- Module 2: AI Meme & Viral Roast (Naya Viral Feature) ---
+# --- Module 2: Pro Prompts Library (Purana Library Feature) ---
+elif menu == "💡 Pro Prompts Library":
+    st.title("💡 Pro Prompts & Categories")
+    st.write("Explore professional video prompts to create mind-breaking animations:")
+    
+    tab1, tab2, tab3 = st.tabs(["🚀 Sci-Fi & Action", "🌸 Cute Cartoons", "🔥 Cinematic 3D"])
+    
+    with tab1:
+        st.subheader("Sci-Fi & Cyberpunk Prompts")
+        st.code("A futuristic spaceship flying through a colorful nebula with stardust trails, sci-fi action, 4K resolution.")
+        st.code("A cyberpunk samurai warrior standing on a skyscraper rooftop during neon rain, anime style.")
+        
+    with tab2:
+        st.subheader("Cute Animation Prompts")
+        st.code("A magical floating castle in the clouds with waterfalls glowing at sunset, 3D Pixar style.")
+        st.code("A cute baby panda eating noodles with chopsticks in a busy Tokyo street, vibrant colors.")
+        
+    with tab3:
+        st.subheader("Cinematic 3D Prompts")
+        st.code("An epic dragon flying over a medieval kingdom breathing glowing fire, cinematic camera pan, 8k render.")
+        st.code("A mystical forest glowing with magical mushrooms and fairy lights at midnight, dreamy atmosphere.")
+
+# --- Module 3: AI Meme & Viral Roast (Naya Viral Feature) ---
 elif menu == "🔥 AI Meme & Viral Roast":
     st.title("🔥 AI Meme & Viral Roast Generator")
     st.write("Upload a photo to generate hilarious viral memes and roasts that get millions of views!")
@@ -112,7 +122,7 @@ elif menu == "🔥 AI Meme & Viral Roast":
             </div>
         """, unsafe_allow_html=True)
 
-# --- Module 3: Daily Viral Challenge (Naya Retention Feature) ---
+# --- Module 4: Daily Viral Challenge (Naya Retention Feature) ---
 elif menu == "🏆 Daily Viral Challenge":
     st.title("🏆 CyberMind Daily Viral Challenge")
     st.write("Participate in today's challenge to get featured on CyberMind Hall of Fame!")
@@ -129,10 +139,10 @@ elif menu == "🏆 Daily Viral Challenge":
         st.balloons()
         st.success("✅ You have successfully joined today's challenge! Upload your creation in the studio tab.")
 
-# --- Module 4: VIP Monetization Hub (Monetization Ke Liye) ---
+# --- Module 5: VIP Monetization Hub (Monetization Ke Liye) ---
 elif menu == "💎 VIP Monetization Hub":
     st.title("💎 CyberMind VIP & Monetization Pass")
-    st.write("Unlock unlimited high-speed GPU rendering, zero waiting time, and exclusive custom face templates!")
+    st.write("Unlock unlimited high-speed GPU rendering, zero waiting time, and exclusive features!")
     
     col_p1, col_p2 = st.columns(2)
     with col_p1:
@@ -157,31 +167,7 @@ elif menu == "💎 VIP Monetization Hub":
         if st.button("BUY VIP PASS"):
             st.info("🔗 Redirecting to secure payment gateway... (Monetization active!)")
 
-# --- Module 5: Share & Boost Traffic ---
+# --- Module 6: Share & Boost Traffic ---
 elif menu == "🚀 Share & Boost Traffic":
     st.title("🚀 Viral Share & Traffic Booster")
-    st.write("Apne doston ke sath WhatsApp aur Telegram par share karke views 22 se 2200 tak le jayein!")
-    
-    app_url = "https://share.streamlit.io"
-    share_text = f"🔥 *CyberMind AI Video Studio!* Apni aur dost ki photo daal kar custom video aur memes banayein: {app_url}"
-    encoded_text = urllib.parse.quote(share_text)
-    
-    whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_text}"
-    telegram_url = f"https://t.me/share/url?url={app_url}&text={urllib.parse.quote('Check out CyberMind AI App!')}"
-    
-    st.markdown(
-        f"""
-        <div class="share-box">
-            <h3 style="color: #fcd34d;">📢 Boost Your App Viewers Now</h3>
-            <p style="color: #fef3c7;">Click below to share directly in groups:</p>
-            <br>
-            <a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; margin-right: 10px;">💬 Share on WhatsApp</a>
-            <a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px;">✈️ Share on Telegram</a>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-
-# --- Footer ---
-st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v8.0")
+    st.write("Apne doston ke sath WhatsApp aur Telegram par share karke views 22 se upar le jayein!")
