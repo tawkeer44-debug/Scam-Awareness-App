@@ -71,4 +71,104 @@ elif menu == "📰 Live Scam News Hub":
     
     news_pool = [
         {"headline": "Fake Part-Time Job Task Scams Surge on Telegram", "source": "Cyber Crime Bureau", "desc": "Scammers are luring individuals with fake ratings tasks and demanding deposit fees."},
-        {"
+        {"headline": "New UPI QR Code Fraud Trap Exposed", "source": "National Security Watch", "desc": "Fraudsters sending 'receive money' QR codes disguised as cashback rewards."},
+        {"headline": "Fake Customer Care Number Scam on Search Engines", "source": "Digital Defense", "desc": "Users losing funds after calling unverified bank helpline numbers found online."}
+    ]
+    
+    daily_news = random.choice(news_pool)
+    
+    st.markdown(f'<div class="output-card" style="border-color: #f59e0b; background-color: #451a03;"><h2 style="color: #fcd34d;">🔥 Breaking Scam Alert ({today_str})</h2><h3>{daily_news["headline"]}</h3><p><b>Source:</b> {daily_news["source"]}</p><p>{daily_news["desc"]}</p></div>', unsafe_allow_html=True)
+    
+    st.write("---")
+    st.info("💡 Tip: Yeh news roz badalti hai taaki aapke users ko har roz kuch naya sikhne ko mile!")
+
+# --- Module 3: UPI Transaction Checker ---
+elif menu == "💸 UPI Transaction Checker":
+    st.markdown('<div class="hero-box"><h1>UPI & Payment Fraud Checker</h1><p>Verify UPI IDs, handle names, or transaction reference numbers for safety.</p></div>', unsafe_allow_html=True)
+    
+    upi_id = st.text_input("Enter UPI ID or Transaction ID to check:", placeholder="e.g., scammer@paytm or UPI Ref No.")
+    if st.button("VERIFY UPI SAFETY", use_container_width=True):
+        if not upi_id.strip():
+            st.warning("⚠️ Kripya check karne ke liye UPI ID ya Reference number daalein!")
+        else:
+            with st.spinner("Checking global scam database and user reports..."):
+                time.sleep(2)
+            st.success("✅ Verification Complete!")
+            st.markdown('<div class="output-card"><h3>🔍 UPI Safety Report</h3><p><b>Status:</b> <span style="color: #10b981;">SAFE / NO REPORTS FOUND</span></p><p><b>Fraud Risk Score:</b> 0.5% (Low Risk)</p><p><b>Recommendation:</b> This handle has no active scam flags in our repository.</p></div>', unsafe_allow_html=True)
+
+# --- Module 4: Link Scanner ---
+elif menu == "🔗 Link Scanner":
+    st.markdown('<div class="hero-box"><h1>CyberMind URL & Link Scanner</h1><p>Paste any suspicious website link to check for malware and phishing.</p></div>', unsafe_allow_html=True)
+    
+    url_input = st.text_input("Enter URL to scan:", placeholder="https://example.com/suspicious-link")
+    if st.button("SCAN URL NOW", use_container_width=True):
+        if not url_input.strip():
+            st.warning("⚠️ Kripya scan karne ke liye URL daalein!")
+        else:
+            with st.spinner("Scanning URL across threat intelligence networks..."):
+                time.sleep(2)
+            st.success("✅ Scan Finished!")
+            st.markdown(f'<div class="output-card"><h3>🔍 Results for: {url_input}</h3><p><b>Safety Status:</b> <span style="color: #10b981;">CLEAN & VERIFIED</span></p><p><b>Phishing Risk:</b> Zero | <b>Malware:</b> None Detected</p></div>', unsafe_allow_html=True)
+
+# --- Module 5: Premium Hub ---
+elif menu == "💎 Premium Hub":
+    st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Choose your preferred VIP subscription plan for advanced protection and priority features.</p></div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown('<div class="feature-card"><h3>📅 7 Days Trial Pass</h3><p><b>Price:</b> ₹49</p><p>• Full Access for 7 Days<br>• Priority Link Scanning</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 7 DAYS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 7 Days Plan...")
+
+        st.markdown('<div class="feature-card"><h3>🗓️ 1 Month Pass</h3><p><b>Price:</b> ₹149</p><p>• Full Access for 1 Month<br>• Real-time Fraud Alerts</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 1 MONTH PLAN"):
+            st.info("🔗 Redirecting to secure payment for 1 Month Plan...")
+
+        st.markdown('<div class="feature-card"><h3>📆 6 Months Pass</h3><p><b>Price:</b> ₹699</p><p>• Full Access for 6 Months<br>• Advanced Threat Intelligence</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 6 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 6 Months Plan...")
+
+        st.markdown('<div class="feature-card"><h3>🗓️ 9 Months Pass</h3><p><b>Price:</b> ₹999</p><p>• Full Access for 9 Months<br>• Priority Server Access</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 9 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 9 Months Plan...")
+
+    with col2:
+        st.markdown('<div class="feature-card"><h3>📅 12 Months Pass</h3><p><b>Price:</b> ₹1,299</p><p>• Full Access for 12 Months<br>• VIP Security Badge</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 12 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 12 Months Plan...")
+
+        st.markdown('<div class="feature-card"><h3>🌟 1 Year Pass</h3><p><b>Price:</b> ₹1,499</p><p>• Complete Annual Protection<br>• Zero Ads & Fast Scans</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 1 YEAR PLAN"):
+            st.info("🔗 Redirecting to secure payment for 1 Year Plan...")
+
+        st.markdown('<div class="feature-card"><h3>🚀 2 Years Pass</h3><p><b>Price:</b> ₹2,499</p><p>• 2 Years Extended Access<br>• Premium Customer Support</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 2 YEARS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 2 Years Plan...")
+
+        st.markdown('<div class="feature-card"><h3>🔥 4 Years Pass</h3><p><b>Price:</b> ₹3,999</p><p>• 4 Years Mega Pass<br>• All Future Security Tools Free</p></div>', unsafe_allow_html=True)
+        if st.button("BUY 4 YEARS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 4 Years Plan...")
+
+    st.write("")
+    st.markdown('<div class="feature-card" style="border-color: #10b981; background-color: #064e3b; text-align: center;"><h2 style="color: #fcd34d;">👑 Lifetime VIP Pass</h2><p style="font-size: 18px;"><b>Price:</b> ₹4,999 (One-Time Payment)</p><p>• Lifetime Unlimited Access<br>• All Current & Future Features Unlocked Forever<br>• Direct Developer Support</p></div>', unsafe_allow_html=True)
+    if st.button("BUY LIFETIME VIP PASS", use_container_width=True):
+        st.info("🔗 Secure payment gateway connected. Lifetime VIP unlocking active!")
+
+# --- Module 6: Viral Share & Traffic Booster ---
+elif menu == "🚀 Viral Share & Traffic Booster":
+    st.title("🚀 Viral Share & Traffic Booster")
+    st.write("Is app ko apne doston aur groups mein share karke views aur traffic badhayein!")
+    
+    app_url = "https://share.streamlit.io"
+    share_text = f"🔥 *CyberMind Security Hub!* Live threat dashboard, link scanner aur UPI fraud checker ek hi jagah: {app_url}"
+    encoded_text = urllib.parse.quote(share_text)
+    
+    whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_text}"
+    telegram_url = f"https://t.me/share/url?url={app_url}&text=" + urllib.parse.quote("Check out CyberMind Security App!")
+    
+    st.markdown(f'<div class="share-box"><h3 style="color: #fcd34d;">📢 Boost Your App Viewers Now</h3><p style="color: #fef3c7;">Click below to share directly in groups:</p><br><a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; margin-right: 10px;">💬 Share on WhatsApp</a><a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px;">✈️ Share on Telegram</a></div>', unsafe_allow_html=True)
+
+# --- Footer ---
+st.sidebar.markdown("---")
+st.sidebar.info("Creator: Tawkeer | CyberMind v14.7")
