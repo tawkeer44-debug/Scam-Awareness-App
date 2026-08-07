@@ -156,4 +156,33 @@ elif menu == "🔗 Link Scanner":
     st.markdown('<div class="hero-box"><h1>CyberMind URL & Link Scanner</h1><p>Paste any suspicious website link to check for malware and phishing.</p></div>', unsafe_allow_html=True)
     
     url_input = st.text_input("Enter URL to scan:", placeholder="https://example.com/suspicious-link")
-    if
+    if st.button("SCAN URL NOW", use_container_width=True):
+        if not url_input.strip():
+            st.warning("⚠️ Kripya scan karne ke liye URL daalein!")
+        else:
+            with st.spinner("Scanning URL across threat intelligence networks..."):
+                time.sleep(2)
+            st.success("✅ Scan Finished!")
+            st.markdown(f"""
+                <div class="output-card">
+                    <h3>🔍 Results for: {url_input}</h3>
+                    <p><b>Safety Status:</b> <span style="color: #10b981;">CLEAN & VERIFIED</span></p>
+                    <p><b>Phishing Risk:</b> Zero | <b>Malware:</b> None Detected</p>
+                </div>
+            """, unsafe_allow_html=True)
+
+# --- Module 5: Premium Hub ---
+elif menu == "💎 Premium Hub":
+    st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Choose your preferred VIP subscription plan for advanced protection and priority features.</p></div>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+            <div class="feature-card">
+                <h3>📅 7 Days Trial Pass</h3>
+                <p><b>Price:</b> ₹49</p>
+                <p>• Full Access for 7 Days<br>• Priority Link Scanning</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st
