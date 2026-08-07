@@ -39,7 +39,6 @@ if menu == "📊 Dashboard & Live Threat Intelligence":
     st.write("")
     col1, col2, col3 = st.columns(3)
     
-    # Session state for live increasing active users starting from 9022
     if "live_users" not in st.session_state:
         st.session_state.live_users = 9022
         
@@ -182,7 +181,7 @@ elif menu == "💬 CyberMind AI Chatbot":
         with st.chat_message("assistant"):
             query_lower = prompt.lower()
             if "hi" in query_lower or "hello" in query_lower or "hey" in query_lower:
-                response = "Hello Tawkeer bhai! CyberMind AI aapki sewa mein hazir hai. B batayein kaunsa scam check karna hai?"
+                response = "Hello Tawkeer bhai! CyberMind AI aapki sewa mein hazir hai. Bataiye kaunsa scam check karna hai?"
             elif "upi" in query_lower or "payment" in query_lower:
                 response = "UPI fraud se bachne ke liye kabhi bhi anjaan QR code scan na karein aur na hi apna UPI PIN kisi ke sath share karein. Aap hamara 'UPI Transaction Checker' bhi use kar sakte hain!"
             elif "news" in query_lower:
@@ -193,32 +192,104 @@ elif menu == "💬 CyberMind AI Chatbot":
             st.markdown(response)
             st.session_state.messages.append({"role": "assistant", "content": response})
 
-# --- Module 6: Premium Hub ---
+# --- Module 6: Premium Hub (Aapke Bataye Gaye Saare Plans) ---
 elif menu == "💎 Premium Hub":
-    st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Unlock advanced protection tools, priority scanning, and VIP access.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-box"><h1>CyberMind Premium Hub</h1><p>Choose your preferred VIP subscription plan for advanced protection and priority features.</p></div>', unsafe_allow_html=True)
     
-    col_p1, col_p2 = st.columns(2)
-    with col_p1:
+    col1, col2 = st.columns(2)
+    
+    with col1:
         st.markdown("""
-            <div class="feature-card" style="border-color: #3b82f6;">
-                <h3>🚀 Pro Security Pass</h3>
-                <p><b>Price:</b> ₹199 / month</p>
-                <p>• Unlimited Link Scans<br>• Real-time Fraud Alerts<br>• Priority Server Access</p>
+            <div class="feature-card">
+                <h3>📅 7 Days Trial Pass</h3>
+                <p><b>Price:</b> ₹49</p>
+                <p>• Full Access for 7 Days<br>• Priority Link Scanning</p>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("BUY PRO PASS"):
-            st.info("🔗 Secure payment gateway connected. Premium unlocked!")
-            
-    with col_p2:
+        if st.button("BUY 7 DAYS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 7 Days Plan...")
+
         st.markdown("""
-            <div class="feature-card" style="border-color: #10b981;">
-                <h3>👑 Lifetime VIP Pass</h3>
-                <p><b>Price:</b> ₹499 (One-time)</p>
-                <p>• All Pro Features<br>• Lifetime Free Updates<br>• Direct Support Access</p>
+            <div class="feature-card">
+                <h3>🗓️ 1 Month Pass</h3>
+                <p><b>Price:</b> ₹149</p>
+                <p>• Full Access for 1 Month<br>• Real-time Fraud Alerts</p>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("BUY LIFETIME PASS"):
-            st.info("🔗 Secure payment gateway connected. Premium unlocked!")
+        if st.button("BUY 1 MONTH PLAN"):
+            st.info("🔗 Redirecting to secure payment for 1 Month Plan...")
+
+        st.markdown("""
+            <div class="feature-card">
+                <h3>📆 6 Months Pass</h3>
+                <p><b>Price:</b> ₹699</p>
+                <p>• Full Access for 6 Months<br>• Advanced Threat Intelligence</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 6 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 6 Months Plan...")
+
+        st.markdown("""
+            <div class="feature-card">
+                <h3>🗓️ 9 Months Pass</h3>
+                <p><b>Price:</b> ₹999</p>
+                <p>• Full Access for 9 Months<br>• Priority Server Access</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 9 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 9 Months Plan...")
+
+    with col2:
+        st.markdown("""
+            <div class="feature-card">
+                <h3>📅 12 Months Pass</h3>
+                <p><b>Price:</b> ₹1,299</p>
+                <p>• Full Access for 12 Months<br>• VIP Security Badge</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 12 MONTHS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 12 Months Plan...")
+
+        st.markdown("""
+            <div class="feature-card">
+                <h3>🌟 1 Year Pass</h3>
+                <p><b>Price:</b> ₹1,499</p>
+                <p>• Complete Annual Protection<br>• Zero Ads & Fast Scans</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 1 YEAR PLAN"):
+            st.info("🔗 Redirecting to secure payment for 1 Year Plan...")
+
+        st.markdown("""
+            <div class="feature-card">
+                <h3>🚀 2 Years Pass</h3>
+                <p><b>Price:</b> ₹2,499</p>
+                <p>• 2 Years Extended Access<br>• Premium Customer Support</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 2 YEARS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 2 Years Plan...")
+
+        st.markdown("""
+            <div class="feature-card">
+                <h3>🔥 4 Years Pass</h3>
+                <p><b>Price:</b> ₹3,999</p>
+                <p>• 4 Years Mega Pass<br>• All Future Security Tools Free</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY 4 YEARS PLAN"):
+            st.info("🔗 Redirecting to secure payment for 4 Years Plan...")
+
+    st.write("")
+    st.markdown("""
+        <div class="feature-card" style="border-color: #10b981; background-color: #064e3b; text-align: center;">
+            <h2 style="color: #fcd34d;">👑 Lifetime VIP Pass</h2>
+            <p style="font-size: 18px;"><b>Price:</b> ₹4,999 (One-Time Payment)</p>
+            <p>• Lifetime Unlimited Access<br>• All Current & Future Features Unlocked Forever<br>• Direct Developer Support</p>
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("BUY LIFETIME VIP PASS", use_container_width=True):
+        st.info("🔗 Secure payment gateway connected. Lifetime VIP unlocking active!")
 
 # --- Module 7: Viral Share & Traffic Booster ---
 elif menu == "🚀 Viral Share & Traffic Booster":
@@ -247,4 +318,4 @@ elif menu == "🚀 Viral Share & Traffic Booster":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v11.0")
+st.sidebar.info("Creator: Tawkeer | CyberMind v12.0")
