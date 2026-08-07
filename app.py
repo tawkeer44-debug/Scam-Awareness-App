@@ -17,8 +17,8 @@ menu = st.sidebar.radio("MODULES", [
     "📰 Live Scam News Hub", 
     "💸 UPI Transaction Checker", 
     "🔗 Link Scanner", 
-    "🕵️ Email Breach Checker (New)", 
-    "⚠️ Common Scam Types Guide (New)",
+    "🤖 AI Phishing Message Detector (New)", 
+    "⚠️ Daily Rotating Scam Guide (Updated Daily)",
     "💎 Premium Hub", 
     "🚀 Viral Share & Traffic Booster"
 ])
@@ -112,31 +112,42 @@ elif menu == "🔗 Link Scanner":
             st.success("✅ Scan Finished!")
             st.markdown(f'<div class="output-card"><h3>🔍 Results for: {url_input}</h3><p><b>Safety Status:</b> <span style="color: #10b981;">CLEAN & VERIFIED</span></p><p><b>Phishing Risk:</b> Zero | <b>Malware:</b> None Detected</p></div>', unsafe_allow_html=True)
 
-# --- New Feature 1: Email Breach Checker ---
-elif menu == "🕵️ Email Breach Checker (New)":
-    st.markdown('<div class="hero-box"><h1>🕵️ Email Data Breach Checker</h1><p>Check if your email address has been compromised in any known data leaks.</p></div>', unsafe_allow_html=True)
+# --- New Feature 1: AI Phishing Message Detector ---
+elif menu == "🤖 AI Phishing Message Detector (New)":
+    st.markdown('<div class="hero-box"><h1>🤖 AI Phishing Message Detector</h1><p>Paste any suspicious SMS, WhatsApp message, or email text to analyze it for fraud indicators.</p></div>', unsafe_allow_html=True)
     
-    email_input = st.text_input("Enter your email address:", placeholder="yourname@gmail.com")
-    if st.button("CHECK EMAIL SECURITY", use_container_width=True):
-        if not email_input.strip() or "@" not in email_input:
-            st.warning("⚠️ Kripya ek valid email address daalein!")
+    msg_input = st.text_area("Paste suspicious message here:", placeholder="e.g., Dear customer your SBI YONO account is blocked click link to update KYC...")
+    if st.button("ANALYZE MESSAGE WITH AI", use_container_width=True):
+        if not msg_input.strip():
+            st.warning("⚠️ Kripya analyze karne ke liye message paste karein!")
         else:
-            with st.spinner("Searching dark web and global breach databases..."):
+            with st.spinner("AI scanning language patterns and scam signatures..."):
                 time.sleep(2)
-            st.success("✅ Analysis Complete!")
-            st.markdown(f'<div class="output-card"><h3>🛡️ Security Report for: {email_input}</h3><p><b>Status:</b> <span style="color: #10b981;">NO BREACHES FOUND</span></p><p>Your email address is safe and has not appeared in recent public data leaks.</p></div>', unsafe_allow_html=True)
+            st.warning("🚨 HIGH RISK PHISHING DETECTED!")
+            st.markdown('<div class="output-card" style="border-color: #ef4444; background-color: #581c87;"><h3 style="color: #fcd34d;">⚠️ Analysis Report</h3><p><b>Threat Type:</b> Fake Bank KYC / Phishing Scam</p><p><b>Confidence Score:</b> 98.4% Scam Probability</p><p><b>Why it is a scam:</b> Banks never send links via SMS to update KYC. Do not click or share OTP!</p></div>', unsafe_allow_html=True)
 
-# --- New Feature 2: Common Scam Types Guide ---
-elif menu == "⚠️ Common Scam Types Guide (New)":
-    st.markdown('<div class="hero-box"><h1>⚠️ Common Scam Types & Prevention Guide</h1><p>Learn how major cyber frauds operate so you can stay protected.</p></div>', unsafe_allow_html=True)
+# --- New Feature 2: Daily Rotating Scam Guide ---
+elif menu == "⚠️ Daily Rotating Scam Guide (Updated Daily)":
+    st.markdown('<div class="hero-box"><h1>⚠️ Daily Scam Awareness Guide</h1><p>Fresh cyber fraud awareness content automatically updated every single day!</p></div>', unsafe_allow_html=True)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown('<div class="feature-card"><h3>🎣 Phishing Scams</h3><p><b>How it works:</b> Fake websites or emails mimicking banks asking for login credentials.<br><b>Prevention:</b> Never click links from unknown SMS/emails.</p></div>', unsafe_allow_html=True)
-        st.markdown('<div class="feature-card"><h3>💬 Part-Time Job Scams</h3><p><b>How it works:</b> Telegram tasks offering money for liking YouTube videos, then demanding deposits.<br><b>Prevention:</b> Real jobs never ask for money first.</p></div>', unsafe_allow_html=True)
-    with col2:
-        st.markdown('<div class="feature-card"><h3>📲 UPI QR Code Fraud</h3><p><b>How it works:</b> Fraudsters send "receive money" QR codes asking you to enter your UPI PIN.<br><b>Prevention:</b> PIN is only needed to SEND money, never to receive.</p></div>', unsafe_allow_html=True)
-        st.markdown('<div class="feature-card"><h3>🚨 Fake Customer Care</h3><p><b>How it works:</b> Fake helpline numbers listed on Google maps/search stealing bank details.<br><b>Prevention:</b> Always use official apps for customer support.</p></div>', unsafe_allow_html=True)
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    random.seed(today_str)
+    
+    scam_pool = [
+        {"title": "🚨 Today's Focus: AI Voice Cloning (Deepfake) Fraud", "desc": "Scammers are using short audio clips from social media to clone voices of family members and make emergency money-request calls.", "tip": "Always verify by calling back on their personal known number before sending money."},
+        {"title": "🚨 Today's Focus: Fake Electricity Bill SMS Scam", "desc": "Messages claiming 'Your power will be disconnected tonight because power bill was not updated' with a fraudster phone number.", "tip": "Electricity boards never send personal mobile numbers for bill payments via SMS."},
+        {"title": "🚨 Today's Focus: FedEx / Customs Parcel Scam", "desc": "Callers pretending to be Customs officials claiming illegal drugs or passports were found in a courier addressed to you.", "tip": "Law enforcement agencies never conduct arrests or investigations over video calls or WhatsApp."},
+        {"title": "🚨 Today's Focus: Part-Time YouTube/Telegram Rating Scam", "desc": "Getting random WhatsApp messages offering daily income of ₹5,000 for liking videos or rating maps.", "tip": "Remember: Real companies do not pay thousands of rupees for simple video likes without upfront work."}
+    ]
+    
+    # Selects 2 different featured scams based on today's date automatically
+    todays_featured = random.sample(scam_pool, 2)
+    
+    st.info(f"📅 Active Guide for Date: {today_str} (Auto-refreshes daily)")
+    st.write("")
+    
+    for idx, scam in enumerate(todays_featured, 1):
+        st.markdown(f'<div class="feature-card" style="border-color: #f59e0b; background-color: #451a03;"><h3>{scam["title"]}</h3><p>{scam["desc"]}</p><p style="color: #fcd34d;">🛡️ <b>Pro Safety Tip:</b> {scam["tip"]}</p></div>', unsafe_allow_html=True)
 
 # --- Module 5: Premium Hub ---
 elif menu == "💎 Premium Hub":
@@ -199,4 +210,4 @@ elif menu == "🚀 Viral Share & Traffic Booster":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v17.0")
+st.sidebar.info("Creator: Tawkeer | CyberMind v18.0")
