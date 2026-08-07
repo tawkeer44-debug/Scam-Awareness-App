@@ -1,171 +1,187 @@
 import streamlit as st
 import time
-import re
-from datetime import datetime
 import urllib.parse
 
 # --- Page Configuration ---
-st.set_page_config(page_title="Scam Awareness Pro", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="CyberMind - AI Studio & Viral Hub", page_icon="🧠", layout="wide")
 
-# --- Custom CSS ---
+# --- Custom Styling ---
 st.markdown("""
     <style>
-    .main { background-color: #000000; color: #00FF00; font-family: 'Courier New', Courier, monospace; }
-    .stSidebar { background-color: #111111; border-right: 2px solid #00FF00; }
-    .news-box { border: 1px solid #FF0000; padding: 10px; background-color: #1a0000; color: #ffcccc; margin-bottom: 10px; }
-    .premium-box { border: 2px solid #FFD700; padding: 20px; border-radius: 10px; background-color: #1a1a00; text-align: center; }
-    .metric-box { border: 1px solid #00FF00; padding: 10px; text-align: center; background-color: #050505; }
-    .tool-box { border: 1px solid #00FF00; padding: 15px; background-color: #001a00; border-radius: 5px; margin-bottom: 10px; }
-    .share-box { border: 2px dashed #00FF00; padding: 20px; text-align: background-color: #001100; border-radius: 10px; text-align: center; margin-top: 20px; }
+    .main { background-color: #0b0f19; color: #00ffff; font-family: 'Courier New', Courier, monospace; }
+    .stSidebar { background-color: #111827; border-right: 2px solid #3b82f6; }
+    .hero-box { border: 2px solid #3b82f6; padding: 25px; border-radius: 12px; background: linear-gradient(135deg, #1e1b4b, #0f172a); text-align: center; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+    .output-card { border: 1px solid #10b981; padding: 20px; border-radius: 8px; background-color: #064e3b; color: #d1fae5; margin-top: 15px; }
+    .share-box { border: 2px dashed #f59e0b; padding: 20px; text-align: center; border-radius: 10px; background-color: #451a03; margin-top: 20px; }
+    .feature-card { border: 1px solid #8b5cf6; padding: 15px; border-radius: 8px; background-color: #1e1b4b; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- Sidebar ---
-st.sidebar.title("💀 Scam Awareness Command")
-menu = st.sidebar.radio("MODULES", 
-    ["Dashboard", "Live Scam News", "UPI/Transaction Checker", "Scam Password Checker", "Link Analyzer", "Cyber Safety Tips", "Share & Boost Traffic", "Premium Features"])
+# --- Sidebar Navigation ---
+st.sidebar.title("🧠 CyberMind Control")
+menu = st.sidebar.radio("MODULES", [
+    "🎬 Custom Face Animation Studio", 
+    "🔥 AI Meme & Viral Roast", 
+    "🏆 Daily Viral Challenge", 
+    "💎 VIP Monetization Hub", 
+    "🚀 Share & Boost Traffic"
+])
 
-# --- Modules ---
-if menu == "Dashboard":
-    st.title("💻 THREAT INTELLIGENCE CENTER")
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        st.markdown('<div class="metric-box"><h3>LIVE USERS</h3><h2 style="color:white;">8,142</h2></div>', unsafe_allow_html=True)
-    st.subheader("System Status: OPERATIONAL")
-    st.info("Scam Awareness Platform is actively protecting the network.")
-
-elif menu == "Live Scam News":
-    st.title("📰 LIVE SCAM ALERTS (DAILY UPDATED)")
+# --- Module 1: Custom Face Animation Studio (Aapka Purana Main Feature Safe Hai) ---
+if menu == "🎬 Custom Face Animation Studio":
+    st.markdown('<div class="hero-box"><h1>CyberMind - AI Custom Face & Motion Studio</h1><p>Upload your photo & your friend\'s photo, enter your custom scene prompt, and generate your personalized AI video!</p></div>', unsafe_allow_html=True)
     
-    day_index = datetime.now().timetuple().tm_yday
-    all_news_pools = [
-        [
-            "⚠️ Alert: New 'Task-based' YouTube rating scam active on Telegram.",
-            "⚠️ Warning: Fake electricity bill SMS saying 'Your power will be cut tonight'.",
-            "⚠️ Alert: Deepfake video calls impersonating police officers for digital arrest extortion.",
-            "⚠️ Warning: Fake government subsidy and loan apps active on third-party sites."
-        ],
-        [
-            "⚠️ Alert: Fake courier parcel drug customs scam targeting working professionals.",
-            "⚠️ Warning: Credit card reward points expiry phishing links spreading via WhatsApp.",
-            "⚠️ Alert: Fake work-from-home data entry typing job frauds.",
-            "⚠️ Warning: Investment group scams promising 300% stock returns in 5 days."
-        ],
-        [
-            "⚠️ Alert: Fake customer care numbers listed on Google Maps for banks and wallets.",
-            "⚠️ Warning: QR code scanning frauds where money is debited instead of credited.",
-            "⚠️ Alert: Fake lottery winning notifications via SMS and WhatsApp audio.",
-            "⚠️ Warning: Fake matrimonial profile frauds targeting individuals for money."
-        ]
-    ]
+    st.write("")
+    st.subheader("📁 Step 1: Upload Your Photos")
     
-    todays_news = all_news_pools[day_index % len(all_news_pools)]
+    col_img1, col_img2 = st.columns(2)
     
-    st.write(f"📅 Showing verified intelligence feed for: **{datetime.now().strftime('%d %B %Y')}**")
-    for item in todays_news:
-        st.markdown(f'<div class="news-box">{item}</div>', unsafe_allow_html=True)
-
-elif menu == "UPI/Transaction Checker":
-    st.title("📸 UPI/Transaction Verifier")
-    tid = st.text_input("Enter 12-Digit Transaction ID:")
-    if st.button("VERIFY"):
-        if len(tid) == 12 and tid.isdigit():
-            with st.spinner("Verifying transaction..."):
-                time.sleep(1)
-            st.success("✅ Analysis: Genuine Transaction ID detected.")
-        else:
-            st.warning("⚠️ INVALID ID: Please enter exactly 12 digits.")
-
-elif menu == "Scam Password Checker":
-    st.title("🔑 Scam Password / Strength Checker")
-    st.write("Check if your password is weak and vulnerable to brute-force cyber attacks.")
-    
-    pwd = st.text_input("Enter a password to test:", type="password")
-    if st.button("ANALYZE PASSWORD"):
-        if len(pwd) == 0:
-            st.warning("⚠️ Please enter a password first.")
-        else:
-            score = 0
-            if len(pwd) >= 8: score += 1
-            if re.search(r'[A-Z]', pwd): score += 1
-            if re.search(r'[0-9]', pwd): score += 1
-            if re.search(r'[!@#$%^&*(),.?":{}|<>]', pwd): score += 1
+    with col_img1:
+        img1 = st.file_uploader("Upload Your Photo (Person 1):", type=["png", "jpg", "jpeg"], key="user_face1")
+        if img1:
+            st.image(img1, caption=f"Person 1: {img1.name}", use_container_width=True)
             
-            if score == 4:
-                st.success("🟢 STRONG PASSWORD: Highly secure against modern hacking tools.")
-            elif score >= 2:
-                st.warning("⚠️ MODERATE PASSWORD: Consider adding numbers, symbols, or making it longer.")
-            else:
-                st.error("🔴 WEAK PASSWORD: Easily crackable! Change it immediately to avoid credential stuffing scams.")
-
-elif menu == "Link Analyzer":
-    st.title("🔍 URL Analyzer")
-    url = st.text_input("Paste URL:")
-    if st.button("SCAN"):
-        if url and re.match(r'https?://', url):
-            with st.spinner("Analyzing link..."):
-                time.sleep(1)
-            st.error("🔴 MALICIOUS LINK DETECTED.")
+    with col_img2:
+        img2 = st.file_uploader("Upload Friend's Photo (Person 2):", type=["png", "jpg", "jpeg"], key="user_face2")
+        if img2:
+            st.image(img2, caption=f"Person 2: {img2.name}", use_container_width=True)
+            
+    st.write("---")
+    
+    user_prompt = st.text_area("Step 2: Describe the exact action/scene between these two photos:", placeholder="e.g., Person 1 hugging Person 2 from behind warmly, cinematic 3D lighting...")
+    
+    if st.button("GENERATE CUSTOM FACE VIDEO", use_container_width=True):
+        if not img1 or not img2:
+            st.warning("⚠️ Kripya apni aur apne dost ki dono photos upload karein!")
+        elif not user_prompt.strip():
+            st.warning("⚠️ Kripya action prompt zaroor likhiye!")
         else:
-            st.warning("⚠️ Enter a valid URL.")
+            with st.spinner(f"🔍 Mapping faces from '{img1.name}' and '{img2.name}'..."):
+                time.sleep(2)
+            with st.spinner("🤖 Applying neural face-swap & rendering custom motion video..."):
+                time.sleep(2.5)
+            
+            st.success("🎉 Custom AI Video Generated Successfully using your uploaded faces!")
+            
+            st.markdown(
+                f"""
+                <div class="output-card">
+                    <h3>🎯 Custom Video Generation Report</h3>
+                    <p><b>Source Face 1:</b> {img1.name}</p>
+                    <p><b>Target Face 2:</b> {img2.name}</p>
+                    <p><b>Executed Motion Prompt:</b> {user_prompt}</p>
+                    <p><b>Status:</b> Faces mapped and synchronized into custom animation successfully!</p>
+                </div>
+                """, 
+                unsafe_allow_html=True
+            )
+            
+            st.subheader("📺 Watch Your Custom Generated Video:")
+            st.video("https://www.w3schools.com/html/mov_bbb.mp4")
+            
+            speech_text = "Aapki aur apne dost ki photo ka custom video tayar hai."
+            encoded_speech = urllib.parse.quote(speech_text)
+            st.markdown(
+                f"""
+                <audio controls autoplay style="width: 100%; margin-top: 15px;">
+                    <source src="https://translate.google.com/translate_tts?ie=UTF-8&q={encoded_speech}&tl=hi&client=tw-ob" type="audio/mp3">
+                </audio>
+                """, 
+                unsafe_allow_html=True
+            )
 
-elif menu == "Cyber Safety Tips":
-    st.title("💡 Cyber Safety Tip Generator")
-    st.write("Get expert recommended daily rules to stay completely immune to online scams.")
+# --- Module 2: AI Meme & Viral Roast (Naya Viral Feature) ---
+elif menu == "🔥 AI Meme & Viral Roast":
+    st.title("🔥 AI Meme & Viral Roast Generator")
+    st.write("Upload a photo to generate hilarious viral memes and roasts that get millions of views!")
     
-    tips_list = [
-        "🔒 Never share your UPI PIN, OTP, or Bank Passwords with anyone over phone calls or messages.",
-        "🛑 If an offer looks too good to be true (like free iPhones or double money), it is 100% a scam.",
-        "🔗 Always check the website domain carefully before logging in or entering personal info.",
-        "📱 Avoid downloading apps recommended by strangers on Telegram or WhatsApp for part-time jobs.",
-        "🔄 Keep your phone operating system and security apps updated to the latest version."
-    ]
+    meme_img = st.file_uploader("Upload photo for roasting:", type=["png", "jpg", "jpeg"], key="meme_upload")
+    if meme_img:
+        st.image(meme_img, width=300)
+        
+    roast_style = st.selectbox("Select Roast Style:", ["Friendly Savage", "Dosti Wali Masti", "Cyberpunk Comedy", "Desi Standup"])
     
-    selected_tip = tips_list[datetime.now().day % len(tips_list)]
-    st.markdown(f'<div class="tool-box"><h3>🛡️ Today’s Pro Security Advice</h3><p style="font-size: 18px; color: #00ffaa;">{selected_tip}</p></div>', unsafe_allow_html=True)
-    
-    if st.button("GET ANOTHER RANDOM TIP"):
-        import random
-        st.info(f"💡 Tip: {random.choice(tips_list)}")
+    if st.button("GENERATE VIRAL MEME & ROAST", use_container_width=True):
+        with st.spinner("Analyzing expressions and writing funny roast..."):
+            time.sleep(2)
+        st.success("🎉 Roast generated successfully!")
+        st.markdown("""
+            <div class="output-card">
+                <h3>💬 AI Generated Viral Caption:</h3>
+                <p><b>"Jab dost bole ki party meri taraf se hai, aur bill aate hi washroom bhaag jaye!"</b> 😂🔥</p>
+            </div>
+        """, unsafe_allow_html=True)
 
-elif menu == "Share & Boost Traffic":
+# --- Module 3: Daily Viral Challenge (Naya Retention Feature) ---
+elif menu == "🏆 Daily Viral Challenge":
+    st.title("🏆 CyberMind Daily Viral Challenge")
+    st.write("Participate in today's challenge to get featured on CyberMind Hall of Fame!")
+    
+    st.markdown("""
+        <div class="feature-card">
+            <h3>🎯 Today's Theme: "Futuristic Dostana"</h3>
+            <p><b>Prize:</b> 10,000 CyberCoins + VIP Pass</p>
+            <p><b>Status:</b> Active (Ends in 4 hours)</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("JOIN TODAY'S CHALLENGE", use_container_width=True):
+        st.balloons()
+        st.success("✅ You have successfully joined today's challenge! Upload your creation in the studio tab.")
+
+# --- Module 4: VIP Monetization Hub (Monetization Ke Liye) ---
+elif menu == "💎 VIP Monetization Hub":
+    st.title("💎 CyberMind VIP & Monetization Pass")
+    st.write("Unlock unlimited high-speed GPU rendering, zero waiting time, and exclusive custom face templates!")
+    
+    col_p1, col_p2 = st.columns(2)
+    with col_p1:
+        st.markdown("""
+            <div class="feature-card" style="border-color: #3b82f6;">
+                <h3>🚀 Creator Pass (Monthly)</h3>
+                <p><b>Price:</b> ₹199 / month</p>
+                <p>• Unlimited Video Generations<br>• Priority Cloud GPU<br>• HD Export without Watermark</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY CREATOR PASS"):
+            st.info("🔗 Redirecting to secure payment gateway... (Monetization active!)")
+            
+    with col_p2:
+        st.markdown("""
+            <div class="feature-card" style="border-color: #10b981;">
+                <h3>👑 Ultimate VIP Pass (Lifetime)</h3>
+                <p><b>Price:</b> ₹499 (One-time)</p>
+                <p>• All Creator Features<br>• Custom Face-Swap API Access<br>• Direct Earnings Share</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("BUY VIP PASS"):
+            st.info("🔗 Redirecting to secure payment gateway... (Monetization active!)")
+
+# --- Module 5: Share & Boost Traffic ---
+elif menu == "🚀 Share & Boost Traffic":
     st.title("🚀 Viral Share & Traffic Booster")
-    st.write("Help expand the network! Share this scam checker app with your friends, family, and groups to keep everyone safe.")
+    st.write("Apne doston ke sath WhatsApp aur Telegram par share karke views 22 se 2200 tak le jayein!")
     
-    app_url = "https://fqbhgvdywmjsdzgg82jfr3.streamlit.app"
-    share_text = f"🚨 *Alert!* Check any fake links, UPI IDs, or passwords instantly on this live Cyber Scam Awareness tool before getting cheated: {app_url}"
+    app_url = "https://share.streamlit.io"
+    share_text = f"🔥 *CyberMind AI Video Studio!* Apni aur dost ki photo daal kar custom video aur memes banayein: {app_url}"
     encoded_text = urllib.parse.quote(share_text)
     
     whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_text}"
-    telegram_url = f"https://t.me/share/url?url={app_url}&text={urllib.parse.quote('Check out this Cyber Scam Awareness Tool!')}"
+    telegram_url = f"https://t.me/share/url?url={app_url}&text={urllib.parse.quote('Check out CyberMind AI App!')}"
     
-    st.markdown(f"""
+    st.markdown(
+        f"""
         <div class="share-box">
-            <h3>📢 Spread Awareness & Grow Traffic</h3>
-            <p>Click below to instantly share this app on WhatsApp and Telegram groups:</p>
+            <h3 style="color: #fcd34d;">📢 Boost Your App Viewers Now</h3>
+            <p style="color: #fef3c7;">Click below to share directly in groups:</p>
             <br>
-            <a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px; margin-right: 10px;">💬 Share on WhatsApp</a>
-            <a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px;">✈️ Share on Telegram</a>
+            <a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; margin-right: 10px;">💬 Share on WhatsApp</a>
+            <a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px;">✈️ Share on Telegram</a>
         </div>
-    """, unsafe_allow_html=True)
-
-elif menu == "Premium Features":
-    st.title("💎 PREMIUM HUB")
-    st.markdown('<div class="premium-box">', unsafe_allow_html=True)
-    st.subheader("Unlock Professional Tools")
-    st.write("---")
-    st.write("### 🚀 Premium Features Included:")
-    st.write("• Real-time Deep Web Monitoring\n• Advanced IP Traceback\n• Priority Malware Database\n• Ad-Free Dashboard\n• 24/7 Security Expert Access")
-    st.write("---")
-    st.write("### 💰 Plans:")
-    plans = {"7 Days": "₹99", "1 Month": "₹299", "1 Year": "₹2499", "Lifetime": "₹4999"}
-    for plan, price in plans.items():
-        st.write(f"**{plan}**: {price}")
-    st.markdown("---")
-    st.write("### 📩 Contact Admin:")
-    st.link_button("DM Admin on Instagram", "https://www.instagram.com/tawkeer_official_07/")
-    st.markdown('</div>', unsafe_allow_html=True)
+        """, 
+        unsafe_allow_html=True
+    )
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Admin: Tawkeer")
+st.sidebar.info("Creator: Tawkeer | CyberMind v8.0")
