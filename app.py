@@ -13,21 +13,14 @@ st.markdown("""
     .hero-box { border: 2px solid #3b82f6; padding: 25px; border-radius: 12px; background: linear-gradient(135deg, #1e1b4b, #0f172a); text-align: center; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
     .output-card { border: 1px solid #10b981; padding: 20px; border-radius: 8px; background-color: #064e3b; color: #d1fae5; margin-top: 15px; }
     .share-box { border: 2px dashed #f59e0b; padding: 20px; text-align: center; border-radius: 10px; background-color: #451a03; margin-top: 20px; }
-    .feature-card { border: 1px solid #8b5cf6; padding: 15px; border-radius: 8px; background-color: #1e1b4b; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- Sidebar Navigation ---
 st.sidebar.title("🎬 AI Studio Control")
-menu = st.sidebar.radio("MODULES", [
-    "🎬 Custom Face Animation Studio", 
-    "💬 CyberMind AI Chatbot", 
-    "🔥 AI Meme & Viral Roast", 
-    "💎 VIP Monetization Hub", 
-    "🚀 Share & Boost Traffic"
-])
+menu = st.sidebar.radio("MODULES", ["🎬 Custom Face Animation Studio", "💬 AI Chatbot", "🚀 Share & Boost Traffic"])
 
-# --- Module 1: Custom Face Animation Studio (Aapka Exact Purana Code) ---
+# --- Module 1: Custom Face Animation Studio (Aapka Exact Purana Feature) ---
 if menu == "🎬 Custom Face Animation Studio":
     st.markdown('<div class="hero-box"><h1>AI Custom Face & Motion Video Generator</h1><p>Upload your photo & your friend\'s photo, enter your custom scene prompt (e.g., hugging from behind), and generate your personalized AI video!</p></div>', unsafe_allow_html=True)
     
@@ -96,66 +89,18 @@ if menu == "🎬 Custom Face Animation Studio":
                 unsafe_allow_html=True
             )
 
-# --- Module 2: CyberMind AI Chatbot (Naya Feature) ---
-elif menu == "💬 CyberMind AI Chatbot":
+# --- Module 2: AI Chatbot (Naya Add Kiya Gaya Feature) ---
+elif menu == "💬 AI Chatbot":
     st.title("💬 CyberMind AI Assistant")
-    st.write("Ask any questions about video prompts, app features, or just chat with the AI!")
+    st.write("Aap yahan app se jude koi bhi sawal puch sakte hain!")
     
-    chat_input = st.text_input("Type your message here:", placeholder="e.g., Best prompt for hugging video?")
-    if st.button("SEND MESSAGE", use_container_width=True):
-        if chat_input.strip():
-            st.success("🤖 CyberMind AI:")
-            st.info(f"Aapne pucha: '{chat_input}'. Yeh ek behtareen sawal hai! Apne doston ki photos upload karke 'Custom Face Animation Studio' se iska video turant bana sakte hain.")
+    user_query = st.text_input("Apna sawal yahan type karein:", placeholder="e.g., Video kaise banayein?")
+    if st.button("Poocho AI Se", use_container_width=True):
+        if user_query.strip():
+            st.success("🤖 AI Assistant Response:")
+            st.info(f"Aapne pucha: '{user_query}'. Iske liye bas 'Custom Face Animation Studio' module mein apni aur apne dost ki photo upload karke prompt likhein aur video generate karein!")
 
-# --- Module 3: AI Meme & Viral Roast (Naya Feature) ---
-elif menu == "🔥 AI Meme & Viral Roast":
-    st.title("🔥 AI Meme & Viral Roast Generator")
-    st.write("Upload a photo to generate funny viral roasts!")
-    
-    meme_img = st.file_uploader("Upload photo for roasting:", type=["png", "jpg", "jpeg"], key="meme_upload")
-    if meme_img:
-        st.image(meme_img, width=300)
-        
-    if st.button("GENERATE VIRAL ROAST", use_container_width=True):
-        with st.spinner("Analyzing and writing roast..."):
-            time.sleep(1.5)
-        st.success("🎉 Roast generated successfully!")
-        st.markdown("""
-            <div class="output-card">
-                <h3>💬 AI Generated Caption:</h3>
-                <p><b>"Jab dost bole ki party meri taraf se hai, aur bill aate hi washroom bhaag jaye!"</b> 😂🔥</p>
-            </div>
-        """, unsafe_allow_html=True)
-
-# --- Module 4: VIP Monetization Hub (Monetization Ke Liye) ---
-elif menu == "💎 VIP Monetization Hub":
-    st.title("💎 CyberMind VIP Pass")
-    st.write("Unlock unlimited high-speed GPU rendering and zero waiting time!")
-    
-    col_p1, col_p2 = st.columns(2)
-    with col_p1:
-        st.markdown("""
-            <div class="feature-card" style="border-color: #3b82f6;">
-                <h3>🚀 Creator Pass</h3>
-                <p><b>Price:</b> ₹199 / month</p>
-                <p>• Unlimited Video Generations<br>• Priority Cloud GPU</p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("BUY CREATOR PASS"):
-            st.info("🔗 Redirecting to secure payment gateway...")
-            
-    with col_p2:
-        st.markdown("""
-            <div class="feature-card" style="border-color: #10b981;">
-                <h3>👑 Ultimate VIP Pass</h3>
-                <p><b>Price:</b> ₹499 (Lifetime)</p>
-                <p>• All Features Unlocked<br>• Direct Earnings Share</p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("BUY VIP PASS"):
-            st.info("🔗 Redirecting to secure payment gateway...")
-
-# --- Module 5: Share & Boost Traffic (Aapka Exact Purana Code) ---
+# --- Module 3: Share & Boost Traffic (Aapka Exact Purana Feature) ---
 elif menu == "🚀 Share & Boost Traffic":
     st.title("🚀 Viral Share & Traffic Booster")
     st.write("Is incredible AI Face Video app ko apne doston ke sath share karein!")
@@ -182,4 +127,4 @@ elif menu == "🚀 Share & Boost Traffic":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | AI Studio v7.2")
+st.sidebar.info("Creator: Tawkeer | AI Studio v7.1")
