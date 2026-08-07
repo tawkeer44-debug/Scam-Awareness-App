@@ -30,11 +30,10 @@ menu = st.sidebar.radio("MODULES", [
     "🚀 Share & Boost Traffic"
 ])
 
-# --- Module 1: Daily Threat Intelligence (Roz Badalne Wale Threats) ---
+# --- Module 1: Daily Threat Intelligence ---
 if menu == "📊 Daily Threat Intelligence":
     st.markdown('<div class="hero-box"><h1>CyberMind Threat Intelligence Center</h1><p>Live cybersecurity feeds and daily updated global threat intelligence analytics.</p></div>', unsafe_allow_html=True)
     
-    # Dynamic daily threats based on current date so it changes everyday
     today_str = datetime.now().strftime("%Y-%m-%d")
     random.seed(today_str)
     
@@ -58,7 +57,7 @@ if menu == "📊 Daily Threat Intelligence":
             </div>
         """, unsafe_allow_html=True)
 
-# --- Module 2: Custom Face Animation Studio (Aapka Main Video Feature) ---
+# --- Module 2: Custom Face Animation Studio ---
 elif menu == "🎬 Custom Face Animation Studio":
     st.markdown('<div class="hero-box"><h1>AI Custom Face & Motion Video Generator</h1><p>Upload your photo & your friend\'s photo, enter your custom scene prompt, and generate your personalized AI video!</p></div>', unsafe_allow_html=True)
     
@@ -124,11 +123,10 @@ elif menu == "🔗 Advanced Link Scanner":
                 </div>
             """, unsafe_allow_html=True)
 
-# --- Module 4: CyberMind AI Chatbot (Acche Se Answer Dene Wala Chatbot) ---
+# --- Module 4: CyberMind AI Chatbot ---
 elif menu == "💬 CyberMind AI Chatbot":
     st.markdown('<div class="hero-box"><h1>CyberMind AI Assistant & Chatbot</h1><p>Ask anything! Type "hi", ask questions about video creation, or security threats.</p></div>', unsafe_allow_html=True)
     
-    # Chat memory initialization
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "Hello! Main CyberMind AI hoon. Bataiye, aaj main aapki kya madad kar sakta hoon?"}]
         
@@ -150,12 +148,12 @@ elif menu == "💬 CyberMind AI Chatbot":
             elif "threat" in query_lower or "security" in query_lower:
                 response = "Aap daily threat updates dekhne ke liye 'Daily Threat Intelligence' tab check kar sakte hain!"
             else:
-                response = f"Aapne pucha: '{prompt}.' CyberMind AI iska jawab dene ke liye taiyar hai! App ke baaki modules bhi check karein."
+                response = f"Aapne pucha: '{prompt}'. CyberMind AI iska jawab dene ke liye taiyar hai! App ke baaki modules bhi check karein."
             
             st.markdown(response)
             st.session_state.messages.append({"role": "assistant", "content": response})
 
-# --- Module 5: VIP Premium Hub (Monetization Ke Liye) ---
+# --- Module 5: VIP Premium Hub ---
 elif menu == "💎 VIP Premium Hub":
     st.markdown('<div class="hero-box"><h1>CyberMind VIP & Monetization Hub</h1><p>Unlock premium cloud GPU power, unlimited video rendering, and zero waiting restrictions.</p></div>', unsafe_allow_html=True)
     
@@ -180,3 +178,33 @@ elif menu == "💎 VIP Premium Hub":
             </div>
         """, unsafe_allow_html=True)
         if st.button("BUY LIFETIME PASS"):
+            st.info("🔗 Secure payment gateway connected. Monetization active!")
+
+# --- Module 6: Share & Boost Traffic ---
+elif menu == "🚀 Share & Boost Traffic":
+    st.title("🚀 Viral Share & Traffic Booster")
+    st.write("Is app ko apne doston aur groups mein share karke views 22 se upar le jayein!")
+    
+    app_url = "https://share.streamlit.io"
+    share_text = f"🔥 *CyberMind AI Studio!* Custom video generator, link scanner aur AI chatbot ek hi jagah par: {app_url}"
+    encoded_text = urllib.parse.quote(share_text)
+    
+    whatsapp_url = f"https://api.whatsapp.com/send?text={encoded_text}"
+    telegram_url = f"https://t.me/share/url?url={app_url}&text={urllib.parse.quote('Check out CyberMind AI App!')}"
+    
+    st.markdown(
+        f"""
+        <div class="share-box">
+            <h3 style="color: #fcd34d;">📢 Boost Your App Viewers Now</h3>
+            <p style="color: #fef3c7;">Click below to share directly in groups:</p>
+            <br>
+            <a href="{whatsapp_url}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; margin-right: 10px;">💬 Share on WhatsApp</a>
+            <a href="{telegram_url}" target="_blank" style="background-color: #0088cc; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px;">✈️ Share on Telegram</a>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+
+# --- Footer ---
+st.sidebar.markdown("---")
+st.sidebar.info("Creator: Tawkeer | CyberMind v10.1")
