@@ -122,9 +122,17 @@ elif menu == "🤖 AI Phishing Message Detector (New)":
             st.warning("⚠️ Kripya analyze karne ke liye message paste karein!")
         else:
             with st.spinner("AI scanning language patterns and scam signatures..."):
-                time.sleep(2)
-            st.warning("🚨 HIGH RISK PHISHING DETECTED!")
-            st.markdown('<div class="output-card" style="border-color: #ef4444; background-color: #581c87;"><h3 style="color: #fcd34d;">⚠️ Analysis Report</h3><p><b>Threat Type:</b> Fake Bank KYC / Phishing Scam</p><p><b>Confidence Score:</b> 98.4% Scam Probability</p><p><b>Why it is a scam:</b> Banks never send links via SMS to update KYC. Do not click or share OTP!</p></div>', unsafe_allow_html=True)
+                time.sleep(1.5)
+            
+            # Check if message looks like normal text (like hello, hi, etc.)
+            keywords = ["kyc", "bank", "account", "blocked", "lottery", "prize", "click", "link", "update", "verify", "offer", "rupees", "cashback", "electricity", "bill", "win"]
+            contains_scam_keyword = any(k in msg_input.lower() for k in keywords)
+            
+            if not contains_scam_keyword or len(msg_input.strip()) < 8:
+                st.error("⚠️ Invalid / Non-Phishing Message! Please enter a suspicious message (like KYC, bank block, or lottery alert) to scan.")
+            else:
+                st.warning("🚨 HIGH RISK PHISHING DETECTED!")
+                st.markdown('<div class="output-card" style="border-color: #ef4444; background-color: #581c87;"><h3 style="color: #fcd34d;">⚠️ Analysis Report</h3><p><b>Threat Type:</b> Fake Bank KYC / Phishing Scam</p><p><b>Confidence Score:</b> 98.4% Scam Probability</p><p><b>Why it is a scam:</b> Banks never send links via SMS to update KYC. Do not click or share OTP!</p></div>', unsafe_allow_html=True)
 
 # --- New Feature 2: Daily Rotating Scam Guide ---
 elif menu == "⚠️ Daily Rotating Scam Guide (Updated Daily)":
@@ -140,7 +148,6 @@ elif menu == "⚠️ Daily Rotating Scam Guide (Updated Daily)":
         {"title": "🚨 Today's Focus: Part-Time YouTube/Telegram Rating Scam", "desc": "Getting random WhatsApp messages offering daily income of ₹5,000 for liking videos or rating maps.", "tip": "Remember: Real companies do not pay thousands of rupees for simple video likes without upfront work."}
     ]
     
-    # Selects 2 different featured scams based on today's date automatically
     todays_featured = random.sample(scam_pool, 2)
     
     st.info(f"📅 Active Guide for Date: {today_str} (Auto-refreshes daily)")
@@ -210,4 +217,4 @@ elif menu == "🚀 Viral Share & Traffic Booster":
 
 # --- Footer ---
 st.sidebar.markdown("---")
-st.sidebar.info("Creator: Tawkeer | CyberMind v18.0")
+st.sidebar.info("Creator: Tawkeer | CyberMind v19.0")
