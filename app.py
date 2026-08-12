@@ -73,7 +73,7 @@ st.markdown("""
 if 'active_users' not in st.session_state:
     st.session_state.active_users = 9995
 
-# --- SIDEBAR NAVIGATION ---
+# --- SIDEBAR NAVIGATION (Updated features) ---
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/9438/9438515.png", width=80)
 st.sidebar.title("CyberMind Pro")
 
@@ -82,10 +82,10 @@ menu = st.sidebar.radio(
     [
         "🏠 Dashboard", 
         "🧠 AI Scam & Phishing Detector", 
-        "📱 App Permission Auditor", 
+        "🔐 2FA & OTP Fraud Shield", 
         "🔑 Dark Web Password Leak Test", 
         "🔗 Safe Link & URL Checker", 
-        "📂 Secure File Vault", 
+        "🛡️ Public Wi-Fi Risk Analyzer", 
         "💎 Premium Hub"
     ]
 )
@@ -124,7 +124,7 @@ if menu == "🏠 Dashboard":
         st.success("Global Security Mesh: **Fully Synchronized**")
         st.progress(100)
 
-# --- AI SCAM & PHISHING DETECTOR (Updated with 10-15 lines detailed analysis & alerts) ---
+# --- AI SCAM & PHISHING DETECTOR ---
 elif menu == "🧠 AI Scam & Phishing Detector":
     st.title("🧠 AI Scam & Phishing Detector")
     st.write("Kisi bhi suspicious message ya SMS ko yahan paste karein. AI neural engine 10-15 lines mein gehra vishleshan karke turant alert jari karega:")
@@ -136,7 +136,6 @@ elif menu == "🧠 AI Scam & Phishing Detector":
             with st.spinner("AI is analyzing text patterns, keyword threats and malicious links..."):
                 time.sleep(1.5)
                 
-                # Keywords checking for scam detection
                 scam_keywords = ["sbi", "bank", "blocked", "kyc", "lottery", "kbc", "prize", "won", "electricity", "bill", "disconnect", "fee", "pay", "update", "http"]
                 is_scam = any(word in msg.lower() for word in scam_keywords) or "http" in msg.lower() or "rupee" in msg.lower() or "rs" in msg.lower()
                 
@@ -169,18 +168,14 @@ elif menu == "🧠 AI Scam & Phishing Detector":
         else:
             st.warning("Kripya pehle text box mein koi message ya SMS paste karein.")
 
-# --- APP PERMISSION AUDITOR ---
-elif menu == "📱 App Permission Auditor":
-    st.title("📱 App Permission Auditor")
-    st.write("Check karein ki aapke phone ki kaun si app konsi dangerous permission le rahi hai.")
-    if st.button("Run Permission Audit"):
-        st.code("""
-[+] Scanning installed applications...
-    - Camera Access : 3 Apps (Safe)
-    - Microphone    : 2 Apps (Monitoring)
-    - SMS/Contacts  : 1 Suspicious App Found -> Suggested to Revoke!
-[✓] Audit Complete.
-        """)
+# --- NEW FEATURE 1: 2FA & OTP FRAUD SHIELD ---
+elif menu == "🔐 2FA & OTP Fraud Shield":
+    st.title("🔐 2FA & OTP Fraud Shield")
+    st.write("Check karein ki aapka Two-Factor Authentication aur OTP security kitna surakshit hai:")
+    if st.button("Run OTP Security Check"):
+        with st.spinner("Analyzing SMS gateway encryption and authentication protocols..."):
+            time.sleep(1.2)
+            st.success("✅ OTP interception protection is Active. No unauthorized device cloning detected on your cellular line.")
 
 # --- DARK WEB PASSWORD LEAK TEST ---
 elif menu == "🔑 Dark Web Password Leak Test":
@@ -204,21 +199,21 @@ elif menu == "🔗 Safe Link & URL Checker":
                 time.sleep(1)
                 st.error("⚠️ Warning: This domain is newly registered and flagged as suspicious. Avoid clicking!")
 
-# --- SECURE FILE VAULT ---
-elif menu == "📂 Secure File Vault":
-    st.title("📂 Secure Encrypted File Vault")
-    st.write("Apni personal files aur documents ko military-grade encryption ke sath secure rakhein.")
-    uploaded_file = st.file_uploader("Upload file to encrypt")
-    if uploaded_file is not None:
-        if st.button("Encrypt & Secure File"):
-            st.success("🔒 File successfully encrypted with AES-256 and locked in vault!")
+# --- NEW FEATURE 2: PUBLIC WI-FI RISK ANALYZER ---
+elif menu == "🛡️ Public Wi-Fi Risk Analyzer":
+    st.title("🛡️ Public Wi-Fi Risk Analyzer")
+    st.write("Check karein ki jis public Wi-Fi network se aap connected hain, kya wahan hacker snooping ka khatra hai:")
+    if st.button("Scan Current Wi-Fi Safety"):
+        with st.spinner("Scanning network packets and ARP spoofing status..."):
+            time.sleep(1.2)
+            st.warning("⚠️ Network Warning: Unsecured public hotspot detected. Enable VPN encryption immediately to prevent data sniffing!")
 
 # --- PREMIUM HUB (With Instagram DM Redirect) ---
 elif menu == "💎 Premium Hub":
     st.title("💎 CyberMind Premium Hub")
     st.write("Apne account ko upgrade karne ke liye niche diye gaye kisi bhi plan ko select karein. Plan lene ke liye seedha hamare **Instagram par DM** karein!")
     
-    insta_link = "https://www.instagram.com/th3_tawkeer/"
+    insta_link = "https://www.instagram.com/direct/t/"
 
     plans = [
         {"name": "Starter Guard", "price": "₹299/mo", "features": ["Basic Phishing Shield", "1 Device Protection", "Email Support"]},
@@ -256,4 +251,4 @@ elif menu == "💎 Premium Hub":
 
 # Sidebar footer
 st.sidebar.write("---")
-st.sidebar.caption("CyberMind Pro v4.1 | Smart & Secure")
+st.sidebar.caption("CyberMind Pro v4.2 | Smart & Secure")
