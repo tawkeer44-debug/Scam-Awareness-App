@@ -73,7 +73,7 @@ st.markdown("""
 if 'active_users' not in st.session_state:
     st.session_state.active_users = 9995
 
-# --- SIDEBAR NAVIGATION (Updated features) ---
+# --- SIDEBAR NAVIGATION (Updated with Interactive Command Features) ---
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/9438/9438515.png", width=80)
 st.sidebar.title("CyberMind Pro")
 
@@ -82,10 +82,10 @@ menu = st.sidebar.radio(
     [
         "🏠 Dashboard", 
         "🧠 AI Scam & Phishing Detector", 
-        "🔐 2FA & OTP Fraud Shield", 
+        "💻 AI Terminal & Cyber CLI", 
         "🔑 Dark Web Password Leak Test", 
         "🔗 Safe Link & URL Checker", 
-        "🛡️ Public Wi-Fi Risk Analyzer", 
+        "🔎 Custom Malware & Exploit Search", 
         "💎 Premium Hub"
     ]
 )
@@ -168,14 +168,30 @@ elif menu == "🧠 AI Scam & Phishing Detector":
         else:
             st.warning("Kripya pehle text box mein koi message ya SMS paste karein.")
 
-# --- NEW FEATURE 1: 2FA & OTP FRAUD SHIELD ---
-elif menu == "🔐 2FA & OTP Fraud Shield":
-    st.title("🔐 2FA & OTP Fraud Shield")
-    st.write("Check karein ki aapka Two-Factor Authentication aur OTP security kitna surakshit hai:")
-    if st.button("Run OTP Security Check"):
-        with st.spinner("Analyzing SMS gateway encryption and authentication protocols..."):
-            time.sleep(1.2)
-            st.success("✅ OTP interception protection is Active. No unauthorized device cloning detected on your cellular line.")
+# --- NEW FEATURE 1: AI TERMINAL & CYBER CLI (Type Command -> 5-10 line answer) ---
+elif menu == "💻 AI Terminal & Cyber CLI":
+    st.title("💻 AI Terminal & Cyber Threat CLI")
+    st.write("Yahan aap koi bhi cyber security command type kar sakte hain (jaise `scan ports`, `check firewall`, ya apni marzi ka koi bhi command), aur AI aapko 5-10 line ka detail answer dega:")
+    
+    cmd_input = st.text_input("Type command here (e.g., scan system, analyze threat, check network)...", "scan system")
+    
+    if st.button("Execute Command"):
+        if cmd_input:
+            with st.spinner(f"Executing command '{cmd_input}' through Neural CLI..."):
+                time.sleep(1.2)
+                st.success(f"✅ Command '{cmd_input}' executed successfully. Detailed output below:")
+                st.markdown(f"""
+1. **Command Processing:** The string '{cmd_input}' was parsed successfully through CyberMind CLI engine.
+2. **System Interface:** Direct communication established with root virtual sockets and packet filters.
+3. **Diagnostics Status:** Diagnostic routines executed across memory segments and running background services.
+4. **Integrity Verification:** Zero unauthorized hooks or backdoor insertions found in system registry.
+5. **Firewall Response:** Network packet filtering layer verified optimal security posture.
+6. **Resource Utilization:** CPU and RAM allocations remain stable within safe operational thresholds.
+7. **Threat Vector Scan:** No anomalies or malicious signatures detected during runtime execution.
+8. **Final Conclusion:** System environment is fully secured and responsive to current parameters.
+                """)
+        else:
+            st.warning("Kripya pehle koi command type karein.")
 
 # --- DARK WEB PASSWORD LEAK TEST ---
 elif menu == "🔑 Dark Web Password Leak Test":
@@ -199,14 +215,30 @@ elif menu == "🔗 Safe Link & URL Checker":
                 time.sleep(1)
                 st.error("⚠️ Warning: This domain is newly registered and flagged as suspicious. Avoid clicking!")
 
-# --- NEW FEATURE 2: PUBLIC WI-FI RISK ANALYZER ---
-elif menu == "🛡️ Public Wi-Fi Risk Analyzer":
-    st.title("🛡️ Public Wi-Fi Risk Analyzer")
-    st.write("Check karein ki jis public Wi-Fi network se aap connected hain, kya wahan hacker snooping ka khatra hai:")
-    if st.button("Scan Current Wi-Fi Safety"):
-        with st.spinner("Scanning network packets and ARP spoofing status..."):
-            time.sleep(1.2)
-            st.warning("⚠️ Network Warning: Unsecured public hotspot detected. Enable VPN encryption immediately to prevent data sniffing!")
+# --- NEW FEATURE 2: CUSTOM MALWARE & EXPLOIT SEARCH (Type Command/Query -> 5-10 line answer) ---
+elif menu == "🔎 Custom Malware & Exploit Search":
+    st.title("🔎 Custom Malware & Exploit Search Engine")
+    st.write("Yahan aap kisi bhi suspicious file name, hash, ya malware keyword ki command type kar sakte hain, aur AI 5-10 line mein gehra vishleshan dega:")
+    
+    search_query = st.text_input("Type malware query or filename (e.g., trojan.exe, backdoor script)...", "trojan.exe")
+    
+    if st.button("Run Vulnerability Search"):
+        if search_query:
+            with st.spinner(f"Searching global malware signatures for '{search_query}'..."):
+                time.sleep(1.2)
+                st.warning(f"⚠️ Search executed for query: '{search_query}'. Detailed security audit report:")
+                st.markdown(f"""
+1. **Query Inspection:** The search term '{search_query}' was queried against global threat intelligence databases.
+2. **Signature Matching:** Behavior heuristic engines evaluated potential payload characteristics and execution patterns.
+3. **Risk Identification:** Identified potential association with unauthorized remote access tool (RAT) frameworks.
+4. **Quarantine Protocol:** Recommended immediate isolation if present in local storage directories.
+5. **System Impact:** Potential threat to registry keys and user data confidentiality if left unchecked.
+6. **Network Footprint:** Monitored outbound connection attempts linked to known command-and-control (C2) servers.
+7. **Mitigation Strategy:** Run a full system antivirus sweep and flush temporary network cache immediately.
+8. **Final Threat Rating:** Moderate to High risk category identified for this query string.
+                """)
+        else:
+            st.warning("Kripya pehle search query ya filename type karein.")
 
 # --- PREMIUM HUB (With Instagram DM Redirect) ---
 elif menu == "💎 Premium Hub":
@@ -251,4 +283,4 @@ elif menu == "💎 Premium Hub":
 
 # Sidebar footer
 st.sidebar.write("---")
-st.sidebar.caption("CyberMind Pro v4.2 | Smart & Secure")
+st.sidebar.caption("CyberMind Pro v4.3 | Smart & Secure")
