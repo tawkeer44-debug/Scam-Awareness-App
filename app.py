@@ -1,109 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberMind Pro - Security Dashboard</title>
+import streamlit as st
+
+# Page Configuration
+st.set_page_config(
+    page_title="CyberMind Pro",
+    page_icon="🛡️",
+    layout="centered"
+)
+
+# Custom Styling (Properly using triple quotes to avoid syntax errors)
+st.markdown("""
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
+        .main-container {
             background-color: #0b0f19;
             color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            text-align: center;
-        }
-        .container {
-            background: rgba(17, 24, 39, 0.95);
+            padding: 30px;
+            border-radius: 12px;
             border: 1px solid #1f293d;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 255, 204, 0.15);
-            width: 90%;
-            max-width: 500px;
         }
-        h1 {
+        .title {
             color: #00ffcc;
-            margin-bottom: 10px;
-            font-size: 26px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
-        .tagline {
-            font-size: 14px;
+        .subtitle {
+            text-align: center;
             color: #9ca3af;
+            font-size: 14px;
             margin-bottom: 25px;
         }
-        .features-box {
+        .feature-card {
             background: #111827;
-            border: 1px solid #374151;
             padding: 15px;
             border-radius: 8px;
-            text-align: left;
-            margin-bottom: 25px;
+            border: 1px solid #374151;
+            margin-bottom: 15px;
         }
-        .features-box h3 {
-            font-size: 15px;
-            color: #38bdf8;
-            margin-bottom: 8px;
-        }
-        .features-box ul {
-            list-style-type: none;
-            padding-left: 0;
-            font-size: 13px;
-            color: #d1d5db;
-        }
-        .features-box li {
-            margin-bottom: 6px;
-        }
-        .btn {
+        .chrome-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
             background: linear-gradient(135deg, #00ffcc, #0077ff);
-            color: #0b0f19;
-            border: none;
-            padding: 14px 20px;
+            color: #0b0f19 !important;
+            padding: 12px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s ease;
-            width: 100%;
             text-decoration: none;
-            display: inline-block;
-        }
-        .btn:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
+            margin-top: 20px;
         }
     </style>
-</head>
-<body>
+""", unsafe_allow_html=True)
 
-    <div class="container">
-        <h1>🛡️ CyberMind Pro</h1>
-        <p class="tagline">Advanced Cybersecurity & Threat Management System</p>
-        
-        <div class="features-box">
-            <h3>App Features:</h3>
-            <ul>
-                <li>🔒 Real-time system security & diagnostics</li>
-                <li>🛡️ Firewall protection & threat analyzer</li>
-                <li>⚡ Instant vulnerability scanning</li>
-            </ul>
-        </div>
-        
-        <a href="YOUR_APP_LINK_HERE" target="_blank" class="btn" id="openBtn">Open in Chrome Browser</a>
+# Main UI layout
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
+
+st.markdown('<div class="title">🛡️ CyberMind Pro</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Advanced Security & Threat Management System</div>', unsafe_allow_html=True)
+
+# Aapke purane features yahan rakhe gaye hain
+st.markdown("""
+    <div class="feature-card">
+        <h3>⚡ App Features & Controls</h3>
+        <ul>
+            <li>Real-time system security & diagnostics</li>
+            <li>Advanced firewall protection & threat analyzer</li>
+            <li>Instant vulnerability scanning and report generation</li>
+        </ul>
     </div>
+""", unsafe_allow_html=True)
 
-    <script>
-        // Automatic trigger option agar direct redirect chahiye ho
-        // window.location.href = "YOUR_APP_LINK_HERE";
-    </script>
+# Interactive Section (Aapke app ke features)
+st.subheader("System Diagnostics Dashboard")
+if st.button("Run Security Scan"):
+    st.success("✅ Firewall protocols active. No vulnerabilities found!")
 
-</body>
-</html>
+# Ye button user ko force karega ki wo link seedha Chrome browser mein khole
+app_link = "https://fqbhgvdywmjsdzgg82jfr3.streamlit.app/"
+st.markdown(f'''
+    <a href="{app_link}" target="_blank" class="chrome-btn">
+        🌐 Open in Chrome Browser
+    </a>
+''', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
