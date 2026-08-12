@@ -13,80 +13,96 @@
         }
         body {
             background-color: #0b0f19;
-            color: #00ffcc;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            text-align: center;
         }
-        .dashboard {
-            background: rgba(17, 24, 39, 0.9);
+        .container {
+            background: rgba(17, 24, 39, 0.95);
             border: 1px solid #1f293d;
             padding: 40px;
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 255, 204, 0.1);
-            width: 450px;
-            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 255, 204, 0.15);
+            width: 90%;
+            max-width: 500px;
         }
         h1 {
-            color: #ffffff;
+            color: #00ffcc;
             margin-bottom: 10px;
-            font-size: 24px;
+            font-size: 26px;
         }
-        .status {
+        .tagline {
             font-size: 14px;
             color: #9ca3af;
             margin-bottom: 25px;
+        }
+        .features-box {
+            background: #111827;
+            border: 1px solid #374151;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        .features-box h3 {
+            font-size: 15px;
+            color: #38bdf8;
+            margin-bottom: 8px;
+        }
+        .features-box ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 13px;
+            color: #d1d5db;
+        }
+        .features-box li {
+            margin-bottom: 6px;
         }
         .btn {
             background: linear-gradient(135deg, #00ffcc, #0077ff);
             color: #0b0f19;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 20px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             transition: 0.3s ease;
             width: 100%;
+            text-decoration: none;
+            display: inline-block;
         }
         .btn:hover {
             opacity: 0.9;
             transform: scale(1.02);
         }
-        #output {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #38bdf8;
-            min-height: 40px;
-        }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
+    <div class="container">
         <h1>🛡️ CyberMind Pro</h1>
-        <p class="status">Advanced System Security & Threat Analyzer</p>
+        <p class="tagline">Advanced Cybersecurity & Threat Management System</p>
         
-        <button class="btn" onclick="runSecurityScan()">Initialize Security Scan</button>
+        <div class="features-box">
+            <h3>App Features:</h3>
+            <ul>
+                <li>🔒 Real-time system security & diagnostics</li>
+                <li>🛡️ Firewall protection & threat analyzer</li>
+                <li>⚡ Instant vulnerability scanning</li>
+            </ul>
+        </div>
         
-        <div id="output">System ready for diagnostics...</div>
+        <a href="YOUR_APP_LINK_HERE" target="_blank" class="btn" id="openBtn">Open in Chrome Browser</a>
     </div>
 
     <script>
-        function runSecurityScan() {
-            const output = document.getElementById("output");
-            output.innerHTML = "🔄 Initializing firewall protocols...";
-            
-            setTimeout(() => {
-                output.innerHTML = "🔍 Scanning network ports and checking vulnerabilities...";
-            }, 1200);
-
-            setTimeout(() => {
-                output.innerHTML = "✅ Status: All systems secure. No threats detected.";
-            }, 2500);
-        }
+        // Automatic trigger option agar direct redirect chahiye ho
+        // window.location.href = "YOUR_APP_LINK_HERE";
     </script>
 
 </body>
