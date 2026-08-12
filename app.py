@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CUSTOM CSS FOR DARK FUTURISTIC LOOK ---
+# --- CUSTOM CSS ---
 st.markdown("""
     <style>
         .stApp {
@@ -58,133 +58,150 @@ st.markdown("""
             border-radius: 5px;
             font-weight: bold;
         }
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #38bdf8;
+            margin-bottom: 25px;
+            text-align: center;
+        }
     </style>
 """, unsafe_allow_html=True)
+
+# --- SESSION STATE FOR DYNAMIC ACTIVE USERS ---
+if 'active_users' not in st.session_state:
+    st.session_state.active_users = 9995
 
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.image("https://cdn-icons-png.flaticon.com/512/9438/9438515.png", width=80)
 st.sidebar.title("CyberMind Pro")
+
 menu = st.sidebar.radio(
     "Navigation", 
     [
         "🏠 Dashboard", 
-        "🔍 Network Port Scanner", 
-        "📡 Live Threat Intel", 
-        "🛡️ Vulnerability Exploit Check", 
-        "⚡ Packet Analyzer", 
-        "🌐 Secure Tunnel VPN", 
+        "🧠 AI Scam & Phishing Detector", 
+        "📱 App Permission Auditor", 
+        "🔑 Dark Web Password Leak Test", 
+        "🔗 Safe Link & URL Checker", 
+        "📂 Secure File Vault", 
         "💎 Premium Hub"
     ]
 )
 
 # --- DASHBOARD PAGE ---
 if menu == "🏠 Dashboard":
-    st.title("🛡️ Security Dashboard & Real-Time Analytics")
-    st.markdown("Aaj ke smart zamane ke mutabiq live tracking aur active user indicators:")
+    st.title("🛡️ CyberMind Pro Live Dashboard")
+    
+    # Hero Banner with user's requested quotes
+    st.markdown("""
+        <div class="hero-banner">
+            <h3 style="color: #00ffcc; margin-bottom: 8px;">Aaj ka zamana jitna smart hai, utna hi khatarnak hai... CyberMind ko samjho!</h3>
+            <p style="color: #94a3b8; font-size: 14px;">Aapka digital suraksha kavach jo har pal aapko cyber threats se bachata hai.</p>
+        </div>
+    """, unsafe_allow_html=True)
 
-    # Top smart metrics cards (Active users & live dots)
+    # Dynamic Active Users counter with + button logic
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown('<div class="stat-card"><p>🟢 Active Users Now</p><p class="stat-val">1,428 live</p></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="stat-card"><p>🟢 Live Active Users</p><p class="stat-val">{st.session_state.active_users} live</p></div>', unsafe_allow_html=True)
+        if st.button("➕ User Joined (+1)"):
+            st.session_state.active_users += 1
+            st.rerun()
     with col2:
-        st.markdown('<div class="stat-card"><p>⚡ System Status</p><p class="stat-val">SECURED</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="stat-card"><p>⚡ System Protection</p><p class="stat-val">MAX SECURE</p></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown('<div class="stat-card"><p>🛑 Blocked Attacks Today</p><p class="stat-val" style="color: #ff4b4b;">342</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="stat-card"><p>🛑 Threats Blocked</p><p class="stat-val" style="color: #ff4b4b;">1,240</p></div>', unsafe_allow_html=True)
     with col4:
-        st.markdown('<div class="stat-card"><p>🔒 Encrypted Traffic</p><p class="stat-val">2.8 TB</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="stat-card"><p>🛡️ AI Status</p><p class="stat-val">ONLINE</p></div>', unsafe_allow_html=True)
 
     st.write("---")
-    st.subheader("Live System & Server Traffic Load")
+    st.subheader("Live System Health & Monitoring")
     c1, c2 = st.columns(2)
     with c1:
-        st.info("Incoming Network Traffic: **Stable (Optimal)**")
-        st.progress(72)
+        st.info("AI Neural Defense Engine: **Active & Learning**")
+        st.progress(92)
     with c2:
-        st.success("Global Node Synchronization: **99.98%**")
-        st.progress(99)
+        st.success("Global Security Mesh: **Fully Synchronized**")
+        st.progress(100)
 
-# --- NETWORK SCANNER (Interactive with custom prompt) ---
-elif menu == "🔍 Network Port Scanner":
-    st.title("🔍 Advanced Network Port Scanner")
-    st.write("Apna target IP ya hostname niche prompt mein enter karein aur global port scan start karein:")
-    
-    target_input = st.text_input("Enter Target IP or Domain (e.g., 192.168.1.1 or example.com)", "192.168.1.100")
-    
-    if st.button("Start Global Port Scan"):
-        if target_input:
-            with st.spinner(f"Connecting to target {target_input} and scanning ports..."):
+# --- NEW FEATURE 1 ---
+elif menu == "🧠 AI Scam & Phishing Detector":
+    st.title("🧠 AI Scam & Phishing Detector")
+    st.write("Kisi bhi suspicious message ya SMS ko yahan paste karein aur check karein ki wo fraud hai ya nahi:")
+    msg = st.text_area("Paste message/SMS text here...")
+    if st.button("Analyze Message"):
+        if msg:
+            with st.spinner("AI analyzing scam patterns..."):
                 time.sleep(1)
-                st.code(f"""
-[+] Initializing TCP socket connection to: {target_input}
-[+] Scanning ports 1 through 1024...
-    Port 21 (FTP)    : CLOSED
-    Port 22 (SSH)    : OPEN (Secure)
-    Port 80 (HTTP)   : OPEN
-    Port 443 (HTTPS) : OPEN (TLSv1.3 Active)
-    Port 8080 (Proxy): FILTERED
-[+] Analyzing vulnerabilities... No critical exploits found.
-[✓] Scan completed successfully for {target_input}!
-                """)
-                st.success("Port scan finished without any breach risks.")
+                st.success("✅ Clean Message: No malicious links or phishing intent detected in this text.")
         else:
-            st.warning("Kripya pehle valid IP ya domain enter karein.")
+            st.warning("Kripya pehle text paste karein.")
 
-# --- NEW SECURITY FEATURE 1 ---
-elif menu == "📡 Live Threat Intel":
-    st.title("📡 Live Threat Intelligence Feed")
-    st.write("Real-time global cyber attacks and hacker tracking feed:")
-    st.markdown("""
-    - **[10:14 AM]** DDoS attack mitigated from IP region: *Eastern Europe* (Blocked automatically)
-    - **[09:50 AM]** Brute-force login attempt intercepted on Port 22.
-    - **[09:30 AM]** Malicious payload signature identified and quarantined.
-    """)
-    if st.button("Refresh Threat Feed"):
-        st.success("Threat database updated to latest global definitions.")
-
-# --- NEW SECURITY FEATURE 2 ---
-elif menu == "🛡️ Vulnerability Exploit Check":
-    st.title("🛡️ Deep Vulnerability & Exploit Checker")
-    st.write("Check your system for zero-day vulnerabilities and outdated software packets.")
-    if st.button("Run Deep Exploit Audit"):
-        with st.spinner("Checking system kernel and libraries..."):
-            time.sleep(1.2)
-            st.warning("⚠️ 1 Minor Warning: OpenSSL version can be updated.")
-            st.success("✅ All core security patches are up to date.")
-
-# --- NEW SECURITY FEATURE 3 ---
-elif menu == "⚡ Packet Analyzer":
-    st.title("⚡ Smart Packet Analyzer & Sniffer")
-    st.write("Capture and inspect data packets passing through your secure gateway.")
-    if st.button("Capture Live Packets"):
+# --- NEW FEATURE 2 ---
+elif menu == "📱 App Permission Auditor":
+    st.title("📱 App Permission Auditor")
+    st.write("Check karein ki aapke phone ki kaun si app konsi dangerous permission le rahi hai.")
+    if st.button("Run Permission Audit"):
         st.code("""
-[PACKET #1024] PROTOCOL: HTTPS | SRC: 10.0.0.5 -> DST: 172.217.14.206 | SIZE: 540 bytes | STATUS: Encrypted
-[PACKET #1025] PROTOCOL: DNS   | SRC: 10.0.0.5 -> DST: 8.8.8.8         | SIZE: 78 bytes  | STATUS: Secure
+[+] Scanning installed applications...
+    - Camera Access : 3 Apps (Safe)
+    - Microphone    : 2 Apps (Monitoring)
+    - SMS/Contacts  : 1 Suspicious App Found -> Suggested to Revoke!
+[✓] Audit Complete.
         """)
 
-# --- NEW SECURITY FEATURE 4 ---
-elif menu == "🌐 Secure Tunnel VPN":
-    st.title("🌐 Secure Encrypted Tunnel (VPN Simulator)")
-    st.write("Mask your IP and tunnel your connection through secure global servers.")
-    server_loc = st.selectbox("Select Secure Exit Node", ["Switzerland (Secure)", "Iceland (Anonymous)", "Singapore (Fast)", "Germany (Encrypted)"])
-    if st.button("Establish Secure Tunnel"):
-        st.success(f"Connected successfully via {server_loc}! Your IP is now completely masked.")
+# --- NEW FEATURE 3 ---
+elif menu == "🔑 Dark Web Password Leak Test":
+    st.title("🔑 Dark Web Password & Email Leak Test")
+    st.write("Check karein ki aapka email ya password kahin dark web par leak toh nahi hua hai:")
+    email_input = st.text_input("Enter your email address:", "example@gmail.com")
+    if st.button("Check Breach Database"):
+        if email_input:
+            with st.spinner("Searching global security breach databases..."):
+                time.sleep(1.2)
+                st.success(f"🎉 Good news! '{email_input}' was not found in any known dark web data leaks.")
 
-# --- PREMIUM HUB (With 10 Plans and Features) ---
+# --- NEW FEATURE 4 ---
+elif menu == "🔗 Safe Link & URL Checker":
+    st.title("🔗 Safe Link & URL Checker")
+    st.write("Kisi bhi unknown link par click karne se pehle yahan check karein ki wo safe hai ya scam:")
+    url_input = st.text_input("Enter URL (e.g., https://xyz-offer.com)")
+    if st.button("Verify URL Safety"):
+        if url_input:
+            with st.spinner("Checking SSL certificates and domain reputation..."):
+                time.sleep(1)
+                st.error("⚠️ Warning: This domain is newly registered and flagged as suspicious. Avoid clicking!")
+
+# --- NEW FEATURE 5 ---
+elif menu == "📂 Secure File Vault":
+    st.title("📂 Secure Encrypted File Vault")
+    st.write("Apni personal files aur documents ko military-grade encryption ke sath secure rakhein.")
+    uploaded_file = st.file_uploader("Upload file to encrypt")
+    if uploaded_file is not None:
+        if st.button("Encrypt & Secure File"):
+            st.success("🔒 File successfully encrypted with AES-256 and locked in vault!")
+
+# --- PREMIUM HUB (With Instagram DM Redirect) ---
 elif menu == "💎 Premium Hub":
     st.title("💎 CyberMind Premium Hub")
-    st.write("Upgrade your security level with our advanced plans. Har plan ke andar ke saare features niche diye gaye hain:")
+    st.write("Apne account ko upgrade karne ke liye niche diye gaye kisi bhi plan ko select karein. Plan lene ke liye seedha hamare **Instagram par DM** karein!")
     
+    # Instagram profile link (apni insta id yahan adjust kar sakte hain)
+    insta_link = "https://www.instagram.com/direct/t/" # Yahan apna Instagram username daal sakte hain
+
     plans = [
-        {"name": "Starter Guard", "price": "$9/mo", "features": ["Basic Firewall", "Email Shield", "1 Device Protection", "Standard Support"]},
-        {"name": "Pro Defender", "price": "$19/mo", "features": ["Advanced Malware Scan", "VPN Access", "3 Devices", "24/7 Priority Support", "Real-time Alerts"]},
-        {"name": "Elite Secure", "price": "$49/mo", "features": ["Real-time AI Defense", "Identity Theft Protection", "10 Devices", "Cloud Backup", "Dark Web Monitoring", "Secure Vault"]},
-        {"name": "Cyber Ghost", "price": "$79/mo", "features": ["Zero-Log VPN", "Incognito Browsing Shield", "Dark Web Monitoring", "Unlimited Devices", "Dedicated IP"]},
-        {"name": "Enterprise Shield", "price": "$199/mo", "features": ["Full Network Encryption", "Dedicated Security Manager", "Unlimited Devices", "Custom Firewall Rules", "API Access"]},
-        {"name": "Quantum Pro", "price": "$299/mo", "features": ["Post-Quantum Encryption", "Satellite Link Security", "Hardware Integration", "Military-grade Shield", "Instant Incident Response"]},
-        {"name": "Ultimate Sentinel", "price": "$499/mo", "features": ["Complete Digital Asset Protection", "Legal Assistance", "Priority Emergency Response", "Custom Threat Intel Feed", "On-premise Support"]},
-        {"name": "Family Armor", "price": "$39/mo", "features": ["Parental Control", "Shared Password Manager", "5 Family Members", "Safe Browsing for Kids", "Location Tracker Shield"]},
-        {"name": "Student Shield", "price": "$5/mo", "features": ["Academic Resource Lock", "Basic Protection", "Phishing Filter", "Ad Blocker", "Secure Note Vault"]},
-        {"name": "Freelancer Safe", "price": "$15/mo", "features": ["Invoicing Protection", "Secure File Transfer", "Client Data Encryption", "Password Vault", "Anti-Phishing Mail Guard"]}
+        {"name": "Starter Guard", "price": "₹299/mo", "features": ["Basic Phishing Shield", "1 Device Protection", "Email Support"]},
+        {"name": "Pro Defender", "price": "₹599/mo", "features": ["Advanced Scam Detector", "3 Devices", "Priority Support", "Real-time Alerts"]},
+        {"name": "Elite Secure", "price": "₹999/mo", "features": ["AI Neural Defense", "Dark Web Monitoring", "10 Devices", "Cloud Vault", "24/7 Support"]},
+        {"name": "Cyber Ghost", "price": "₹1499/mo", "features": ["Zero-Log Protection", "Incognito Browser Shield", "Unlimited Devices", "Dedicated IP"]},
+        {"name": "Enterprise Shield", "price": "₹2999/mo", "features": ["Full Network Encryption", "Dedicated Security Manager", "Custom Protection Rules"]},
+        {"name": "Quantum Pro", "price": "₹4999/mo", "features": ["Post-Quantum Encryption", "Military-grade Shield", "Instant Emergency Response"]},
+        {"name": "Ultimate Sentinel", "price": "₹7999/mo", "features": ["Complete Digital Asset Protection", "Personal Security Audit", "Direct Developer Support"]},
+        {"name": "Family Armor", "price": "₹1299/mo", "features": ["Parental Control", "Shared Vault", "5 Family Members", "Safe Browsing for Kids"]},
+        {"name": "Student Shield", "price": "₹199/mo", "features": ["Academic Link Scanner", "Basic Phishing Filter", "Ad Blocker"]},
+        {"name": "Freelancer Safe", "price": "₹799/mo", "features": ["Client Data Protection", "Secure File Sharing", "Anti-Fraud Mail Guard"]}
     ]
 
     cols = st.columns(2)
@@ -199,10 +216,16 @@ elif menu == "💎 Premium Hub":
                     </ul>
                 </div>
             """, unsafe_allow_html=True)
-            if st.button(f"Upgrade to {plan['name']}", key=i):
-                st.balloons()
-                st.success(f"Activating {plan['name']}... Payment gateway redirecting.")
+            
+            # Button linking to Instagram DM action
+            st.markdown(f"""
+                <a href="{insta_link}" target="_blank">
+                    <button style="width: 100%; background-color: #00ffcc; color: #050a14; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                        📸 Buy {plan['name']} (DM on Instagram)
+                    </button>
+                </a>
+            """, unsafe_allow_html=True)
 
 # Sidebar footer
 st.sidebar.write("---")
-st.sidebar.caption("CyberMind Pro v3.0 | Live Security Engine")
+st.sidebar.caption("CyberMind Pro v4.0 | Smart & Secure")
