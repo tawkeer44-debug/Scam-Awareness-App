@@ -7,7 +7,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom Styling (Properly using triple quotes to avoid syntax errors)
+# Custom CSS Styling (बिना किसी Syntax Error के)
 st.markdown("""
     <style>
         .main-container {
@@ -43,7 +43,7 @@ st.markdown("""
             text-align: center;
             background: linear-gradient(135deg, #00ffcc, #0077ff);
             color: #0b0f19 !important;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
@@ -59,7 +59,7 @@ st.markdown('<div class="main-container">', unsafe_allow_html=True)
 st.markdown('<div class="title">🛡️ CyberMind Pro</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Advanced Security & Threat Management System</div>', unsafe_allow_html=True)
 
-# Aapke purane features yahan rakhe gaye hain
+# आपके ऐप के पुराने सभी फीचर्स यहाँ सुरक्षित रखे गए हैं
 st.markdown("""
     <div class="feature-card">
         <h3>⚡ App Features & Controls</h3>
@@ -71,13 +71,15 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Interactive Section (Aapke app ke features)
+# Interactive Features Section
 st.subheader("System Diagnostics Dashboard")
 if st.button("Run Security Scan"):
     st.success("✅ Firewall protocols active. No vulnerabilities found!")
 
-# Ye button user ko force karega ki wo link seedha Chrome browser mein khole
-app_link = "https://fqbhgvdywmjsdzgg82jfr3.streamlit.app/"
+# आपकी साफ़ और सही ऐप लिंक (बिना किसी @ या फालतू चिन्ह के)
+app_link = "https://fqbhgvdywmjsdzgg82jfr3.streamlit.app"
+
+# यह बटन लिंक को सीधे Chrome या डिफ़ॉल्ट ब्राउज़र में ओपन करने के लिए है
 st.markdown(f'''
     <a href="{app_link}" target="_blank" class="chrome-btn">
         🌐 Open in Chrome Browser
