@@ -245,7 +245,7 @@ elif menu == "💎 Premium Hub":
     st.title("💎 CyberMind Premium Hub")
     st.write("Apne account ko upgrade karne ke liye niche diye gaye kisi bhi plan ko select karein. Plan lene ke liye seedha hamare **Instagram par DM** karein!")
     
-    insta_link = "https://www.instagram.com/direct/t/"
+    insta_link = "https://www.instagram.com/th3_tawkeer/"
 
     plans = [
         {"name": "Starter Guard", "price": "₹299/mo", "features": ["Basic Phishing Shield", "1 Device Protection", "Email Support"]},
