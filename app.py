@@ -1,6 +1,6 @@
 import streamlit as st
 
-INSTAGRAM_URL = "https://www.instagram.com/your_username/"
+INSTAGRAM_URL = "https://www.instagram.com/th3_tawkeer/"
 
 plans = [
     ("7 Days Trial", "$0"),
