@@ -1,115 +1,137 @@
 import os
 import json
-import uuid
-import time
-from datetime import datetime
 from pathlib import Path
+from datetime import datetime
 
 import streamlit as st
 
+# Optional OpenAI-compatible client
+try:
+    from openai import OpenAI
+except ImportError:
+    OpenAI = None
+
 
 # =========================================================
-# CYBER MIND PRO
-# Modern AI Productivity & Creative Studio
-# GitHub-ready single-file starter
+# NOVAMIND AI
+# Universal AI Assistant & Creative Workspace
 # =========================================================
 
-APP_NAME = "Cyber Mind Pro"
+APP_NAME = "NovaMind AI"
 DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
-CHAT_FILE = DATA_DIR / "chats.json"
+CHAT_FILE = DATA_DIR / "chat_history.json"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # PAGE CONFIG
-# ---------------------------------------------------------
+# =========================================================
 
 st.set_page_config(
-    page_title=APP_NAME,
+    page_title="NovaMind AI",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 
-# ---------------------------------------------------------
-# CUSTOM CSS
-# ---------------------------------------------------------
+# =========================================================
+# CUSTOM UI
+# =========================================================
 
 st.markdown(
     """
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url(
+'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
+);
 
 html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, sans-serif;
 }
 
 .stApp {
     background:
-        radial-gradient(circle at 10% 10%, rgba(91, 33, 182, .16), transparent 30%),
-        radial-gradient(circle at 90% 20%, rgba(6, 182, 212, .12), transparent 30%),
-        #070b14;
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(124,58,237,.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(6,182,212,.12),
+            transparent 30%
+        ),
+        #060914;
     color: #f8fafc;
 }
 
 .block-container {
-    max-width: 1500px;
-    padding-top: 2rem;
+    max-width: 1450px;
+    padding-top: 1.5rem;
 }
 
 section[data-testid="stSidebar"] {
-    background: #090d18;
+    background: #080c16;
     border-right: 1px solid rgba(255,255,255,.08);
 }
 
-section[data-testid="stSidebar"] > div {
-    padding-top: 1.2rem;
+.nova-brand {
+    padding: 10px 4px 25px;
 }
 
-.brand {
-    padding: 10px 5px 22px 5px;
-}
-
-.brand-title {
-    font-size: 25px;
+.nova-logo {
+    font-size: 27px;
     font-weight: 800;
     letter-spacing: -1px;
 }
 
-.brand-title span {
+.nova-logo span {
     color: #8b5cf6;
 }
 
-.brand-subtitle {
+.nova-tag {
     color: #94a3b8;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 4px;
 }
 
 .hero {
-    padding: 35px;
-    border-radius: 25px;
+    padding: 38px;
+    border-radius: 26px;
     background:
-        linear-gradient(135deg,
-            rgba(124,58,237,.22),
-            rgba(8,145,178,.12)),
-        rgba(15,23,42,.8);
+        linear-gradient(
+            135deg,
+            rgba(124,58,237,.24),
+            rgba(8,145,178,.10)
+        ),
+        rgba(15,23,42,.7);
     border: 1px solid rgba(139,92,246,.25);
-    box-shadow: 0 20px 80px rgba(0,0,0,.25);
+    box-shadow: 0 25px 90px rgba(0,0,0,.25);
 }
 
 .hero h1 {
-    font-size: 42px;
+    font-size: 44px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin: 10px 0;
 }
 
 .hero p {
     color: #a5b4fc;
     font-size: 16px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(139,92,246,.14);
+    border: 1px solid rgba(139,92,246,.30);
+    color: #c4b5fd;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .card {
@@ -118,35 +140,30 @@ section[data-testid="stSidebar"] > div {
     border-radius: 20px;
     padding: 22px;
     min-height: 145px;
-    transition: .2s ease;
-}
-
-.card:hover {
-    border-color: rgba(139,92,246,.45);
-    transform: translateY(-2px);
 }
 
 .card-icon {
-    font-size: 30px;
-    margin-bottom: 10px;
+    font-size: 29px;
 }
 
 .card-title {
-    font-size: 17px;
+    margin-top: 9px;
     font-weight: 700;
+    font-size: 16px;
 }
 
 .card-text {
-    color: #94a3b8;
-    font-size: 13px;
     margin-top: 6px;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .stat {
+    padding: 18px;
+    border-radius: 18px;
     background: rgba(15,23,42,.65);
     border: 1px solid rgba(255,255,255,.07);
-    border-radius: 18px;
-    padding: 18px;
 }
 
 .stat-number {
@@ -156,33 +173,19 @@ section[data-testid="stSidebar"] > div {
 
 .stat-label {
     color: #94a3b8;
-    font-size: 12px;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: rgba(139,92,246,.15);
-    border: 1px solid rgba(139,92,246,.3);
-    color: #c4b5fd;
     font-size: 11px;
-    font-weight: 600;
 }
 
-.feature-box {
-    background: linear-gradient(
-        135deg,
-        rgba(30,41,59,.75),
-        rgba(15,23,42,.75)
-    );
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 20px;
-    padding: 24px;
-    margin-bottom: 18px;
+.chat-welcome {
+    padding: 30px;
+    text-align: center;
+    border-radius: 22px;
+    background: rgba(15,23,42,.55);
+    border: 1px solid rgba(255,255,255,.07);
+    margin-bottom: 20px;
 }
 
-.small-muted {
+.small {
     color: #94a3b8;
     font-size: 12px;
 }
@@ -190,8 +193,8 @@ section[data-testid="stSidebar"] > div {
 .footer {
     text-align: center;
     color: #64748b;
-    font-size: 11px;
-    margin-top: 40px;
+    font-size: 10px;
+    margin-top: 45px;
 }
 
 </style>
@@ -200,51 +203,35 @@ section[data-testid="stSidebar"] > div {
 )
 
 
-# ---------------------------------------------------------
-# DATA
-# ---------------------------------------------------------
-
-def load_chats():
-    if CHAT_FILE.exists():
-        try:
-            return json.loads(CHAT_FILE.read_text())
-        except Exception:
-            return []
-    return []
-
-
-def save_chats(chats):
-    CHAT_FILE.write_text(json.dumps(chats, indent=2))
-
-
-# ---------------------------------------------------------
+# =========================================================
 # SESSION STATE
-# ---------------------------------------------------------
+# =========================================================
 
 if "page" not in st.session_state:
-    st.session_state.page = "Dashboard"
+    st.session_state.page = "Home"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-if "chats" not in st.session_state:
-    st.session_state.chats = load_chats()
-
-if "premium" not in st.session_state:
-    st.session_state.premium = False
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = True
 
 
-# ---------------------------------------------------------
-# SIDEBAR
-# ---------------------------------------------------------
+# =========================================================
+# NAVIGATION
+# =========================================================
 
 with st.sidebar:
 
     st.markdown(
         """
-        <div class="brand">
-            <div class="brand-title">Cyber <span>Mind</span> Pro</div>
-            <div class="brand-subtitle">AI • Creative • Productivity Studio</div>
+        <div class="nova-brand">
+            <div class="nova-logo">
+                Nova<span>Mind</span> AI
+            </div>
+            <div class="nova-tag">
+                Your Intelligent Everything Assistant
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -252,18 +239,18 @@ with st.sidebar:
 
     st.markdown("### Workspace")
 
-    nav_items = [
-        ("🏠", "Dashboard"),
+    navigation = [
+        ("🏠", "Home"),
         ("💬", "AI Chat"),
         ("🎨", "Image Studio"),
         ("🎬", "Video Studio"),
         ("✍️", "Prompt Lab"),
         ("💻", "Code Assistant"),
         ("📄", "Document AI"),
-        ("🗂️", "Recents"),
+        ("🗂️", "History"),
     ]
 
-    for icon, name in nav_items:
+    for icon, name in navigation:
         if st.button(
             f"{icon}  {name}",
             key=f"nav_{name}",
@@ -273,13 +260,18 @@ with st.sidebar:
             st.rerun()
 
     st.markdown("---")
-    st.markdown("### Pro")
 
-    if st.button("💎 Premium Hub", use_container_width=True):
+    if st.button(
+        "💎 Premium Hub",
+        use_container_width=True
+    ):
         st.session_state.page = "Premium Hub"
         st.rerun()
 
-    if st.button("⚙️ Settings", use_container_width=True):
+    if st.button(
+        "⚙️ Settings",
+        use_container_width=True
+    ):
         st.session_state.page = "Settings"
         st.rerun()
 
@@ -287,29 +279,213 @@ with st.sidebar:
 
     st.markdown(
         """
-        <div class="small-muted">
-        Cyber Mind Pro v2.0<br>
-        Modern AI workspace
+        <div class="small">
+        NovaMind AI v3.0<br>
+        Universal AI Workspace
         </div>
         """,
         unsafe_allow_html=True,
     )
 
 
-# ---------------------------------------------------------
-# HELPERS
-# ---------------------------------------------------------
+# =========================================================
+# AI CLIENT
+# =========================================================
 
-def page_title(title, subtitle=""):
-    st.markdown(f"# {title}")
-    if subtitle:
-        st.markdown(
-            f"<div class='small-muted'>{subtitle}</div>",
-            unsafe_allow_html=True
+def get_ai_client():
+
+    api_key = os.getenv("OPENAI_API_KEY")
+
+    if not api_key or OpenAI is None:
+        return None
+
+    return OpenAI(api_key=api_key)
+
+
+# =========================================================
+# REAL AI RESPONSE
+# =========================================================
+
+def ask_ai(user_message):
+
+    client = get_ai_client()
+
+    if client is None:
+
+        return """
+**NovaMind AI is currently running in Demo Mode.**
+
+To activate the full AI assistant, add your API key as:
+
+`OPENAI_API_KEY`
+
+Then restart the application.
+
+Once connected, NovaMind AI can handle normal conversation,
+questions, coding, writing, brainstorming, explanations,
+summaries and many other tasks.
+"""
+
+    try:
+
+        response = client.chat.completions.create(
+            model=os.getenv(
+                "NOVAMIND_MODEL",
+                "gpt-4o-mini"
+            ),
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+You are NovaMind AI, a friendly, intelligent,
+general-purpose AI assistant.
+
+Your job is to help the user with almost any
+legitimate question or task.
+
+You can:
+- answer general questions
+- explain difficult topics
+- help with school and learning
+- write and rewrite text
+- help with programming
+- debug code
+- brainstorm ideas
+- create plans
+- create image prompts
+- create video scripts
+- summarize information
+- analyze documents
+- have natural casual conversations
+
+Be helpful, accurate, clear and natural.
+
+If the user says Hi, Hello, Hey, How are you,
+or similar casual greetings, respond naturally
+instead of giving a technical answer.
+
+If the user asks a question you don't know,
+say that clearly instead of inventing facts.
+
+Do not claim to have browsed the internet unless
+a real browsing tool is connected.
+"""
+                },
+                *st.session_state.messages,
+                {
+                    "role": "user",
+                    "content": user_message
+                }
+            ],
+            temperature=0.7,
         )
 
+        return response.choices[0].message.content
+
+    except Exception as error:
+
+        return f"""
+⚠️ **NovaMind AI connection error**
+
+The AI service could not complete this request.
+
+Please check:
+- API key
+- Internet connection
+- Model name
+- API account status
+
+Technical message:
+
+`{str(error)}`
+"""
+
+
+# =========================================================
+# HOME
+# =========================================================
+
+def home():
+
+    st.markdown(
+        """
+        <div class="hero">
+            <span class="badge">NEXT-GENERATION AI ASSISTANT</span>
+
+            <h1>Meet NovaMind AI</h1>
+
+            <p>
+            Your intelligent everything assistant for questions,
+            conversations, coding, creativity, documents and ideas.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.write("")
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    stats = [
+        ("∞", "Questions"),
+        ("24/7", "AI Assistant"),
+        ("10+", "Creative Tools"),
+        ("1", "Unified Workspace"),
+    ]
+
+    for col, (number, label) in zip(
+        [c1, c2, c3, c4],
+        stats
+    ):
+
+        with col:
+            st.markdown(
+                f"""
+                <div class="stat">
+                    <div class="stat-number">{number}</div>
+                    <div class="stat-label">{label}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+    st.write("")
+    st.markdown("## What can NovaMind AI do?")
+
+    features = [
+        ("💬", "AI Chat",
+         "Ask questions, have conversations and get explanations."),
+        ("🎨", "Image Studio",
+         "Create advanced prompts for image generation."),
+        ("🎬", "Video Studio",
+         "Build scripts, scenes and short-video concepts."),
+        ("💻", "Code Assistant",
+         "Write, explain, debug and improve code."),
+        ("✍️", "Prompt Lab",
+         "Turn simple ideas into powerful AI prompts."),
+        ("📄", "Document AI",
+         "Summarize and analyze your documents."),
+        ("🧠", "Idea Engine",
+         "Brainstorm projects, content and business ideas."),
+        ("🔐", "Privacy",
+         "Keep API credentials out of your source code."),
+    ]
+
+    cols = st.columns(4)
+
+    for index, feature in enumerate(features):
+
+        with cols[index % 4]:
+            feature_card(*feature)
+
+
+# =========================================================
+# FEATURE CARD
+# =========================================================
 
 def feature_card(icon, title, description):
+
     st.markdown(
         f"""
         <div class="card">
@@ -322,232 +498,145 @@ def feature_card(icon, title, description):
     )
 
 
-# ---------------------------------------------------------
-# AI DEMO ENGINE
-# ---------------------------------------------------------
+# =========================================================
+# AI CHAT
+# =========================================================
 
-def demo_ai_response(prompt):
+def ai_chat():
 
-    p = prompt.lower()
-
-    if "code" in p:
-        return """Here is a clean approach:
-
-1. Define the required functionality.
-2. Separate UI from business logic.
-3. Add error handling.
-4. Store configuration in environment variables.
-5. Test the feature before deployment.
-
-For production, connect this module to your preferred AI API."""
-
-    if "image" in p:
-        return """Image concept generated:
-
-Create a cinematic, ultra-detailed visual with strong composition,
-natural lighting, realistic textures, professional color grading,
-and a clean editorial finish.
-
-You can send this prompt to your image-generation provider."""
-
-    if "video" in p:
-        return """Video concept:
-
-Scene 1 — Establishing shot
-Scene 2 — Main subject enters
-Scene 3 — Dynamic camera movement
-Scene 4 — Close-up/detail shot
-Scene 5 — Cinematic ending
-
-Recommended format: 9:16 for short-form social content."""
-
-    if "hello" in p or "hi" in p:
-        return "Hey! 👋 I'm Cyber Mind Pro. What would you like to create today?"
-
-    return f"""Cyber Mind Pro response:
-
-I understood your request as:
-
-“{prompt}”
-
-This demo version is ready for API integration. Replace the
-demo_ai_response() function with your preferred AI provider to
-enable real AI generation."""
-
-
-# ---------------------------------------------------------
-# DASHBOARD
-# ---------------------------------------------------------
-
-def dashboard():
+    st.markdown("# 💬 NovaMind AI")
 
     st.markdown(
         """
-        <div class="hero">
-            <span class="badge">NEXT-GEN AI WORKSPACE</span>
-            <h1>Welcome to Cyber Mind Pro</h1>
-            <p>Create. Code. Write. Design. Analyze. All from one workspace.</p>
+        <div class="chat-welcome">
+            <span class="badge">GENERAL PURPOSE AI</span>
+            <h2>How can I help you today?</h2>
+            <div class="small">
+            Ask me anything — questions, coding, writing,
+            learning, ideas or just have a conversation.
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.write("")
+    # Display previous messages
+    for message in st.session_state.messages:
 
-    c1, c2, c3, c4 = st.columns(4)
+        role = message["role"]
 
-    with c1:
-        st.markdown(
-            """
-            <div class="stat">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">AI Workspace</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        if role == "user":
+            with st.chat_message("user"):
+                st.markdown(message["content"])
 
-    with c2:
-        st.markdown(
-            """
-            <div class="stat">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Creative Tools</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        else:
+            with st.chat_message("assistant"):
+                st.markdown(message["content"])
 
-    with c3:
-        st.markdown(
-            """
-            <div class="stat">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Ideas</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    with c4:
-        st.markdown(
-            """
-            <div class="stat">
-            <div class="stat-number">Pro</div>
-            <div class="stat-label">AI Suite</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    st.write("")
-    st.markdown("## Quick Tools")
-
-    cols = st.columns(4)
-
-    tools = [
-        ("💬", "AI Chat", "Ask questions, brainstorm and write."),
-        ("🎨", "Image Studio", "Build professional image prompts."),
-        ("🎬", "Video Studio", "Create scripts and video concepts."),
-        ("💻", "Code Assistant", "Generate and explain code."),
-    ]
-
-    for col, item in zip(cols, tools):
-        with col:
-            feature_card(*item)
-
-    st.write("")
-    st.markdown("## Everything in one workspace")
-
-    cols = st.columns(4)
-
-    tools2 = [
-        ("✍️", "Prompt Lab", "Improve any prompt."),
-        ("📄", "Document AI", "Analyze and summarize files."),
-        ("🧠", "Idea Engine", "Turn ideas into projects."),
-        ("🔐", "Privacy Center", "Manage local settings."),
-    ]
-
-    for col, item in zip(cols, tools2):
-        with col:
-            feature_card(*item)
-
-
-# ---------------------------------------------------------
-# AI CHAT
-# ---------------------------------------------------------
-
-def ai_chat():
-
-    page_title(
-        "AI Chat",
-        "Your intelligent workspace for ideas, writing, planning and coding."
+    prompt = st.chat_input(
+        "Message NovaMind AI..."
     )
-
-    for msg in st.session_state.messages:
-
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
-
-    prompt = st.chat_input("Ask Cyber Mind Pro anything...")
 
     if prompt:
 
+        # Show user message
         st.session_state.messages.append(
-            {"role": "user", "content": prompt}
+            {
+                "role": "user",
+                "content": prompt
+            }
         )
 
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        response = demo_ai_response(prompt)
-
+        # Generate answer
         with st.chat_message("assistant"):
-            st.markdown(response)
 
+            with st.spinner("NovaMind is thinking..."):
+
+                answer = ask_ai(prompt)
+
+            st.markdown(answer)
+
+        # Save assistant response
         st.session_state.messages.append(
-            {"role": "assistant", "content": response}
+            {
+                "role": "assistant",
+                "content": answer
+            }
         )
+
+        save_conversation()
 
         st.rerun()
 
 
-# ---------------------------------------------------------
+# =========================================================
+# SAVE CONVERSATION
+# =========================================================
+
+def save_conversation():
+
+    history = []
+
+    if CHAT_FILE.exists():
+
+        try:
+            history = json.loads(
+                CHAT_FILE.read_text()
+            )
+        except Exception:
+            history = []
+
+    history.append(
+        {
+            "id": len(history) + 1,
+            "date": datetime.now().strftime(
+                "%Y-%m-%d %H:%M:%S"
+            ),
+            "messages": st.session_state.messages
+        }
+    )
+
+    # Keep recent conversations
+    history = history[-50:]
+
+    CHAT_FILE.write_text(
+        json.dumps(
+            history,
+            indent=2,
+            ensure_ascii=False
+        )
+    )
+
+
+# =========================================================
 # IMAGE STUDIO
-# ---------------------------------------------------------
+# =========================================================
 
 def image_studio():
 
-    page_title(
-        "Image Studio",
-        "Create professional prompts for image-generation workflows."
-    )
+    st.markdown("# 🎨 Image Studio")
 
-    st.markdown(
-        """
-        <div class="feature-box">
-        <span class="badge">IMAGE CREATOR</span>
-        <h3>Build your visual concept</h3>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    subject = st.text_input(
-        "Subject",
-        placeholder="Example: stylish young man in an urban street"
+    subject = st.text_area(
+        "Describe your image",
+        placeholder=(
+            "Example: cinematic portrait of a stylish "
+            "young man standing in a futuristic city"
+        ),
     )
 
     style = st.selectbox(
-        "Visual Style",
+        "Style",
         [
             "Ultra Realistic",
             "Cinematic",
             "Editorial Fashion",
             "Anime",
-            "3D Render",
-            "Minimal Studio",
+            "3D",
             "Fantasy",
+            "Minimal",
         ],
     )
 
@@ -564,116 +653,136 @@ def image_studio():
             "Golden Hour",
             "Studio",
             "Neon",
-            "Low Key",
+            "Dramatic",
         ],
     )
 
-    if st.button("✨ Generate Prompt", use_container_width=True):
+    if st.button(
+        "✨ Generate Professional Prompt",
+        use_container_width=True
+    ):
 
         prompt = f"""
-Create a {style.lower()} image featuring {subject}.
+Create a {style.lower()} image featuring:
 
-Composition:
-Professional framing, strong subject separation,
-high visual clarity and balanced composition.
+{subject}
+
+Visual Direction:
+Professional composition, realistic details,
+high-quality textures, natural proportions,
+strong subject separation and cinematic depth.
 
 Lighting:
-{lighting} lighting with realistic shadows and highlights.
+{lighting} lighting with realistic highlights,
+shadows and reflections.
 
-Quality:
-Ultra-detailed textures, realistic materials,
-professional photography quality, clean composition.
+Camera:
+Professional photography, sharp focus,
+natural perspective and detailed environment.
 
-Format:
+Aspect Ratio:
 {ratio}
 
-Avoid:
-distorted anatomy, extra fingers, duplicate objects,
-blurry details, unnatural facial features.
+Negative Requirements:
+blurry image, distorted anatomy, duplicate objects,
+extra fingers, unnatural proportions, low detail.
 """
 
         st.markdown("### Generated Prompt")
-        st.code(prompt.strip(), language="text")
+
+        st.code(
+            prompt.strip(),
+            language="text"
+        )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # VIDEO STUDIO
-# ---------------------------------------------------------
+# =========================================================
 
 def video_studio():
 
-    page_title(
-        "Video Studio",
-        "Turn a simple idea into a structured short-video concept."
-    )
+    st.markdown("# 🎬 Video Studio")
 
-    topic = st.text_input(
+    idea = st.text_area(
         "Video idea",
-        placeholder="Example: futuristic AI assistant launches in 2030"
+        placeholder="Example: futuristic AI assistant wakes up in 2035"
     )
 
     duration = st.selectbox(
         "Duration",
-        ["15 seconds", "30 seconds", "60 seconds", "90 seconds"]
+        [
+            "15 seconds",
+            "30 seconds",
+            "60 seconds",
+            "90 seconds",
+        ]
     )
 
     platform = st.selectbox(
         "Platform",
-        ["YouTube Shorts", "Instagram Reels", "TikTok", "YouTube"]
+        [
+            "YouTube Shorts",
+            "Instagram Reels",
+            "TikTok",
+            "YouTube",
+        ]
     )
 
-    if st.button("🎬 Build Video Script", use_container_width=True):
-
-        st.markdown("### 🎥 Video Blueprint")
+    if st.button(
+        "🎬 Create Video Blueprint",
+        use_container_width=True
+    ):
 
         st.markdown(
             f"""
-**Topic:** {topic}
+### Video Blueprint
+
+**Idea:** {idea}
 
 **Platform:** {platform}
 
 **Duration:** {duration}
 
-**Scene 1 — Hook**
-Start with a visually strong opening that immediately creates curiosity.
+#### Scene 1 — Hook
+Create an immediate visual hook.
 
-**Scene 2 — Setup**
-Introduce the idea and establish the situation.
+#### Scene 2 — Introduction
+Establish the story and main subject.
 
-**Scene 3 — Main Moment**
-Show the most interesting part using dynamic camera movement.
+#### Scene 3 — Main Action
+Use dynamic camera movement and strong visuals.
 
-**Scene 4 — Payoff**
-Reveal the key result or surprising moment.
+#### Scene 4 — Payoff
+Deliver the main reveal or interesting moment.
 
-**Scene 5 — CTA**
-Finish with a short, natural call to action.
+#### Scene 5 — Ending
+Finish naturally with a memorable final shot.
 
-**Visual Direction**
-Cinematic lighting, smooth camera movement,
-high-detail environment, realistic motion and clean composition.
+### Visual Style
+
+Cinematic lighting, realistic motion,
+high-detail environment, smooth transitions
+and professional composition.
 """
         )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # PROMPT LAB
-# ---------------------------------------------------------
+# =========================================================
 
 def prompt_lab():
 
-    page_title(
-        "Prompt Lab",
-        "Transform simple ideas into detailed AI-ready prompts."
+    st.markdown("# ✍️ Prompt Lab")
+
+    raw_prompt = st.text_area(
+        "Enter your simple idea",
+        placeholder="Make a futuristic city..."
     )
 
-    raw = st.text_area(
-        "Your rough idea",
-        placeholder="Make a cool futuristic city..."
-    )
-
-    task = st.selectbox(
-        "Prompt type",
+    prompt_type = st.selectbox(
+        "Prompt Type",
         [
             "Image",
             "Video",
@@ -684,44 +793,48 @@ def prompt_lab():
         ]
     )
 
-    if st.button("🚀 Enhance Prompt", use_container_width=True):
+    if st.button(
+        "🚀 Upgrade Prompt",
+        use_container_width=True
+    ):
 
         enhanced = f"""
 ROLE:
-You are an expert {task.lower()} assistant.
+Act as an expert {prompt_type.lower()} specialist.
 
 OBJECTIVE:
-{raw}
+{raw_prompt}
 
 REQUIREMENTS:
-- Clear professional output
-- Strong structure
-- High-quality details
-- Avoid ambiguity
-- Follow the requested format
-- Keep the final result practical and usable
+- Make the request specific
+- Add useful context
+- Improve clarity
+- Define the desired output
+- Remove ambiguity
+- Keep the result practical
 
-OUTPUT:
-Return the final production-ready {task.lower()} prompt.
+FINAL OUTPUT:
+Return a polished, production-ready prompt.
 """
 
         st.markdown("### Enhanced Prompt")
-        st.code(enhanced.strip(), language="text")
+
+        st.code(
+            enhanced.strip(),
+            language="text"
+        )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # CODE ASSISTANT
-# ---------------------------------------------------------
+# =========================================================
 
 def code_assistant():
 
-    page_title(
-        "Code Assistant",
-        "Generate, explain and improve software ideas."
-    )
+    st.markdown("# 💻 Code Assistant")
 
     request = st.text_area(
-        "Describe what you want to build",
+        "What do you want to build?",
         placeholder="Create a Python login system..."
     )
 
@@ -738,126 +851,178 @@ def code_assistant():
         ]
     )
 
-    if st.button("💻 Generate Code Plan", use_container_width=True):
-
-        st.markdown("### Development Blueprint")
+    if st.button(
+        "💻 Generate Development Plan",
+        use_container_width=True
+    ):
 
         st.markdown(
             f"""
+### Development Plan
+
 **Language:** {language}
 
-**Project Request:**
+**Project:**
 {request}
 
-### Recommended Architecture
+### Architecture
 
 1. Project structure
 2. Core functionality
 3. Input validation
 4. Error handling
-5. Configuration management
-6. Security considerations
+5. Security
+6. Configuration
 7. Testing
 8. Deployment
 
-### Production Notes
+### Security
 
-Use environment variables for secrets,
-avoid hard-coding API keys,
-validate user input,
-and separate frontend logic from backend services.
+Never hard-code API keys or passwords.
+Use environment variables and validate user input.
 """
         )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # DOCUMENT AI
-# ---------------------------------------------------------
+# =========================================================
 
 def document_ai():
 
-    page_title(
-        "Document AI",
-        "Upload a document and prepare it for AI-powered analysis."
-    )
+    st.markdown("# 📄 Document AI")
 
     uploaded = st.file_uploader(
         "Upload a document",
-        type=["txt", "md", "pdf", "docx", "csv"]
+        type=[
+            "txt",
+            "md",
+            "pdf",
+            "docx",
+            "csv"
+        ]
     )
 
     operation = st.selectbox(
-        "Choose operation",
+        "Operation",
         [
             "Summarize",
-            "Extract key points",
-            "Create study notes",
-            "Generate questions",
-            "Rewrite professionally",
+            "Extract Key Points",
+            "Create Study Notes",
+            "Generate Questions",
+            "Rewrite Professionally",
         ]
     )
 
     if uploaded:
 
-        st.success(f"Loaded: {uploaded.name}")
+        st.success(
+            f"Document loaded: {uploaded.name}"
+        )
 
-        if st.button("📄 Process Document"):
-
-            st.markdown("### Analysis Request")
+        if st.button(
+            "📄 Analyze Document",
+            use_container_width=True
+        ):
 
             st.info(
                 f"""
-Operation: {operation}
+Document: {uploaded.name}
 
-File: {uploaded.name}
+Requested operation:
+{operation}
 
-The document is ready to be connected to a
-real document-processing / AI backend.
+The document-processing layer is ready
+for full AI integration.
 """
             )
 
 
-# ---------------------------------------------------------
-# RECENTS
-# ---------------------------------------------------------
+# =========================================================
+# HISTORY
+# =========================================================
 
-def recents():
+def history_page():
 
-    page_title(
-        "Recents",
-        "Your latest Cyber Mind Pro activity."
-    )
+    st.markdown("# 🗂️ Chat History")
 
-    if not st.session_state.chats:
+    if not CHAT_FILE.exists():
 
-        st.info("No recent projects yet.")
+        st.info("No saved conversations yet.")
+        return
 
-    else:
+    try:
+        history = json.loads(
+            CHAT_FILE.read_text()
+        )
+    except Exception:
+        history = []
 
-        for chat in reversed(st.session_state.chats[-10:]):
+    if not history:
 
-            st.markdown(
-                f"""
-                <div class="feature-box">
-                    <b>{chat.get("title", "Untitled")}</b><br>
-                    <span class="small-muted">
-                    {chat.get("date", "")}
-                    </span>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+        st.info("No saved conversations yet.")
+        return
+
+    for conversation in reversed(history):
+
+        date = conversation.get(
+            "date",
+            "Unknown date"
+        )
+
+        messages = conversation.get(
+            "messages",
+            []
+        )
+
+        with st.expander(
+            f"Conversation — {date}"
+        ):
+
+            for message in messages:
+
+                role = message.get(
+                    "role",
+                    ""
+                )
+
+                content = message.get(
+                    "content",
+                    ""
+                )
+
+                if role == "user":
+
+                    st.markdown(
+                        f"**You:** {content}"
+                    )
+
+                else:
+
+                    st.markdown(
+                        f"**NovaMind AI:** {content}"
+                    )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # PREMIUM HUB
-# ---------------------------------------------------------
+# =========================================================
 
 def premium_hub():
 
-    page_title(
-        "Premium Hub",
-        "Unlock the complete Cyber Mind Pro workspace."
+    st.markdown("# 💎 Premium Hub")
+
+    st.markdown(
+        """
+        <div class="hero">
+            <span class="badge">NOVAMIND PRO</span>
+            <h1>Unlock More AI Power</h1>
+            <p>
+            Advanced tools, higher limits and premium workspace features.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     plans = [
@@ -875,18 +1040,25 @@ def premium_hub():
 
     cols = st.columns(3)
 
-    for i, (name, price) in enumerate(plans):
+    for index, (name, price) in enumerate(plans):
 
-        with cols[i % 3]:
+        with cols[index % 3]:
 
             st.markdown(
                 f"""
                 <div class="card">
                     <div class="card-icon">💎</div>
-                    <div class="card-title">{name}</div>
+                    <div class="card-title">
+                        {name}
+                    </div>
                     <div class="card-text">
-                        Premium AI tools<br><br>
-                        <b style="font-size:22px">{price}</b>
+                        Advanced AI tools<br>
+                        Higher usage limits<br>
+                        Premium workspace<br><br>
+
+                        <strong style="font-size:22px">
+                        {price}
+                        </strong>
                     </div>
                 </div>
                 """,
@@ -895,83 +1067,76 @@ def premium_hub():
 
             if st.button(
                 f"Choose {name}",
-                key=f"plan_{i}",
-                use_container_width=True,
+                key=f"premium_{index}",
+                use_container_width=True
             ):
+
                 st.success(
-                    f"{name} selected. Connect your payment system here."
+                    f"{name} selected."
                 )
 
-    st.markdown("---")
 
-    st.markdown(
-        """
-        ### Premium Features
-
-        • Advanced AI models  
-        • Higher usage limits  
-        • Image generation integration  
-        • Video generation integration  
-        • Advanced document processing  
-        • Priority processing  
-        • Project history  
-        • Custom AI assistants  
-        • Advanced prompt tools  
-        • Premium themes
-        """
-    )
-
-
-# ---------------------------------------------------------
+# =========================================================
 # SETTINGS
-# ---------------------------------------------------------
+# =========================================================
 
 def settings():
 
-    page_title(
-        "Settings",
-        "Configure your Cyber Mind Pro workspace."
-    )
+    st.markdown("# ⚙️ Settings")
 
     st.markdown("### AI Configuration")
 
-    provider = st.selectbox(
-        "AI Provider",
-        [
-            "Demo Mode",
-            "OpenAI-compatible API",
-            "Custom API",
-        ]
+    st.info(
+        "For GitHub, keep API keys in environment variables "
+        "or Streamlit secrets. Do not commit them to GitHub."
     )
 
-    api_key = st.text_input(
-        "API Key",
-        type="password",
-        placeholder="Enter API key"
+    model = st.text_input(
+        "AI Model",
+        value=os.getenv(
+            "NOVAMIND_MODEL",
+            "gpt-4o-mini"
+        )
     )
 
     st.markdown("### Interface")
 
-    theme = st.selectbox(
+    st.selectbox(
         "Theme",
-        ["Cyber Dark", "Midnight", "Minimal Dark"]
+        [
+            "Cyber Dark",
+            "Midnight",
+            "Minimal Dark",
+        ]
     )
 
-    st.toggle("Enable animations", value=True)
-    st.toggle("Save chat history", value=True)
+    st.toggle(
+        "Save chat history",
+        value=True
+    )
 
-    if st.button("💾 Save Settings"):
-        st.success("Settings saved for this session.")
+    st.toggle(
+        "Enable animations",
+        value=True
+    )
+
+    if st.button(
+        "💾 Save Settings"
+    ):
+
+        st.success(
+            "Settings saved for this session."
+        )
 
 
-# ---------------------------------------------------------
+# =========================================================
 # ROUTER
-# ---------------------------------------------------------
+# =========================================================
 
 page = st.session_state.page
 
-if page == "Dashboard":
-    dashboard()
+if page == "Home":
+    home()
 
 elif page == "AI Chat":
     ai_chat()
@@ -991,8 +1156,8 @@ elif page == "Code Assistant":
 elif page == "Document AI":
     document_ai()
 
-elif page == "Recents":
-    recents()
+elif page == "History":
+    history_page()
 
 elif page == "Premium Hub":
     premium_hub()
@@ -1001,14 +1166,14 @@ elif page == "Settings":
     settings()
 
 
-# ---------------------------------------------------------
+# =========================================================
 # FOOTER
-# ---------------------------------------------------------
+# =========================================================
 
 st.markdown(
     """
     <div class="footer">
-        © 2026 Cyber Mind Pro • AI Creative & Productivity Workspace
+        © 2026 NovaMind AI — Your Intelligent Everything Assistant
     </div>
     """,
     unsafe_allow_html=True,
